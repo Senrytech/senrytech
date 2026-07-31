@@ -1,0 +1,1276 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Logo from '../../assets/images/global/senrytech-logo.svg';
+import NavSchema from '../schema/navschema.astro';
+
+const allProductImages = import.meta.glob<ImageMetadata>('../../assets/images/products/**/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+});
+
+const brandName = 'Senrytech';
+import { getNavByLocale, type RenderNavMainItem } from '../../i18n/nav';
+const rawLocale = Astro.currentLocale;
+const currentLocale = rawLocale ?? 'en';
+const navData = getNavByLocale(currentLocale);
+
+interface Props {
+  transparentNav?: boolean;
+}
+const { transparentNav = false } = Astro.props;
+
+// 兜底站点地址
+const siteUrl1 = Astro.site?.href ?? import.meta.env.SITE ?? 'https://senrytech.com';
+---
+
+<header class:list={['header', transparentNav && 'header-transparent']}>
+  <NavSchema locale={currentLocale} siteUrl={siteUrl1} navData={navData} />
+  <div class="header-container">
+    <!-- 左侧LOGO -->
+    <div class="logo">
+      <a style="display: flex; align-items: center; height: 100%;" href={`${Astro.site}${currentLocale}/`} aria-label={`${brandName} official homepage`}>
+        <Image src={Logo} alt={brandName} width={200} height={60} style="width: auto; height: 65%;" />
+      </a>
+    </div>
+
+    <!-- 桌面端居中主导航 ≥1024px显示 -->
+    <nav aria-label="Main product navigation" class="main-nav" itemscope itemtype="https://schema.org/SiteNavigationElement">
+      <ul class="nav-menu">
+        {
+          navData.map((item) => (
+            <li class="nav-link" itemscope itemtype="https://schema.org/ListItem">
+              <a
+                href={item.href}
+                title={item.seoTitle}
+                aria-label={item.seoTitle}
+                aria-haspopup={item.subList ? 'true' : 'false'}
+                aria-expanded="false"
+                data-nav-trigger
+                itemprop="item"
+                rel="canonical">
+                <span itemprop="name">{item.label}</span>
+              </a>
+              {item.subList && (
+                <>
+                  {item.productGroup ? (
+                    <div class="dropdown-menu" data-menu-id={item.label}>
+                      <div class="dropdown-inner">
+                        <div class="dropdown-category">
+                          {item.subList.map((cat, idx) => (
+                            <div class:list={['category-item', idx === 0 && 'active']} data-target={cat.targetId}>
+                              <a href={cat.href} title={cat.geoKeywords.join(', ')} rel="canonical">
+                                {cat.label}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                        <div class="dropdown-content">
+                          {((subList) => {
+                            const firstTargetId = subList.length ? subList[0].targetId : '';
+                            return Object.entries(item.productGroup).map(([categoryId, productArr]) => (
+                              <div
+                                class:list={['content-item', categoryId === firstTargetId && 'active']}
+                                id={categoryId}
+                                aria-hidden={categoryId !== firstTargetId ? 'true' : 'false'}>
+                                <ul class="product-list">
+                                  {productArr.map((pro, idx) => {
+                                    let targetImg: ImageMetadata | null = null;
+                                    const allImgPaths = Object.keys(allProductImages);
+                                    const cleanName = pro.name.toLowerCase().replaceAll(' ', '-');
+                                    for (const fullPath of allImgPaths) {
+                                      if (fullPath.toLowerCase().includes(cleanName)) {
+                                        targetImg = allProductImages[fullPath];
+                                        break;
+                                      }
+                                    }
+                                    return (
+                                      <li>
+                                        <div class="product-card" itemscope itemtype="https://schema.org/Product">
+                                          <meta itemprop="brand" content="Senrytech" />
+                                          <meta itemprop="model" content={pro.name} />
+                                          <meta itemprop="manufacturer" content="Senrytech Laser Equipment Factory" />
+                                          <meta itemprop="countryOfOrigin" content="CN" />
+                                          <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                                            <meta itemprop="sku" content={pro.name} />
+                                            <meta itemprop="mpn" content={pro.name} />
+                                            <meta itemprop="itemCondition" content="https://schema.org/NewCondition" />
+                                            <meta itemprop="url" content={`${Astro.site}${currentLocale}/contact-us`} />
+                                            <meta itemprop="availability" content="https://schema.org/InStock" />
+                                          </div>
+                                          <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                                            <meta itemprop="ratingValue" content="4.8" />
+                                            <meta itemprop="reviewCount" content="126" />
+                                          </div>
+                                          <div itemscope itemtype="https://schema.org/ListItem">
+                                            <meta itemprop="position" content={String(idx + 1)} />
+                                            <a
+                                              href={pro.href}
+                                              title={`${item.label} ${pro.name} industrial metal processing machine`}
+                                              rel="prefetch noopener canonical"
+                                              itemprop="item">
+                                              {targetImg ? (
+                                                <Image src={targetImg} alt={pro.name} width={600} height={450} quality={85} itemprop="image" />
+                                              ) : (
+                                                <div
+                                                  style={{
+                                                    width: '100%',
+                                                    aspectRatio: '600/450',
+                                                    background: '#f5f5f5',
+                                                    display: 'grid',
+                                                    placeItems: 'center',
+                                                    borderRadius: '0.8rem',
+                                                  }}>
+                                                  No Product Image
+                                                </div>
+                                              )}
+                                              <h3 itemprop="name">{pro.name}</h3>
+                                              {pro.desc && <p itemprop="description">{pro.desc}</p>}
+                                            </a>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              </div>
+                            ));
+                          })(item.subList)}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div class="simple-dropdown-menu" data-simple-menu={item.label}>
+                      <div class="dropdown-inner">
+                        <div class="dropdown-grid-4">
+                          {item.subList.map((sub) => (
+                            <div class="simple-dropdown-card">
+                              <a href={sub.href} title={sub.seoTitle} rel="canonical">
+                                <h4 class="card-title">{sub.label}</h4>
+                                <p class="card-desc">Professional laser knowledge & operation guide</p>
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- 右侧功能区 全设备共用 -->
+    <div class="header-right">
+      <div class="lang-dropdown">
+        <button class="language-btn" data-lang-trigger><i class="fa fa-globe"></i></button>
+        <ul class="lang-dropdown-list" data-lang-menu>
+          <li>
+            <a href={`${Astro.site}zh-CN/`} lang="zh-CN" rel="alternate" hreflang="zh-CN" class="lang-link">Chinese</a>
+          </li>
+          <li>
+            <a href={`${Astro.site}en/`} lang="en" rel="alternate" hreflang="en" class="lang-link active">English</a>
+          </li>
+          <li><a href={`${Astro.site}de/`} lang="de" rel="alternate" hreflang="de" class="lang-link">German</a></li>
+          <li><a href={`${Astro.site}es/`} lang="es" rel="alternate" hreflang="es" class="lang-link">Spanish</a></li>
+          <li><a href={`${Astro.site}fr/`} lang="fr" rel="alternate" hreflang="fr" class="lang-link">French</a></li>
+          <li><a href={`${Astro.site}ru/`} lang="ru" rel="alternate" hreflang="ru" class="lang-link">Russian</a></li>
+          <li><a href={`${Astro.site}ar/`} lang="ar" rel="alternate" hreflang="ar" class="lang-link">Arabic</a></li>
+        </ul>
+      </div>
+
+      <div itemscope itemtype="https://schema.org/ContactPoint">
+        <meta itemprop="contactType" content="Sales Inquiry" />
+        <meta itemprop="availableLanguage" content="English,Chinese,German,Spanish,French,Russian,Arabic" />
+        <meta itemprop="url" content={`${Astro.site}${currentLocale}/contact-us`} />
+        <button class="inquiry-btn" onclick={`location.href='/${currentLocale}/contact-us'`}>
+          <i class="fa fa-envelope"></i>
+        </button>
+      </div>
+      <button class="hamburger-btn">
+        <i class="fa fa-bars hamburger-icon"></i>
+        <span class="close-icon">×</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="sidebar-overlay"></div>
+  <!-- 侧边抽屉菜单 -->
+  <div class="sidebar-menu">
+    <div class="sidebar-header">
+      <span class="sidebar-logo">{brandName}</span>
+      <button class="sidebar-close-btn">×</button>
+    </div>
+    <ul class="sidebar-menu-list">
+      {
+        navData.map((item) => (
+          <li class:list={['sidebar-menu-item', item.subList && 'has-submenu']}>
+            <div class="sidebar-menu-link" data-sidebar-trigger>
+              <span>{item.label}</span>
+              {item.subList && <span class="sidebar-arrow">›</span>}
+            </div>
+            {item.subList && (
+              <ul class="sidebar-submenu">
+                {item.subList.map((sub) => (
+                  <li class="sidebar-submenu-item" data-sub-target={sub.targetId}>
+                    <a href={sub.href} class="sidebar-submenu-link" data-trigger-product={sub.targetId}>
+                      {sub.label}
+                    </a>
+                    <div class="sidebar-product-panel" data-product-id={sub.targetId} aria-hidden="true">
+                      {item.productGroup &&
+                        item.productGroup[sub.targetId as keyof typeof item.productGroup]?.map((pro) => {
+                          let targetImg: ImageMetadata | null = null;
+                          const allImgPaths = Object.keys(allProductImages);
+                          const cleanName = pro.name.toLowerCase().replaceAll(' ', '-');
+
+                          for (const fullPath of allImgPaths) {
+                            if (fullPath.toLowerCase().includes(cleanName)) {
+                              targetImg = allProductImages[fullPath];
+                              break;
+                            }
+                          }
+                          return (
+                            <div class="sidebar-pro-card" itemscope itemtype="https://schema.org/Product">
+                              <meta itemprop="brand" content="Senrytech" />
+                              <meta itemprop="model" content={pro.name} />
+                              <meta itemprop="manufacturer" content="Senrytech Laser Equipment Factory" />
+                              <meta itemprop="countryOfOrigin" content="CN" />
+                              <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                                <meta itemprop="sku" content={pro.name} />
+                                <meta itemprop="mpn" content={pro.name} />
+                                <meta itemprop="itemCondition" content="https://schema.org/NewCondition" />
+                                <meta itemprop="url" content={`${Astro.site}${currentLocale}/contact-us`} />
+                                <meta itemprop="availability" content="https://schema.org/InStock" />
+                              </div>
+                              <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+                                <meta itemprop="ratingValue" content="4.8" />
+                                <meta itemprop="reviewCount" content="126" />
+                              </div>
+                              <a href={pro.href} title={`${pro.name} laser cutting machine`} rel="canonical">
+                                {targetImg ? (
+                                  <Image src={targetImg} alt={pro.name} width={300} height={225} loading="lazy" decoding="async" itemprop="image" />
+                                ) : (
+                                  <div style="width:300px;height:225px;background:#f5f5f5;display:grid;place-items:center;">No Image</div>
+                                )}
+                                <h4>{pro.name}</h4>
+                                <p>{pro.desc}</p>
+                              </a>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
+
+<style>
+  /* ==============================================
+  模块1：全局基础 - 根变量、全局字体、通用基础
+============================================== */
+  :root {
+    --header-height: 2.8rem;
+    /* 删除下面一行字体声明 */
+    font-family:
+      Inter,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      sans-serif;
+  }
+  .content-item:not(.active) {
+    content-visibility: auto;
+    contain-intrinsic-size: 300px 600px;
+  }
+
+  /* ==============================================
+  模块2：Header 外层固定容器【重构透明导航逻辑】
+============================================== */
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    z-index: 9999;
+    transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  /* 默认普通页面样式 */
+  .header:not(.header-transparent) {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    /* 和透明header保持一致的图层提升属性 */
+    transform: translateZ(0);
+    will-change: opacity;
+    box-shadow: var(--shadow-medium);
+    border-bottom: var(--border-light);
+  }
+  /* 透明导航初始状态（首页）【替换原有代码】 */
+  .header.header-transparent {
+    background: transparent;
+    backdrop-filter: blur(0.01px);
+    -webkit-backdrop-filter: blur(0.01px);
+    transform: translateZ(0);
+    will-change: opacity;
+    box-shadow: none;
+    border-bottom: none;
+  }
+  /* 滚动后统一启用磨砂底色 */
+  .header.scrolled {
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    transform: translateZ(0);
+    will-change: opacity;
+    box-shadow: var(--shadow-medium);
+    border-bottom: var(--border-light);
+  }
+
+  .header-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    padding: 0 0.4rem;
+    box-sizing: border-box;
+  }
+
+  /* ==============================================
+  模块3：LOGO 组件样式 + 透明模式变色
+============================================== */
+  .logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .logo svg {
+    object-fit: contain;
+    fill: var(--brand-main);
+    transition: all 0.5s ease;
+  }
+  .header-transparent .logo svg {
+    fill: #ffffff;
+  }
+  .logo:hover svg {
+    fill: var(--brand-light);
+    transform: scale(1.05);
+  }
+
+  /* ==============================================
+  模块4：全站导航文字统一字体规范 + 透明模式白色文字
+============================================== */
+  .header a {
+    color: var(--text-1);
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    font-weight: 500 !important;
+    line-height: 1.5;
+    letter-spacing: -0.2px;
+    transition:
+      color var(--transition-base),
+      transform var(--transition-base);
+    text-decoration: none;
+    padding-inline: 0 0.4rem;
+  }
+  .header-transparent a {
+    color: #f8f8f8;
+    font-weight: 500 !important;
+  }
+  .header a:hover {
+    color: var(--brand-main);
+    transform: translateY(-0.5px);
+  }
+  .nav-menu > li > a {
+    position: relative;
+    white-space: nowrap;
+    padding-bottom: 6px;
+  }
+  .nav-menu > li > a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--brand-main);
+    border-radius: 2px;
+    transition: width 0.25s ease;
+  }
+  .header-transparent .nav-menu > li > a::after {
+    background: #fff;
+  }
+  .nav-menu > li > a:hover::after {
+    width: 100%;
+  }
+  .nav-menu > li > a.active::after {
+    width: 100%;
+  }
+  .dropdown-menu a,
+  .simple-dropdown-menu a {
+    white-space: normal;
+    line-height: 1.5;
+  }
+
+  /* ==============================================
+  模块5：头部右侧功能区 按钮透明模式变色
+============================================== */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+  .language-btn,
+  .inquiry-btn {
+    background: transparent;
+    color: var(--text-1);
+    border: none;
+    outline: none;
+    appearance: none;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    transition: color var(--transition-base);
+  }
+  .header-transparent .language-btn,
+  .header-transparent .inquiry-btn,
+  .header-transparent .hamburger-btn {
+    color: #ffffff;
+  }
+  .language-btn:hover,
+  .inquiry-btn:hover {
+    color: var(--brand-main);
+  }
+  .language-btn i,
+  .inquiry-btn i {
+    font-family: 'FontAwesome' !important;
+    font-size: 0.85rem;
+  }
+  .lang-dropdown {
+    position: relative;
+    z-index: 1000;
+  }
+  .lang-dropdown-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border-radius: 8px;
+    padding: 8px 0;
+    margin: 0;
+    list-style: none;
+    display: none;
+    min-width: 100px;
+    box-shadow: var(--shadow-medium);
+    border: var(--border-light);
+  }
+  .lang-link {
+    display: block;
+    padding: 8px 16px;
+    text-align: center;
+    color: var(--text-2);
+  }
+  .lang-link.active {
+    color: var(--brand-main);
+    font-weight: 500;
+  }
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--text-1);
+    cursor: pointer;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    transition: color var(--transition-base);
+  }
+  .hamburger-btn:hover {
+    color: var(--brand-main);
+  }
+  .hamburger-icon,
+  .close-icon {
+    position: absolute;
+    transition: opacity 0.2s ease;
+  }
+  .close-icon {
+    opacity: 0;
+  }
+  .hamburger-btn.active .hamburger-icon {
+    opacity: 0;
+  }
+  .hamburger-btn.active .close-icon {
+    opacity: 1;
+  }
+
+  /* ==============================================
+  模块6：桌面主导航容器布局
+============================================== */
+  .main-nav {
+    display: none;
+  }
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  .nav-menu > li {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  /* ==============================================
+  模块7：产品大类下拉 .dropdown-menu 左右分栏【修复z-index】
+============================================== */
+  .dropdown-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--header-height);
+    max-height: 62vh;
+    overflow-y: auto;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    z-index: 10001;
+    max-height: 0;
+    opacity: 0;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease,
+      padding 0.3s ease;
+  }
+  .dropdown-inner {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 4rem;
+    padding: 1.2rem 3rem 2rem;
+  }
+  .dropdown-category {
+    width: 19rem;
+    flex-shrink: 0;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  .category-item {
+    padding: 0.6rem 1.6rem;
+    border-radius: 999px;
+    margin-bottom: 0.9rem;
+    transition: background var(--transition-base);
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-2);
+  }
+  .category-item.active,
+  .category-item:hover {
+    background: linear-gradient(to right, rgba(40, 40, 48, 0.35), rgba(40, 40, 48, 0.02));
+    font-weight: 500;
+    color: var(--text-1);
+  }
+  .dropdown-content {
+    flex: 1;
+    max-height: calc(62vh - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable both-edges;
+    padding-top: 0.5rem;
+    padding-right: 8px;
+    margin-top: 0;
+  }
+  .content-item {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s ease;
+  }
+  .content-item.active {
+    position: static;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .product-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0.5rem 3rem 3rem 3rem;
+  }
+  .product-list li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .product-card {
+    text-align: center;
+    border-radius: 1.2rem;
+    padding: 10px 6px;
+    min-height: 220px;
+    position: relative;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+    z-index: 1;
+    transition: transform var(--transition-base);
+    isolation: isolate;
+  }
+  .product-card a {
+    display: block;
+    position: relative;
+    isolation: isolate;
+  }
+  .product-card a:hover {
+    opacity: 1 !important;
+    text-decoration: none !important;
+  }
+  .product-card astro-image,
+  .product-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 600 / 450;
+    object-fit: contain;
+    position: relative;
+    z-index: 9999;
+    will-change: transform;
+    transition: transform var(--transition-base);
+    filter: none;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  }
+  .product-card:hover img {
+    transform: scale(1.02) translateZ(50px);
+  }
+  .product-card h3,
+  .product-card p {
+    position: relative;
+    z-index: 9998;
+    transition: color var(--transition-base);
+  }
+  .product-card h3 {
+    font-size: 1.05rem;
+    margin: 8px 0 6px;
+    color: var(--text-1);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .product-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-3);
+    margin: 0;
+  }
+  .product-card:hover h3 {
+    color: var(--brand-main);
+  }
+  .product-card:hover p {
+    color: var(--text-1);
+  }
+
+  /* ==============================================
+  模块8：简易全屏下拉 .simple-dropdown-menu【修复z-index】
+============================================== */
+  .simple-dropdown-menu {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: var(--header-height);
+    z-index: 10001;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease,
+      padding 0.3s ease;
+  }
+  .dropdown-menu.open {
+    max-height: 55rem;
+    opacity: 1;
+    padding: 1.4rem 0 2rem;
+    pointer-events: auto;
+  }
+  .simple-dropdown-menu.open {
+    max-height: calc(100vh - var(--header-height) - 40px);
+    opacity: 1;
+    padding: 1.4rem 0 2rem;
+    pointer-events: auto;
+    overflow-y: auto;
+  }
+  .simple-dropdown-menu .dropdown-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem 3rem;
+  }
+  .dropdown-grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 2.5rem;
+  }
+  .simple-dropdown-card {
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background var(--transition-base);
+    cursor: pointer;
+  }
+  .simple-dropdown-card:hover {
+    background: var(--grad-apple-mid);
+  }
+  .card-title {
+    font-size: clamp(0.8rem, 1vw, 0.9rem);
+    font-weight: 500;
+    margin: 0 0 0.6rem 0;
+    line-height: 1.3;
+    color: var(--text-1);
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-3);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .simple-dropdown-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0.6rem;
+  }
+  .simple-dropdown-item {
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    margin-bottom: 0.3rem;
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+  .simple-dropdown-item:last-child {
+    margin-bottom: 0;
+  }
+  .simple-dropdown-item a {
+    display: block;
+    white-space: nowrap;
+    width: 100%;
+  }
+  .simple-dropdown-item:hover {
+    background: var(--grad-apple-mid);
+  }
+  @media (max-width: 1200px) {
+    .dropdown-grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .dropdown-grid-4 {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  /* ==============================================
+  模块9：下拉公共滚动条样式
+============================================== */
+  .dropdown-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  .dropdown-content::-webkit-scrollbar-track {
+    background: var(--hover-bg);
+    border-radius: 4px;
+  }
+  .dropdown-content::-webkit-scrollbar-thumb {
+    background: var(--text-3);
+    border-radius: 4px;
+  }
+  .dropdown-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-2);
+  }
+
+  /* ==============================================
+  模块10：移动端侧边栏全套【层级修复】
+============================================== */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s,
+      visibility 0.3s;
+  }
+  .sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .sidebar-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    max-width: 400px;
+    height: 100vh;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    z-index: 10002;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    overflow-y: auto;
+    padding-top: 6rem;
+    border-left: var(--border-light);
+  }
+  .sidebar-menu.active {
+    transform: translateX(0);
+  }
+  .sidebar-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    border-bottom: var(--border-light);
+    box-shadow: var(--shadow-light);
+  }
+  .sidebar-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-1);
+  }
+  .sidebar-menu-list {
+    list-style: none;
+    padding: 0 0.5rem;
+    margin: 0;
+  }
+  .sidebar-menu-item {
+    margin-bottom: 0.45rem;
+  }
+  .sidebar-menu-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1rem;
+    font-size: 0.92rem;
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: background var(--transition-base);
+  }
+  .sidebar-menu-link:hover {
+    background: var(--hover-bg);
+    color: var(--brand-main);
+  }
+  .sidebar-arrow {
+    transition: transform 0.3s ease;
+  }
+  .sidebar-menu-item.has-submenu.active .sidebar-arrow {
+    transform: rotate(180deg);
+  }
+  .sidebar-submenu {
+    list-style: none;
+    padding: 0 0.6rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .sidebar-menu-item.has-submenu.active .sidebar-submenu {
+    max-height: 2000px;
+  }
+  .sidebar-submenu-link {
+    display: block;
+    padding: 0.9rem 0.8rem;
+    border-radius: 0.6rem;
+    position: relative;
+    font-size: 0.88rem;
+    transition: color var(--transition-base);
+  }
+  .sidebar-submenu-link:hover {
+    color: var(--brand-main);
+  }
+  .sidebar-submenu-link::after {
+    content: '→';
+    position: absolute;
+    right: 1.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.7;
+  }
+  .sidebar-submenu-panel:not(.active) img {
+    content-visibility: auto;
+    contain-intrinsic-size: 300px 225px;
+  }
+  .sidebar-product-panel {
+    display: none;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+  }
+  .sidebar-product-panel.active {
+    display: flex;
+  }
+  .sidebar-pro-card {
+    width: calc((100% - 1rem) / 2);
+    text-align: center;
+  }
+  .sidebar-pro-card img {
+    width: 100%;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 0.8rem;
+    background: #f0f0f0;
+    aspect-ratio: 300 / 225;
+    object-fit: contain;
+  }
+  .sidebar-pro-card h4 {
+    font-size: 0.8rem;
+    margin: 0 0 3px;
+    color: var(--text-1);
+  }
+  .sidebar-pro-card p {
+    font-size: 0.68rem;
+    margin: 0;
+    color: var(--text-3);
+  }
+
+  /* ==============================================
+  模块11：媒体响应式断点
+============================================== */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .sidebar-menu {
+      width: 70%;
+    }
+  }
+  @media (max-width: 1279px) {
+    .main-nav {
+      display: none !important;
+    }
+    .hamburger-btn {
+      display: flex !important;
+    }
+  }
+  @media (min-width: 1280px) and (max-width: 1439px) {
+    .main-nav {
+      display: flex !important;
+    }
+    .hamburger-btn {
+      display: none !important;
+    }
+    .nav-menu {
+      gap: 0.35rem;
+    }
+    .header a {
+      font-size: 0.72rem;
+      padding-inline: 0 0.15rem;
+    }
+    .header-container {
+      padding-inline: 0;
+      gap: 0.8rem;
+    }
+  }
+  @media (min-width: 1440px) {
+    .main-nav {
+      display: flex !important;
+    }
+    .hamburger-btn {
+      display: none !important;
+    }
+    .header-container {
+      max-width: 1400px;
+      margin-inline: auto;
+      padding: 0 8rem;
+    }
+    .dropdown-inner {
+      max-width: 1400px;
+    }
+  }
+  @media (min-width: 2560px) {
+    .header-container {
+      max-width: 1600px;
+      padding: 0 8rem;
+    }
+    .dropdown-inner {
+      max-width: 1600px;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    let scrollTimer: ReturnType<typeof setTimeout> | null = null;
+    let hoverDelayTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function debounce(fn: (...args: unknown[]) => void, delay = 16) {
+      let timerId: ReturnType<typeof setTimeout> | null;
+      return (...args: unknown[]) => {
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    function clearAllHoverTimer() {
+      if (hoverDelayTimer) clearTimeout(hoverDelayTimer);
+      hoverDelayTimer = null;
+    }
+
+    function resetDropdownActive(dropdownWrap: HTMLElement) {
+      const categoryItems = dropdownWrap.querySelectorAll<HTMLElement>('.category-item');
+      const contentPanels = dropdownWrap.querySelectorAll<HTMLElement>('.content-item');
+      categoryItems.forEach((c) => c.classList.remove('active'));
+      contentPanels.forEach((p) => p.classList.remove('active'));
+      if (categoryItems.length === 0) return;
+      const firstCat = categoryItems[0];
+      const targetId = firstCat.dataset.target;
+      firstCat.classList.add('active');
+      const targetPanel = dropdownWrap.querySelector<HTMLElement>(`#${targetId}`);
+      targetPanel?.classList.add('active');
+    }
+
+    function createSidebarController() {
+      const hamburgerBtn = document.querySelector<HTMLElement>('.hamburger-btn')!;
+      const sidebarCloseBtn = document.querySelector<HTMLElement>('.sidebar-close-btn')!;
+      const sidebarOverlay = document.querySelector<HTMLElement>('.sidebar-overlay')!;
+      const sidebarMenu = document.querySelector<HTMLElement>('.sidebar-menu')!;
+      const body = document.body;
+
+      function closeSidebar() {
+        sidebarMenu.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        hamburgerBtn.classList.remove('active');
+        body.style.overflow = '';
+        document.querySelectorAll<HTMLElement>('.sidebar-product-panel').forEach((panel) => {
+          panel.classList.remove('active');
+          panel.setAttribute('aria-hidden', 'true');
+        });
+        document.querySelectorAll<HTMLElement>('.sidebar-menu-item.has-submenu').forEach((item) => {
+          item.classList.remove('active');
+        });
+      }
+
+      function toggleSidebar() {
+        const isOpen = sidebarMenu.classList.toggle('active');
+        sidebarOverlay.classList.toggle('active', isOpen);
+        hamburgerBtn.classList.toggle('active', isOpen);
+        body.style.overflow = isOpen ? 'hidden' : '';
+        if (!isOpen) closeSidebar();
+      }
+
+      hamburgerBtn.addEventListener('click', toggleSidebar);
+      sidebarCloseBtn.addEventListener('click', closeSidebar);
+      sidebarOverlay.addEventListener('click', closeSidebar);
+
+      const resizeHandler = debounce(() => {
+        if (window.innerWidth >= 1280 && sidebarMenu.classList.contains('active')) {
+          closeSidebar();
+        }
+      });
+      window.addEventListener('resize', resizeHandler);
+
+      return () => {
+        hamburgerBtn.removeEventListener('click', toggleSidebar);
+        sidebarCloseBtn.removeEventListener('click', closeSidebar);
+        sidebarOverlay.removeEventListener('click', closeSidebar);
+        window.removeEventListener('resize', resizeHandler);
+      };
+    }
+
+    function initDesktopDropdown() {
+      const navItems = document.querySelectorAll<HTMLElement>('.nav-menu > .nav-link');
+
+      navItems.forEach((li) => {
+        const trigger = li.querySelector<HTMLElement>('[data-nav-trigger]');
+        const dropdown = li.querySelector<HTMLElement>('.dropdown-menu, .simple-dropdown-menu');
+        if (!trigger || !dropdown) return;
+
+        let leaveTimer: ReturnType<typeof setTimeout> | null = null;
+
+        // 鼠标进入导航项 → 打开下拉
+        li.addEventListener('mouseenter', () => {
+          if (leaveTimer) clearTimeout(leaveTimer);
+          // 关闭其他所有下拉
+          document.querySelectorAll<HTMLElement>('.dropdown-menu.open, .simple-dropdown-menu.open').forEach((menu) => {
+            menu.classList.remove('open');
+            const t = menu.closest('.nav-link')?.querySelector('[data-nav-trigger]');
+            t?.setAttribute('aria-expanded', 'false');
+          });
+
+          dropdown.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+
+          if (dropdown.classList.contains('dropdown-menu')) {
+            resetDropdownActive(dropdown);
+          }
+        });
+
+        li.addEventListener('mouseleave', () => {
+          leaveTimer = setTimeout(() => {
+            dropdown.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+          }, 120);
+        });
+
+        dropdown.addEventListener('mouseenter', () => {
+          if (leaveTimer) clearTimeout(leaveTimer);
+        });
+        dropdown.addEventListener('mouseleave', () => {
+          leaveTimer = setTimeout(() => {
+            dropdown.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+          }, 120);
+        });
+
+        const categoryItems = dropdown.querySelectorAll<HTMLElement>('.category-item');
+        const contentPanels = dropdown.querySelectorAll<HTMLElement>('.content-item');
+        categoryItems.forEach((catEl) => {
+          catEl.addEventListener('mouseenter', () => {
+            clearAllHoverTimer();
+            hoverDelayTimer = setTimeout(() => {
+              categoryItems.forEach((c) => c.classList.remove('active'));
+              contentPanels.forEach((p) => p.classList.remove('active'));
+              catEl.classList.add('active');
+              const targetId = catEl.dataset.target;
+              const targetPanel = dropdown.querySelector<HTMLElement>(`#${targetId}`);
+              targetPanel?.classList.add('active');
+            }, 100);
+          });
+          catEl.addEventListener('mouseleave', clearAllHoverTimer);
+        });
+      });
+    }
+
+    function initLangDropdown() {
+      const langTrigger = document.querySelector<HTMLElement>('[data-lang-trigger]')!;
+      const langMenu = document.querySelector<HTMLElement>('[data-lang-menu]')!;
+
+      function closeLangMenu() {
+        langMenu.style.display = 'none';
+      }
+      function toggleLangMenu(e: MouseEvent) {
+        e.stopPropagation();
+        const isShow = langMenu.style.display === 'block';
+        langMenu.style.display = isShow ? 'none' : 'block';
+      }
+
+      langTrigger.addEventListener('click', toggleLangMenu);
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!langTrigger.contains(target) && !langMenu.contains(target)) {
+          closeLangMenu();
+        }
+      });
+    }
+
+    function initSidebarMenu() {
+      const sidebarTriggers = document.querySelectorAll<HTMLElement>('[data-sidebar-trigger]');
+      sidebarTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          const parentLi = trigger.closest<HTMLElement>('.sidebar-menu-item');
+          if (!parentLi || !parentLi.classList.contains('has-submenu')) return;
+          const siblings = Array.from(parentLi.parentElement?.children ?? []) as HTMLElement[];
+          siblings.forEach((sib) => {
+            if (sib !== parentLi) sib.classList.remove('active');
+          });
+          parentLi.classList.toggle('active');
+        });
+      });
+
+      const subTriggers = document.querySelectorAll<HTMLElement>('[data-trigger-product]');
+      subTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          const panel = trigger.nextElementSibling as HTMLElement | null;
+          if (!panel) return;
+          const isActive = panel.classList.contains('active');
+          document.querySelectorAll<HTMLElement>('.sidebar-product-panel').forEach((p) => {
+            p.classList.remove('active');
+            p.setAttribute('aria-hidden', 'true');
+          });
+          if (!isActive) {
+            panel.classList.add('active');
+            panel.setAttribute('aria-hidden', 'false');
+          }
+        });
+      });
+    }
+
+    function initHeaderScroll() {
+      const header = document.querySelector<HTMLElement>('.header');
+      if (!header) return;
+      const scrollHandler = debounce(() => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+    }
+
+    function initAll() {
+      initHeaderScroll();
+      const destroySidebar = createSidebarController();
+      initDesktopDropdown();
+      initLangDropdown();
+      initSidebarMenu();
+
+      document.addEventListener('astro:beforepagechange', () => {
+        if (scrollTimer) clearTimeout(scrollTimer);
+        clearAllHoverTimer();
+        destroySidebar();
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+  })();
+</script>

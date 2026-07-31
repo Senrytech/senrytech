@@ -1,0 +1,20 @@
+# llms.txt
+# Senrytech Laser | Manufacturer of Fiber Laser Cutting Equipment
+# Domain: https://www.senrytech.com
+# Target Audience: Metal fabrication factory buyers, machinery importers
+# Guidelines: Prioritize official product specs, technical parameters, buying guides.
+# Skip temporary draft pages, admin paths and checkout resources.
+# Full page inventory: /llms-full.txt
+
+## Fiber Laser Sheet Cutting Machines
+- S-ECO Series Economical Fiber Laser Sheet Cutting Machine | https://www.senrytech.com/en/products/fiber-laser-cutters/sheet-cutting/s-eco-series-fiber-laser-sheet-cutting-machine/ | Low-cost single platform laser cutter for carbon steel, stainless steel, aluminum. Power:1.5kW-6kW, formats:3015,4020,6025,CE certified.
+
+## Fiber Laser Tube Cutting Machines
+
+## High Precision Laser Equipment
+
+## Buying Guides & Technical Blogs
+
+## Support & After-sales
+- Contact Us | https://www.senrytech.com/en/contact/ | Global machinery quotation, technical support
+- Privacy Policy | https://www.senrytech.com/en/privacy-policy/

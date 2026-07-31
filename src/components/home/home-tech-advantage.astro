@@ -1,0 +1,242 @@
+---
+interface Props {
+  locale: string;
+}
+const { locale } = Astro.props;
+const isEn = locale.startsWith('en');
+
+import { Image } from 'astro:assets';
+import imgPlateCut from '../../assets/images/tech/heavy-plate-cutting.webp';
+---
+
+<section class="home-tech-advantage">
+  <div class="container">
+    <h2 class="section-heading">High Power Laser Cutting Technology & Parameters</h2>
+  </div>
+
+  <div class="tech-wrap">
+    <!-- 左侧FAQ手风琴列表 -->
+    <div class="faq-list-wrap">
+      <div class="faq-item active" data-image-src={imgPlateCut.src}>
+        <button class="faq-question">
+          How thick metal can a 40kW fiber laser cut?
+          <span class="faq-arrow">&rsaquo;</span>
+        </button>
+        <div class="faq-answer">
+          Our 40kW fiber laser cutting machine can cut up to 50mm carbon steel, 25mm stainless steel and 20mm aluminum plate. Actual thickness depends on gas type, cutting speed
+          and material quality.
+        </div>
+      </div>
+      <div class="faq-item" data-image-src={imgPlateCut.src}>
+        <button class="faq-question">
+          What laser power is best for heavy carbon steel cutting?
+          <span class="faq-arrow">&rsaquo;</span>
+        </button>
+        <div class="faq-answer">
+          For heavy carbon steel over 20mm, we recommend 20kW ~ 40kW fiber laser. Higher power delivers smoother cutting surface and higher production efficiency for thick plate
+          fabrication.
+        </div>
+      </div>
+      <div class="faq-item" data-image-src={imgPlateCut.src}>
+        <button class="faq-question">
+          What materials can fiber laser cutting machine process?
+          <span class="faq-arrow">&rsaquo;</span>
+        </button>
+        <div class="faq-answer">
+          Fiber laser cutters work for carbon steel, stainless steel, aluminum, copper, brass and alloy metal. It is widely used in machinery, construction, automotive and metal
+          furniture industries.
+        </div>
+      </div>
+      <div class="faq-item" data-image-src={imgPlateCut.src}>
+        <button class="faq-question">
+          What’s the difference between single-platform and exchange table laser cutter?
+          <span class="faq-arrow">&rsaquo;</span>
+        </button>
+        <div class="faq-answer">
+          Exchange table model allows loading & unloading material while cutting, saving waiting time and improving productivity. Single platform is more cost-effective for small
+          batch production.
+        </div>
+      </div>
+      <div class="faq-item" data-image-src={imgPlateCut.src}>
+        <button class="faq-question">
+          How to choose laser cutting machine for metal fabrication factory?
+          <span class="faq-arrow">&rsaquo;</span>
+        </button>
+        <div class="faq-answer">
+          Confirm your max cutting thickness, daily output, material types and workshop space first. Our engineer can recommend matched power and working size according to your
+          processing drawings.
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧图片区域 简化单层方案，杜绝图片消失BUG -->
+    <div class="tech-media">
+      <Image class="tech-main-image" src={imgPlateCut} alt="40kW Fiber Laser Cutting Thick Carbon Steel Plate" loading="lazy" itemprop="image" />
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('.home-tech-advantage');
+    if (!section) return;
+    const faqItems = section.querySelectorAll('.faq-item');
+    const mainImage = section.querySelector('.tech-main-image');
+    let isAnimating = false;
+
+    faqItems.forEach((item) => {
+      const btn = item.querySelector('.faq-question');
+      btn.addEventListener('click', () => {
+        if (isAnimating) return;
+        const isOpen = item.classList.contains('active');
+        faqItems.forEach((i) => i.classList.remove('active'));
+
+        if (!isOpen) {
+          item.classList.add('active');
+          const newImgSrc = item.dataset.imageSrc;
+          isAnimating = true;
+          // 淡出
+          mainImage.classList.add('fade-out');
+
+          setTimeout(() => {
+            mainImage.src = newImgSrc;
+            // 淡入
+            mainImage.classList.remove('fade-out');
+            setTimeout(() => {
+              isAnimating = false;
+            }, 320);
+          }, 300);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .home-tech-advantage {
+    padding: clamp(64px, 6vw, 96px) 0;
+  }
+  .home-tech-advantage .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .home-tech-advantage .section-heading {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin: 0 0 48px;
+    color: var(--text-1);
+    text-align: center;
+  }
+
+  /* Apple同款左右分栏布局 */
+  .tech-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: minmax(340px, 440px) 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* 左侧FAQ列表 */
+  .faq-list-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+  .faq-item {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(var(--brand-main-rgb), 0.08);
+    transition: all var(--transition-base);
+  }
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    color: var(--text-2);
+    transition: color var(--transition-base);
+  }
+  .faq-item.active .faq-question {
+    color: var(--text-1);
+    font-weight: 600;
+  }
+  .faq-arrow {
+    font-size: 1.2rem;
+    transition: transform var(--transition-base);
+    margin-left: 12px;
+  }
+  .faq-item.active .faq-arrow {
+    transform: rotate(90deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    color: var(--text-3);
+    line-height: 1.65;
+    transition: max-height var(--transition-base);
+  }
+  .faq-item.active .faq-answer {
+    max-height: 320px;
+    padding-top: 12px;
+  }
+
+  /* 右侧图片容器 稳定布局 */
+  .tech-media {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    max-height: 520px;
+  }
+  .tech-main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: var(--shadow-light);
+    transition:
+      opacity var(--transition-base),
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+  /* 淡出状态 */
+  .tech-main-image.fade-out {
+    opacity: 0;
+  }
+  .tech-main-image:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  /* 平板响应式 */
+  @media (max-width: 1024px) {
+    .tech-wrap {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .tech-media {
+      order: 1;
+      max-height: 420px;
+    }
+    .faq-list-wrap {
+      order: 2;
+    }
+  }
+  /* 移动端 */
+  @media (max-width: 768px) {
+    .tech-wrap {
+      padding: 0 12px;
+    }
+    .faq-item {
+      padding: 16px 0;
+    }
+    .tech-media {
+      max-height: 320px;
+    }
+  }
+</style>

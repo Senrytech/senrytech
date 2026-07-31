@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../../layouts/baselayout.astro';
+import BannerCarousel, { slideCut, slideTube, slideWeld } from '../../components/home/banner-carousel.astro';
+import HomeProductTabSlider from '../../components/home/home-product-tab-slider.astro';
+import GlobalMarketSolutions from '../../components/home/global-market-solutions.astro';
+import HomeTechAdvantage from '../../components/home/home-tech-advantage.astro';
+import GlobalCustomerCases from '../../components/home/global-customer-cases.astro';
+import HomeTechFAQInquiry from '../../components/home/faq-inquiry.astro';
+import Footer from '../../components/global/footer.astro';
+import BreadCrumb from '../../components/breadcrumb.astro';
+
+const locale = Astro.currentLocale ?? 'en';
+const siteUrl = Astro.site?.origin ?? 'https://www.senrytech.com';
+
+// 页面元数据
+const pageTitle = 'Senrytech Laser | Fiber Laser Cutting & Welding Machine Manufacturer | Export to Ecuador, Peru, Saudi Arabia, UAE';
+const pageDesc =
+  'Jinan factory supply 1.5kW–40kW fiber laser cutters, tube laser machines & 4-in-1 handheld laser welders. Export metal laser equipment to Ecuador, Peru, Colombia, Saudi Arabia, UAE, Egypt. Request factory quotation.';
+const pageOgImage = new URL('/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp', siteUrl).href;
+const targetCountryCodes = ['EC', 'PE', 'CO', 'ES', 'SA', 'AE', 'EG'];
+
+// 【预留LCP预加载图片，图片就绪解除注释】
+const lcpImageSrc = '/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp';
+
+// 页面专属结构化JSON-LD
+const pageSchemaData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${Astro.site}/${locale}/#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${Astro.site}/${locale}/`,
+        },
+      ],
+    },
+    {
+      '@type': ['Organization', 'Manufacturer'],
+      '@id': `${siteUrl}#brand-senrytech`,
+      name: 'Senrytech Laser Equipment Co., Ltd.',
+      logo: new URL('/assets/images/logo.webp', siteUrl).href,
+      inLanguage: ['English', 'Español', 'العربية'],
+      description:
+        'Professional fiber laser cutting machine, tube laser cutter and handheld laser welding machine manufacturer based in Jinan, Shandong, China, serving global metal fabrication industry.',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Jinan',
+        addressRegion: 'Shandong',
+        addressCountry: 'CN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 36.6663,
+        longitude: 117.0702,
+      },
+      availableLanguage: ['English', 'Español', 'العربية'],
+      areaServed: [
+        { '@type': 'Country', name: 'Ecuador' },
+        { '@type': 'Country', name: 'Peru' },
+        { '@type': 'Country', name: 'Colombia' },
+        { '@type': 'Country', name: 'Spain' },
+        { '@type': 'Country', name: 'Saudi Arabia' },
+        { '@type': 'Country', name: 'United Arab Emirates' },
+        { '@type': 'Country', name: 'Egypt' },
+      ],
+      sameAs: ['https://linkedin.com/company/senrytech-laser', 'https://youtube.com/@senrytechlaser'],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        telephone: '+86-134-6557-5719',
+        contactType: 'sales inquiry',
+        availableLanguage: ['English', 'Español', 'العربية'],
+      },
+      hasCertification: [
+        { '@type': 'Certification', name: 'CE Certification' },
+        { '@type': 'Certification', name: 'ISO 9001 Quality Management System' },
+      ],
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${Astro.site}/${locale}/#banner-product-list`,
+      name: 'Senrytech Laser Main Export Machines',
+      description: 'Industrial fiber laser cutting machine, tube laser cutter, portable laser welding machine factory direct export for metal fabrication customers',
+      numberOfItems: 3,
+      itemListOrder: 'ItemListOrderAscending',
+      mainEntityOfPage: `${Astro.site}/${locale}/`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          item: {
+            '@type': 'Product',
+            '@id': `${siteUrl}/en/products/sheet-cutting#product`,
+            name: 'High Precision Fiber Laser Sheet Cutting Machine',
+            inLanguage: 'en',
+            description: 'Factory direct supply 1000W–30000W metal laser cutting machine for carbon steel, stainless steel, aluminum alloy.',
+            model: 'SEN-FC Series',
+            productCategory: 'Fiber Laser Sheet Cutting Machine',
+            brand: { '@id': `${siteUrl}#brand-senrytech` },
+            manufacturer: { '@id': `${siteUrl}#brand-senrytech` },
+            image: new URL('/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp', siteUrl).href,
+            offers: {
+              '@type': 'Offer',
+              url: new URL('/en/products/sheet-cutting', siteUrl).href,
+              availability: 'https://schema.org/InStock',
+              itemCondition: 'https://schema.org/NewCondition',
+            },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          item: {
+            '@type': 'Product',
+            '@id': `${siteUrl}/en/products/tube-cutting#product`,
+            name: 'Sheet & Tube Integrated Fiber Laser Cutting Machine',
+            inLanguage: 'en',
+            description: 'Multi-functional laser equipment for flat plates, round tubes, square and rectangular profiles, save factory space and investment cost.',
+            model: 'SEN-FCT Series',
+            productCategory: 'Plate & Tube Laser Cutter',
+            brand: { '@id': `${siteUrl}#brand-senrytech` },
+            manufacturer: { '@id': `${siteUrl}#brand-senrytech` },
+            image: new URL('/assets/images/banner/sheet-tube-laser-cutter-saudi-uae-egypt-export.webp', siteUrl).href,
+            offers: {
+              '@type': 'Offer',
+              url: new URL('/en/products/sheet-tube', siteUrl).href,
+              availability: 'https://schema.org/InStock',
+              itemCondition: 'https://schema.org/NewCondition',
+            },
+          },
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          item: {
+            '@type': 'Product',
+            '@id': `${siteUrl}/en/products/welding#product`,
+            name: 'Handheld Fiber Laser Welding Machine',
+            inLanguage: 'en',
+            description: 'All-in-one 4-in-1 laser machine for welding, cleaning, cutting & rust removal, easy operation for small metal workshops.',
+            model: 'SEN-HW4 Series',
+            productCategory: 'Portable Handheld Laser Welder',
+            brand: { '@id': `${siteUrl}#brand-senrytech` },
+            manufacturer: { '@id': `${siteUrl}#brand-senrytech` },
+            image: new URL('/assets/images/banner/handheld-4in1-laser-welder-global-export-factory.webp', siteUrl).href,
+            offers: {
+              '@type': 'Offer',
+              url: new URL('/en/products/welding', siteUrl).href,
+              availability: 'https://schema.org/InStock',
+              itemCondition: 'https://schema.org/NewCondition',
+            },
+          },
+        },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDesc}
+  ogImage={pageOgImage}
+  lang={locale}
+  geoRegions={['CN-SD']}
+  geoKeywords={['fiber laser cutting machine', 'laser welder', 'industrial laser equipment exporter']}
+  pageSchema={JSON.stringify(pageSchemaData)}
+  preloadImage={lcpImageSrc}>
+  <main style="padding: 0;">
+    <BannerCarousel
+      mainPageH1="Senrytech Laser Manufacturer | Professional Fiber Laser Cutting Machine & Handheld Laser Welder Supplier, Export to Ecuador, Peru, Colombia, Saudi Arabia, UAE and Egypt"
+      autoPlayDelay={6000}
+      pageLocale={locale}
+      countryCode=""
+      slideList={[
+        {
+          image: slideCut,
+          subTitle: 'Industrial Metal Processing Equipment',
+          title: 'High Precision Fiber Laser Sheet Cutter',
+          desc: 'Factory direct supply 1000W–30000W metal laser cutting machine for carbon steel, stainless steel, aluminum alloy.',
+          btnPrimaryText: 'View Products',
+          btnPrimaryHref: '/en/products/sheet-cutting',
+          btnOutlineText: 'Get Quote',
+          btnOutlineHref: '/en/contact-us',
+          targetRegion: 'Ecuador,Peru,Colombia,Spain',
+          productModel: 'SEN-FC Series',
+          productCategory: 'Fiber Laser Sheet Cutting Machine',
+        },
+        {
+          image: slideTube,
+          subTitle: 'Dual Purpose Processing Solution',
+          title: 'Sheet & Tube Integrated Laser Cutting Machine',
+          desc: 'One machine processes flat sheets, round, square and rectangular tubes, lower investment and workshop occupancy.',
+          btnPrimaryText: 'View Products',
+          btnPrimaryHref: '/en/products/sheet-tube',
+          btnOutlineText: 'Get Quote',
+          btnOutlineHref: '/en/contact-us',
+          targetRegion: 'Saudi Arabia,UAE,Egypt',
+          productModel: 'SEN-FCT Series',
+          productCategory: 'Plate & Tube Laser Cutting Machine',
+        },
+        {
+          image: slideWeld,
+          subTitle: 'Portable Multi-function Laser Equipment',
+          title: '4-in-1 Handheld Fiber Laser Welder',
+          desc: 'Integrated welding, cleaning, cutting & rust removal, simple operation for small metal fabrication factories.',
+          btnPrimaryText: 'View Products',
+          btnPrimaryHref: '/en/products/welding',
+          btnOutlineText: 'Get Quote',
+          btnOutlineHref: '/en/contact-us',
+          productModel: 'SEN-HW4 Series',
+          productCategory: 'Handheld Fiber Laser Welding Machine',
+        },
+      ]}
+    />
+
+    <HomeProductTabSlider locale={locale} />
+    <GlobalMarketSolutions locale={locale} />
+    <HomeTechAdvantage locale={locale} />
+    <GlobalCustomerCases locale={locale} />
+    <HomeTechFAQInquiry locale={locale} />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How thick metal can a 40kW fiber laser cut?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Our 40kW fiber laser cutting machine can cut up to 50mm carbon steel, 25mm stainless steel and 20mm aluminum plate. Actual thickness depends on gas type, cutting speed and material quality."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What laser power is best for heavy carbon steel cutting?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "For heavy carbon steel over 20mm, we recommend 20kW ~ 40kW fiber laser. Higher power delivers smoother cutting surface and higher production efficiency for thick plate fabrication."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What materials can fiber laser cutting machine process?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Fiber laser cutters work for carbon steel, stainless steel, aluminum, copper, brass and alloy metal. It is widely used in machinery, construction, automotive and metal furniture industries."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What’s the difference between single-platform and exchange table laser cutter?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Exchange table model allows loading & unloading material while cutting, saving waiting time and improving productivity. Single platform is more cost-effective for small batch production."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How to choose laser cutting machine for metal fabrication factory?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Confirm your max cutting thickness, daily output, material types and workshop space first. Our engineer can recommend matched power and working size according to your processing drawings."
+            }
+          }
+        ]
+      }
+    </script>
+    <Footer locale={locale} />
+  </main>
+</BaseLayout>

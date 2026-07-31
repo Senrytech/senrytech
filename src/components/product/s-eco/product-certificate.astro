@@ -1,0 +1,116 @@
+---
+export interface CertificateItem {
+  image: string;
+  title: string;
+}
+
+export interface Props {
+  id?: string;
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  certList: CertificateItem[];
+}
+const { id, sectionTitle, sectionSubtitle, certList } = Astro.props;
+---
+
+<section class="product-certificate" id={id}>
+  <div class="container">
+    <div class="section-header">
+      <h2>{sectionTitle}</h2>
+      {sectionSubtitle && <p class="section-desc">{sectionSubtitle}</p>}
+    </div>
+
+    <div class="cert-grid">
+      {
+        certList.map((item) => (
+          <div class="cert-card">
+            <div class="cert-img">
+              <img src={item.image} alt={item.title} loading="lazy" />
+            </div>
+            <h3>{item.title}</h3>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-certificate {
+    padding: 5rem 0;
+    background-color: #f8fafc;
+  }
+  .container {
+    max-width: 1440px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #163a61;
+    margin: 0 0 0.6rem;
+  }
+  .section-desc {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #525966;
+    line-height: 1.7;
+  }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+  .cert-card {
+    background: #ffffff;
+    border: 1px solid #e7ecf2;
+    border-radius: 10px;
+    padding: 1.4rem;
+    text-align: center;
+    transition: 0.24s ease;
+  }
+  .cert-card:hover {
+    border-color: #163a61;
+    box-shadow: 0 8px 24px rgba(22, 58, 97, 0.08);
+  }
+  .cert-img {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .cert-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .cert-card h3 {
+    font-size: 1rem;
+    color: #2d3748;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .product-certificate {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .cert-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    .cert-img {
+      height: 130px;
+    }
+  }
+</style>

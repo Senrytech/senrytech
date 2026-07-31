@@ -1,0 +1,127 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  lang?: string;
+  canonical?: string;
+  geoRegions?: string[];
+  geoKeywords?: string[];
+  pageSchema?: string;
+  ogImage?: string;
+  preloadImage?: string;
+}
+const { title, description, canonical, lang = Astro.currentLocale ?? 'en', geoRegions = [], geoKeywords = [], pageSchema = '', ogImage, preloadImage } = Astro.props;
+
+const currentLocale = Astro.currentLocale ?? 'en';
+const regionCodeList = geoRegions.join(',');
+const factoryPosition = '36.6663;117.0702';
+const geoPlaceName = 'Jinan, Shandong, China';
+
+const baseUrl = Astro.site ? String(Astro.site).replace(/\/$/, '') : '';
+
+// 剥离语言前缀，获取纯净路由路径
+const stripLocalePrefix = (path: string, locale: string) => {
+  const prefix = `/${locale}`;
+  if (path === prefix) return '/';
+  return path.startsWith(`${prefix}/`) ? path.slice(prefix.length) : path;
+};
+const cleanPath = stripLocalePrefix(Astro.url.pathname, currentLocale);
+
+// Canonical 链接生成
+const pageCanonicalUrl = canonical && canonical.trim() ? canonical : `${baseUrl}/${currentLocale}${cleanPath}`;
+const xDefaultUrl = `${baseUrl}/en${cleanPath}`;
+
+// Website Schema
+const websiteSchema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${pageCanonicalUrl}#website`,
+  name: 'Senrytech Laser',
+  url: currentLocale === 'en' ? `${baseUrl}/` : `${baseUrl}/${currentLocale}/`,
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: currentLocale === 'en' ? `${baseUrl}/search?q={search_term_string}` : `${baseUrl}/${currentLocale}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+});
+
+// RTL 文字方向
+const htmlDir = currentLocale === 'ar' ? 'rtl' : 'ltr';
+
+// 支持语种列表
+const langCodes = ['en', 'zh', 'de', 'es', 'fr', 'ru', 'ar'] as const;
+
+import Header from '../components/global/header.astro';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang={lang} dir={htmlDir}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} type="image/webp" />}
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={pageCanonicalUrl} />
+
+    <link rel="llms.txt" href={`${Astro.site}/llms.txt`} type="text/plain" />
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
+
+    <!-- Hreflang 多语言切换标签 -->
+    {
+      langCodes.map((langCode) => {
+        const alternateUrl = `${baseUrl}/${langCode}${cleanPath}`;
+        return <link rel="alternate" hreflang={langCode} href={alternateUrl} />;
+      })
+    }
+    <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
+
+    <!-- GEO 地域SEO标签 -->
+    {
+      geoRegions.length > 0 && (
+        <>
+          <meta name="geo.region" content={regionCodeList} />
+          <meta name="geo.placename" content={geoPlaceName} />
+          <meta name="geo.position" content={factoryPosition} />
+          <meta name="ICBM" content={factoryPosition} />
+        </>
+      )
+    }
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:locale" content={lang} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageCanonicalUrl} />
+    <meta property="og:site_name" content="Senrytech Laser" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- 图标资源 -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json" set:html={websiteSchema} />
+    {pageSchema && <script type="application/ld+json" set:html={pageSchema} />}
+  </head>
+
+  <body>
+    <Header />
+    <slot />
+  </body>
+</html>

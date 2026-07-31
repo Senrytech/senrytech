@@ -1,0 +1,40 @@
+---
+interface Props {
+  locale: string;
+  siteUrl: string;
+  navData: Array<{
+    label: string;
+    href: string;
+  }>;
+}
+const { locale, siteUrl, navData } = Astro.props;
+
+// 去除尾部斜杠，避免链接双斜杠
+const baseUrl = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+
+const navschema = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'SiteNavigationElement',
+  name: 'Main Navigation',
+  description: 'Senrytech Laser official website main navigation for laser cutting, welding, cleaning machines and industry solutions',
+  url: `${baseUrl}/${locale}/`,
+  publisher: {
+    "@type": "Organization",
+    "name": "Senrytech Laser",
+    "alternateName": "Senrytech"
+  },
+  hasItemList: {
+    "@type": "ItemList",
+    itemListOrder: 'ItemListOrderAscending',
+    itemListElement: navData.map((item, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: item.label,
+      item: `${baseUrl}${item.href}`
+    }))
+  }
+});
+---
+<script type="application/ld+json">
+{navschema}
+</script>

@@ -1,0 +1,402 @@
+---
+interface Props {
+  locale: string;
+}
+const { locale } = Astro.props;
+import { getNavByLocale } from '../../i18n/nav';
+
+const navList = getNavByLocale(locale);
+
+// 产品：Laser Processing Equipment + Complete Production Line 合并平铺
+const productMain = navList.find((item) => item.label === 'Laser Processing Equipment');
+const lineMain = navList.find((item) => item.label === 'Complete Production Line');
+const productLinks = [...(productMain?.subList ?? []), ...(lineMain?.subList ?? [])];
+
+// 知识资讯：只保留知识、行业资讯、客户案例
+const knowledgeMain = navList.find((item) => item.label === 'Laser Knowledge');
+const insightMain = navList.find((item) => item.label === 'Laser Industry Insight');
+const knowledgeLinks = [...(knowledgeMain?.subList ?? []), ...(insightMain?.subList ?? [])];
+
+// About 企业介绍子链接，移入Knowledge栏目
+const aboutMain = navList.find((item) => item.label === 'About Senrytech');
+const aboutLinks = aboutMain?.subList ?? [];
+---
+
+<section class="footer-new">
+  <div class="container">
+    <div class="footer-wrap">
+      <!-- 左侧品牌 -->
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <img src="/assets/images/footer/senrytech-logo.jpg" alt="Senrytech Professional Laser Cutting Equipment" loading="lazy" />
+          <span class="brand-name">Senrytech</span>
+        </div>
+        <p class="brand-desc">
+          Professional Fiber Laser Cutting & Welding Equipment Manufacturer. Reliable power range from 1500W up to 40kW, heavy metal processing solutions for global manufacturing
+          workshops.
+        </p>
+        <div class="social-icons">
+          <a class="icon" href="https://www.facebook.com/profile.php?id=61572514366742" title="Facebook" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-facebook"></i>
+          </a>
+          <a class="icon" href="https://www.instagram.com/jerry_linsenrytech_/" title="Instagram" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-instagram"></i>
+          </a>
+          <a class="icon" href="https://www.youtube.com/@Senrytech-Laser" title="YouTube" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-youtube-play"></i>
+          </a>
+          <a class="icon" href="https://www.tiktok.com/@senrytechlaser?_r=1&_t=ZS-978fQQvmZFM" title="TikTok" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+              <path
+                d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.889-3.684-2.22A4.902 4.902 0 0 1 9 7V0zm-.82 8.268A2.498 2.498 0 0 1 7.997 6H6v6a2.5 2.5 0 1 0 1.667-2.32z">
+              </path>
+              <path d="M10.08 8.17A2.498 2.498 0 0 0 11.003 10H13V4a2.5 2.5 0 1 1-2.92 4.17z"></path>
+              <path
+                d="M5.835 11.681c-.468.28-1.037.42-1.617.42a3.47 3.47 0 0 1-1.89-.565v-1.89a1.47 1.47 0 0 0 1.89.07c.315-.188.518-.52.518-.886V5h1.998v4.706c0 .59-.318 1.134-.82 1.475z">
+              </path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- 产品中心：平铺所有产品线，无分组标题 -->
+      <div class="footer-column">
+        <h3>Product Center</h3>
+        <ul>
+          {
+            productLinks.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- 知识资讯 + About Senrytech 合并一栏 -->
+      <div class="footer-column">
+        <h3>Knowledge & Insights</h3>
+        <ul>
+          {
+            knowledgeLinks.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="about-footer-inner">
+          <h4>About Senrytech</h4>
+          <ul>
+            {
+              aboutLinks.map((item) => (
+                <li>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact Us：联系信息 + 二维码（移除原底部About模块） -->
+      <div class="footer-column footer-contact">
+        <h3>Contact Us</h3>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-icon"><i class="fa fa-map-marker"></i></span>
+            <span>China · Comprehensive Industrial Park, Shunhua Road Street, Licheng District, Jinan City</span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fa fa-phone"></i></span>
+            <span>+86 134 6557 5719</span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fa fa-envelope"></i></span>
+            <span>info@senrytech.com</span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fa fa-clock-o"></i></span>
+            <span>Monday to Saturday: 9:00-18:00</span>
+          </li>
+        </ul>
+        <div class="qr-wrap">
+          <h4>WeChat Consultation</h4>
+          <div class="qr-group">
+            <div class="qr-item">
+              <img src="/assets/images/footer/pre-sales-qr.jpg" alt="Pre-sales Service QR Code" loading="lazy" />
+              <p>Pre-sales</p>
+            </div>
+            <div class="qr-item">
+              <img src="/assets/images/footer/after-sales-qr.jpg" alt="After-sales Service QR Code" loading="lazy" />
+              <p>After-sales</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="bottom-wrap">
+        <div class="bottom-left">© 2026 Senrytech Laser | All Rights Reserved</div>
+        <div class="bottom-right">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/sitemap.xml">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Senrytech Laser Equipment Factory",
+    "alternateName": "Senrytech Laser",
+    "description": "Professional fiber laser cutting machine, plate tube laser cutter, handheld laser welding equipment manufacturer, export to Ecuador, Peru, Spain, Germany, France, Russia, Middle East countries.",
+    "url": "https://senrytech.com",
+    "logo": "https://senrytech.com/assets/images/global/senrytech-logo.svg",
+    "image": "https://senrytech.com/assets/images/banner/heavy-plate-cutting.jpg",
+    "telephone": "+86 134 6557 5719",
+    "email": "info@senrytech.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Comprehensive Industrial Park, Shunhua Road Street",
+      "addressLocality": "Jinan",
+      "addressRegion": "Shandong",
+      "postalCode": "250100",
+      "addressCountry": "CN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "36.6663",
+      "longitude": "117.0702"
+    },
+    "openingHours": "Mo-Sa 08:00-18:00",
+    "businessType": "Industrial Machinery Manufacturing",
+    "servesCities": ["Quito", "Lima", "Madrid", "Berlin", "Paris", "Moscow", "Dubai", "Riyadh"],
+    "servesCountries": ["EC", "PE", "ES", "DE", "FR", "RU", "SA", "AE"],
+    "availableLanguage": ["English", "Chinese", "Spanish", "German", "French", "Russian", "Arabic"],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Laser Processing Machines",
+      "itemListElement": [
+        {
+          "@type": "Product",
+          "name": "Fiber Laser Cutting Machine"
+        },
+        {
+          "@type": "Product",
+          "name": "Plate & Tube Integrated Laser Cutter"
+        },
+        {
+          "@type": "Product",
+          "name": "Handheld Laser Welding Machine"
+        }
+      ]
+    }
+  }
+</script>
+
+<style>
+  .footer-new {
+    padding: clamp(80px, 8vw, 120px) 0 40px;
+    background: var(--dark-bg);
+    color: var(--dark-text-2);
+  }
+  .footer-new .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .footer-wrap {
+    display: grid;
+    grid-template-columns: 320px repeat(3, 1fr);
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .brand-logo img {
+    height: 36px;
+    object-fit: contain;
+  }
+  .brand-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark-text-1);
+  }
+  .footer-brand p {
+    line-height: 1.7;
+    color: var(--dark-text-2);
+    margin: 0 0 28px;
+    font-size: 0.9rem;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 14px;
+  }
+  .social-icons .icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: var(--dark-border);
+    color: var(--dark-text-2);
+    transition:
+      background var(--transition-base),
+      color var(--transition-base),
+      transform var(--transition-base);
+  }
+  .social-icons .icon:hover {
+    background: var(--brand-main);
+    color: var(--color-white);
+    transform: translateY(-3px);
+  }
+
+  .footer-column h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: var(--dark-text-1);
+  }
+  .footer-column ul {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-column a {
+    color: var(--dark-text-2);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition:
+      color var(--transition-base),
+      transform var(--transition-base);
+    display: inline-block;
+  }
+  .footer-column a:hover {
+    color: var(--brand-main);
+    transform: translateX(4px);
+  }
+
+  /* 栏目内第二分组间距 */
+  .about-footer-inner {
+    margin-top: 28px;
+  }
+  .footer-column h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--dark-text-1);
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contact-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--dark-text-2);
+    font-size: 0.9rem;
+  }
+  .contact-icon {
+    margin-top: 4px;
+    color: var(--brand-main);
+  }
+
+  .qr-wrap h4 {
+    font-size: 0.9rem;
+    margin: 24px 0 12px;
+    color: var(--dark-text-1);
+  }
+  .qr-group {
+    display: flex;
+    gap: 12px;
+  }
+  .qr-item {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .qr-item img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+  }
+  .qr-item p {
+    font-size: 0.82rem;
+    color: var(--dark-text-3);
+    text-align: center;
+    margin: 0;
+  }
+
+  .footer-bottom {
+    border-top: var(--dark-border);
+    padding-top: 32px;
+  }
+  .bottom-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .bottom-left {
+    color: var(--dark-text-3);
+    font-size: 0.82rem;
+  }
+  .bottom-right {
+    display: flex;
+    gap: 28px;
+  }
+  .bottom-right a {
+    font-size: 0.82rem;
+    color: var(--dark-text-3);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+  .bottom-right a:hover {
+    color: var(--brand-main);
+  }
+  .footer-column h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: var(--dark-text-1);
+  }
+
+  @media (max-width: 1200px) {
+    .footer-wrap {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .footer-wrap {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .bottom-wrap {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

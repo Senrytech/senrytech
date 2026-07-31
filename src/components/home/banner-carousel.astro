@@ -1,0 +1,451 @@
+---
+interface BannerSlide {
+  image: typeof slideCut;
+  title: string;
+  subTitle: string;
+  desc: string;
+  btnPrimaryText: string;
+  btnPrimaryHref: string;
+  btnOutlineText: string;
+  btnOutlineHref: string;
+  targetRegion?: string;
+  productModel: string;
+  productCategory: string;
+}
+
+export interface Props {
+  slideList: BannerSlide[];
+  autoPlayDelay?: number;
+  pageLocale?: string;
+  countryCode?: string;
+  mainPageH1?: string;
+}
+const { slideList, autoPlayDelay = 10000, pageLocale = 'en', countryCode = '', mainPageH1 } = Astro.props;
+const CAROUSEL_DELAY = autoPlayDelay;
+
+import { Image } from 'astro:assets';
+import slideCut from '../../assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp';
+import slideTube from '../../assets/images/banner/sheet-tube-laser-cutter-saudi-uae-egypt-export.webp';
+import slideWeld from '../../assets/images/banner/handheld-4in1-laser-welder-global-export-factory.webp';
+
+export { slideCut, slideTube, slideWeld };
+---
+
+<section
+  class="banner-carousel"
+  aria-label={pageLocale === 'es' ? 'Carrusel de productos principales' : 'Main product banner carousel'}
+  data-delay={CAROUSEL_DELAY}
+  data-carousel-type="export-product-list"
+  data-supply-region-codes="EC,PE,CO,SA,AE,EG"
+  data-supply-region-names="Ecuador,Peru,Colombia,Spain,Saudi Arabia,UAE,Egypt,Global"
+  data-factory-country="CN"
+  data-factory-location="Jinan, Shandong, China"
+  data-geo-coords="36.6663,117.0702"
+  data-target-country={countryCode}>
+  <!-- 【方案A新增】页面唯一H1，归属Banner区块，规避cloaking风险 -->
+  {mainPageH1 && <h1 class="visually-hidden">{mainPageH1}</h1>}
+
+  <div class="carousel-inner">
+    <div class="carousel-slides" id="bannerSlidesWrap">
+      {
+        slideList.map((slide, slideIdx) => {
+          const slideClass = 'carousel-slide';
+          return (
+            <div class={slideClass} data-slide-index={String(slideIdx)} aria-hidden={slideIdx !== 0 ? 'true' : 'false'}>
+              <Image
+                src={slide.image}
+                alt={`${slide.title} factory export machine for ${slide.targetRegion ?? 'global metal fabrication market'} | Jinan factory direct supply metal laser equipment`}
+                width={3200}
+                height={1800}
+                widths={[1280, 1920, 2560, 3200]}
+                quality={90}
+                loading={slideIdx === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchpriority={slideIdx === 0 ? 'high' : 'low'}
+              />
+
+              <div class="banner-text" data-text-block>
+                <h3 class="banner-subtitle">{slide.subTitle}</h3>
+                <h2 class="banner-main-title">{slide.title}</h2>
+                <p class="banner-desc">{slide.desc}</p>
+                <div class="banner-btns">
+                  <a href={slide.btnPrimaryHref} class="banner-btn primary-btn">
+                    {slide.btnPrimaryText}
+                  </a>
+                  <a href={slide.btnOutlineHref} class="banner-btn outline-btn">
+                    {slide.btnOutlineText}
+                  </a>
+                </div>
+              </div>
+
+              <p class="geo-hidden-text" aria-hidden="true">
+                Senrytech Laser factory exports laser cutting and welding machines to {slide.targetRegion ?? 'all global metal fabrication markets'}. Factory base in Jinan Shandong
+                China, supply industrial laser equipment for metal processing factories in {slide.targetRegion ?? 'worldwide countries'}.
+              </p>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <button class="carousel-control prev-btn" id="bannerPrevBtn" aria-label="Previous slide">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+    <button class="carousel-control next-btn" id="bannerNextBtn" aria-label="Next slide">
+      <i class="fa fa-chevron-right"></i>
+    </button>
+
+    <div class="dot-container">
+      {
+        slideList.map((_, dotIdx) => {
+          const dotClass = dotIdx === 0 ? 'banner-dot active' : 'banner-dot';
+          return <button class={dotClass} data-target-slide={String(dotIdx)} aria-label={`Jump to slide ${dotIdx + 1}`} />;
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    let autoPlayTimer: number | null = null;
+    let carouselWrap: HTMLElement | null = null;
+    let slidesWrap: HTMLElement | null = null;
+    let slides: HTMLElement[] = [];
+    let dots: HTMLElement[] = [];
+    let textBlocks: HTMLElement[] = [];
+    let prevBtn: HTMLElement | null = null;
+    let nextBtn: HTMLElement | null = null;
+    let delay: number = 6000;
+    let currentIndex: number = 0;
+
+    const switchSlide = (newIdx: number): void => {
+      if (slides.length === 0) return;
+      currentIndex = newIdx < 0 ? slides.length - 1 : newIdx >= slides.length ? 0 : newIdx;
+
+      if (slidesWrap) {
+        slidesWrap.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      dots.forEach((dotEl) => dotEl.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+
+      textBlocks.forEach((textEl) => textEl.classList.remove('active'));
+      textBlocks[currentIndex].classList.add('active');
+
+      slides.forEach((slideEl, idx) => {
+        slideEl.setAttribute('aria-hidden', String(idx !== currentIndex));
+      });
+    };
+
+    const startAutoPlay = (): void => {
+      if (autoPlayTimer) clearTimeout(autoPlayTimer);
+      autoPlayTimer = window.setTimeout(() => {
+        switchSlide(currentIndex + 1);
+        startAutoPlay();
+      }, delay);
+    };
+
+    const stopAutoPlay = (): void => {
+      if (autoPlayTimer) clearTimeout(autoPlayTimer);
+      autoPlayTimer = null;
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      queueMicrotask(() => {
+        carouselWrap = document.querySelector('.banner-carousel') as HTMLElement | null;
+        if (!carouselWrap) return;
+
+        const rawDelay = carouselWrap.dataset.delay;
+        delay = rawDelay ? Number(rawDelay) : 6000;
+
+        slidesWrap = carouselWrap.querySelector('#bannerSlidesWrap') as HTMLElement | null;
+        slides = Array.from(carouselWrap.querySelectorAll('.carousel-slide')) as HTMLElement[];
+        dots = Array.from(carouselWrap.querySelectorAll('.banner-dot')) as HTMLElement[];
+        textBlocks = Array.from(carouselWrap.querySelectorAll('[data-text-block]')) as HTMLElement[];
+        prevBtn = carouselWrap.querySelector('#bannerPrevBtn') as HTMLElement | null;
+        nextBtn = carouselWrap.querySelector('#bannerNextBtn') as HTMLElement | null;
+
+        if (slides.length === 0 || textBlocks.length === 0 || dots.length === 0) return;
+
+        prevBtn?.addEventListener('click', () => {
+          stopAutoPlay();
+          switchSlide(currentIndex - 1);
+        });
+        nextBtn?.addEventListener('click', () => {
+          stopAutoPlay();
+          switchSlide(currentIndex + 1);
+        });
+
+        dots.forEach((dotEl, idx) => {
+          dotEl.addEventListener('click', () => {
+            stopAutoPlay();
+            switchSlide(idx);
+          });
+        });
+
+        slidesWrap?.addEventListener('mouseenter', stopAutoPlay);
+        slidesWrap?.addEventListener('mouseleave', startAutoPlay);
+
+        switchSlide(0);
+        startAutoPlay();
+      });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (slides.length === 0) return;
+      if (document.hidden) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    });
+  })();
+</script>
+
+<style>
+  /* 无障碍标准隐藏样式，推荐全局移入global.css，这里临时保留 */
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border-width: 0 !important;
+  }
+
+  .banner-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 16 / 7.2;
+    min-height: 380px;
+    z-index: 1;
+  }
+  .carousel-inner {
+    width: 100%;
+    height: 100%;
+  }
+  .carousel-slides {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: transform 700ms cubic-bezier(0.2, 0, 0.2, 1);
+  }
+  .carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+  }
+  .carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .banner-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 6vw;
+    text-align: center;
+    opacity: 0;
+    transition:
+      opacity 800ms cubic-bezier(0.2, 0, 0.2, 1),
+      transform 800ms cubic-bezier(0.2, 0, 0.2, 1);
+    transform: translateY(-15%);
+    will-change: opacity;
+  }
+  .banner-text.active {
+    opacity: 1;
+  }
+  .banner-subtitle {
+    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+    font-weight: 300;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    color: var(--text-1);
+  }
+  .banner-main-title {
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1.2rem;
+    max-width: 90vw;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    color: var(--text-1);
+  }
+  .banner-desc {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    line-height: 1.65;
+    max-width: 75ch;
+    margin-bottom: 2.4rem;
+    opacity: 0.95;
+    color: var(--text-2);
+  }
+  .banner-btns {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .banner-btn {
+    padding: 0.6rem 1.8rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-base);
+  }
+
+  .banner-btn.primary-btn {
+    background: var(--brand-main);
+    color: var(--color-white);
+  }
+  .banner-btn.primary-btn:hover {
+    background: var(--brand-light);
+    box-shadow: 0 4px 16px rgba(22, 58, 97, 0.35);
+  }
+
+  .banner-btn.outline-btn {
+    background: transparent;
+    color: var(--color-white);
+    border: 1px solid var(--brand-main);
+  }
+  .banner-btn.outline-btn:hover {
+    background: var(--brand-main);
+    border-color: var(--brand-main);
+    color: var(--color-white);
+  }
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    color: var(--dark-text-1);
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background var(--transition-base);
+    display: grid;
+    place-items: center;
+    z-index: 10;
+  }
+  .carousel-control:hover {
+    background: var(--brand-main);
+  }
+  .carousel-control.prev-btn {
+    left: 2rem;
+  }
+  .carousel-control.next-btn {
+    right: 2rem;
+  }
+  .dot-container {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.8rem;
+    z-index: 10;
+  }
+  .banner-dot {
+    width: 2rem;
+    height: 0.12rem;
+    border-radius: 99px;
+    border: none;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .banner-dot.active {
+    background: var(--color-white);
+    width: 2.6rem;
+  }
+
+  .geo-hidden-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-slides,
+    .carousel-slide,
+    .banner-text,
+    .banner-btn,
+    .carousel-control,
+    .banner-dot {
+      transition: none !important;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .banner-carousel {
+      aspect-ratio: 16 / 10;
+      min-height: 320px;
+    }
+  }
+  @media (max-width: 768px) {
+    .banner-text {
+      transform: translateY(-5%);
+    }
+    .banner-carousel {
+      aspect-ratio: 9 / 16;
+      min-height: 420px;
+    }
+    .banner-btns {
+      gap: 1rem;
+    }
+    .banner-btn {
+      padding: 0.5rem 1.4rem;
+      font-size: 0.9rem;
+    }
+    .carousel-control {
+      position: absolute;
+      top: 38%;
+      transform: translateY(-50%);
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-control.prev-btn {
+      left: 1.6rem;
+    }
+    .carousel-control.next-btn {
+      right: 1.6rem;
+    }
+    .carousel-control i {
+      font-size: 1.4rem;
+      color: var(--dark-text-1);
+    }
+    .carousel-control:active {
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .carousel-control i {
+      font-size: 1.2rem;
+    }
+    .dot-container {
+      bottom: 1.2rem;
+    }
+  }
+</style>

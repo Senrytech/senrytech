@@ -1,0 +1,194 @@
+---
+export interface SpecTabItem {
+  tabLabel: string;
+  tableHead: string[];
+  tableRows: string[][];
+}
+
+export interface Props {
+  id?: string;
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  tabList: SpecTabItem[];
+}
+const { id, sectionTitle, sectionSubtitle, tabList } = Astro.props;
+---
+
+<section class="product-spec-tab" id={id}>
+  <div class="container">
+    <div class="section-header">
+      <h2>{sectionTitle}</h2>
+      {sectionSubtitle && <p class="section-desc">{sectionSubtitle}</p>}
+    </div>
+
+    <div class="spec-tab-wrap">
+      <div class="spec-tab-buttons">
+        {
+          tabList.map((item, idx) => (
+            <button class={`spec-tab-btn ${idx === 0 ? 'active' : ''}`} data-tab-index={idx}>
+              {item.tabLabel}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="spec-tab-contents">
+        {
+          tabList.map((item, idx) => (
+            <div class={`spec-tab-panel ${idx === 0 ? 'active' : ''}`} data-panel-index={idx}>
+              <div class="table-scroll">
+                <table class="spec-table">
+                  <thead>
+                    <tr>
+                      {item.tableHead.map((th) => (
+                        <th>{th}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {item.tableRows.map((row) => (
+                      <tr>
+                        {row.map((cell) => (
+                          <td>{cell}</td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-spec-tab {
+    padding: 5rem 0;
+    background: #f8fafc;
+  }
+  .container {
+    max-width: 1440px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #163a61;
+    margin: 0 0 0.6rem;
+  }
+  .section-desc {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #525966;
+    line-height: 1.7;
+  }
+
+  .spec-tab-buttons {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #dde3ec;
+  }
+  .spec-tab-btn {
+    border: none;
+    background: transparent;
+    font-size: 0.98rem;
+    padding: 0.9rem 1.4rem;
+    cursor: pointer;
+    color: #4b5563;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s ease;
+  }
+  .spec-tab-btn:hover {
+    color: #163a61;
+  }
+  .spec-tab-btn.active {
+    color: #163a61;
+    border-color: #163a61;
+    font-weight: 500;
+  }
+
+  .spec-tab-panel {
+    display: none;
+  }
+  .spec-tab-panel.active {
+    display: block;
+  }
+
+  .table-scroll {
+    overflow-x: auto;
+  }
+  .spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    min-width: 600px;
+  }
+  .spec-table th {
+    background: #163a61;
+    color: #fff;
+    padding: 0.9rem 0.7rem;
+    font-weight: 500;
+    font-size: 0.94rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .spec-table td {
+    padding: 0.8rem 0.7rem;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #e4e9f0;
+  }
+  .spec-table tbody tr:nth-child(even) {
+    background: #f6f8fc;
+  }
+
+  @media (max-width: 768px) {
+    .product-spec-tab {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .spec-tab-btn {
+      padding: 0.7rem 1rem;
+      font-size: 0.9rem;
+    }
+    .spec-table th {
+      padding: 0.7rem 0.5rem;
+      font-size: 0.84rem;
+    }
+    .spec-table td {
+      padding: 0.6rem 0.5rem;
+      font-size: 0.82rem;
+    }
+  }
+</style>
+
+<script>
+  const tabButtons = document.querySelectorAll<HTMLButtonElement>('.spec-tab-btn');
+  const tabPanels = document.querySelectorAll<HTMLElement>('.spec-tab-panel');
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetIndex = btn.dataset.tabIndex;
+      if (!targetIndex) return;
+
+      tabButtons.forEach((b) => b.classList.remove('active'));
+      tabPanels.forEach((p) => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetPanel = document.querySelector(`[data-panel-index="${targetIndex}"]`);
+      targetPanel?.classList.add('active');
+    });
+  });
+</script>

@@ -1,0 +1,129 @@
+---
+export interface Props {
+  id?: string;
+  title: string;
+  subtitle?: string;
+  image: string;
+  dataList: {
+    label: string;
+    value: string;
+  }[];
+  reverse?: boolean;
+}
+const { id, title, subtitle, image, dataList, reverse = false } = Astro.props;
+---
+
+<section class="product-servo-data" id={id}>
+  <div class="container">
+    <div class={`servo-row ${reverse ? 'servo-reverse' : ''}`}>
+      <div class="servo-media">
+        <img src={image} alt={title} loading="lazy" />
+      </div>
+      <div class="servo-content">
+        <h2>{title}</h2>
+        {subtitle && <p class="servo-sub">{subtitle}</p>}
+        <div class="data-grid">
+          {
+            dataList.map((item) => (
+              <div class="data-card">
+                <div class="data-value">{item.value}</div>
+                <div class="data-label">{item.label}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-servo-data {
+    padding: 5rem 0;
+    background-color: #0f1724;
+    color: #ffffff;
+  }
+  .container {
+    max-width: 1440px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .servo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .servo-reverse {
+    direction: rtl;
+  }
+  .servo-reverse > * {
+    direction: ltr;
+  }
+  .servo-media img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .servo-content h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #ffffff;
+    margin: 0 0 0.7rem;
+  }
+  .servo-sub {
+    color: #b8c2cc;
+    line-height: 1.7;
+    margin: 0 0 2rem;
+  }
+  .data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.4rem;
+  }
+  .data-card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    padding: 1.6rem 1.2rem;
+    text-align: center;
+    transition: 0.24s ease;
+  }
+  .data-card:hover {
+    border-color: #163a61;
+    background-color: rgba(22, 58, 97, 0.15);
+  }
+  .data-value {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+  }
+  .data-label {
+    font-size: 0.9rem;
+    color: #b8c2cc;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 992px) {
+    .servo-row {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .servo-reverse {
+      direction: ltr;
+    }
+  }
+  @media (max-width: 768px) {
+    .product-servo-data {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .data-value {
+      font-size: 1.5rem;
+    }
+    .data-grid {
+      gap: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+export interface RelatedProduct {
+  title: string;
+  image: string;
+  href: string;
+  tag?: string;
+}
+
+export interface Props {
+  id?: string;
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  productList: RelatedProduct[];
+}
+const { id, sectionTitle, sectionSubtitle, productList } = Astro.props;
+---
+
+<section class="product-related" id={id}>
+  <div class="container">
+    <div class="section-header">
+      <h2>{sectionTitle}</h2>
+      {sectionSubtitle && <p class="section-desc">{sectionSubtitle}</p>}
+    </div>
+
+    <div class="related-grid">
+      {
+        productList.map((item) => (
+          <a href={item.href} class="related-card">
+            <div class="related-img">
+              <img src={item.image} alt={item.title} loading="lazy" />
+              {item.tag && <span class="related-tag">{item.tag}</span>}
+            </div>
+            <div class="related-text">
+              <h3>{item.title}</h3>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-related {
+    padding: 5rem 0;
+    background-color: #f8fafc;
+  }
+  .container {
+    max-width: 1440px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #163a61;
+    margin: 0 0 0.6rem;
+  }
+  .section-desc {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #525966;
+    line-height: 1.7;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+  }
+  .related-card {
+    display: block;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid #e7ecf2;
+    transition: 0.24s ease;
+  }
+  .related-card:hover {
+    border-color: #163a61;
+    box-shadow: 0 8px 24px rgba(22, 58, 97, 0.08);
+  }
+  .related-img {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+  }
+  .related-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .related-card:hover .related-img img {
+    transform: scale(1.04);
+  }
+  .related-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #163a61;
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 4px;
+  }
+  .related-text {
+    padding: 1.2rem;
+  }
+  .related-text h3 {
+    font-size: 1.05rem;
+    color: #1e293b;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .product-related {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    .related-img {
+      height: 160px;
+    }
+  }
+</style>

@@ -1,0 +1,630 @@
+---
+import { getNavByLocale, type ValidLocale } from '../../i18n/nav';
+
+interface Props {
+  locale: string;
+}
+
+const { locale } = Astro.props;
+
+function localNameToSlug(name: string) {
+  return name.toLowerCase().replace(/\s+/g, '-');
+}
+
+const validLocales: ValidLocale[] = ['en', 'zh-CN', 'de', 'es', 'fr', 'ru', 'ar'];
+const safeLocale = validLocales.includes(locale as ValidLocale) ? (locale as ValidLocale) : 'en';
+
+const rawNavList = getNavByLocale(safeLocale);
+
+const allowMainLabels = ['Laser Processing Equipment', 'Complete Production Line'] as const;
+const allowedSet = new Set<string>(allowMainLabels);
+
+const categoryDataset = rawNavList
+  .filter((item) => allowedSet.has(item.label))
+  .map((mainItem) => {
+    return {
+      mainKey: mainItem.label as (typeof allowMainLabels)[number],
+      mainLabel: mainItem.label,
+      subList: mainItem.subList ?? [],
+      productGroup: mainItem.productGroup ?? {},
+    };
+  });
+
+// ✅ 新增产品类型接口，规避Astro <>泛型解析报错
+interface ProductItem {
+  name: string;
+  href: string;
+  desc: string;
+  image: string;
+  imageHover: string; // hover切换图
+}
+
+function attachImageField(dataset: typeof categoryDataset) {
+  return dataset.map((cat) => {
+    const newProductGroup: Record<string, ProductItem[]> = {};
+
+    Object.entries(cat.productGroup).forEach(([targetId, productList]) => {
+      newProductGroup[targetId] = productList.map((p) => {
+        const slug = localNameToSlug(p.name);
+        return {
+          ...p,
+          image: `/assets/images/products/sheet/${slug}.png`,
+          imageHover: `/assets/images/products/sheet/${slug}-hover.png`,
+        };
+      });
+    });
+
+    return {
+      ...cat,
+      productGroup: newProductGroup,
+    };
+  });
+}
+
+const categoryDatasetWithImage = attachImageField(categoryDataset);
+
+// 初始默认数据
+const defaultFirstCategory = categoryDatasetWithImage.at(0);
+let defaultProductList: ProductItem[] = [];
+let defaultSubItem = defaultFirstCategory?.subList.at(0);
+if (defaultFirstCategory && defaultSubItem) {
+  const tid = defaultSubItem.targetId!;
+  const fullInitList = defaultFirstCategory.productGroup[tid] ?? [];
+  defaultProductList = fullInitList.slice(0, 8);
+}
+---
+
+<section class="home-product-tab-section">
+  <div class="container">
+    <h2 class="section-heading">Full Range Of Laser Equipment | Accurately Match Your Production Needs</h2>
+
+    <div class="product-tab-wrap-glass">
+      <div class="product-tab-slider" data-dataset={JSON.stringify(categoryDatasetWithImage)}>
+        <div class="tab-scroll-wrap">
+          <div class="tab-layer-1">
+            {
+              categoryDataset.map((cat, idx) => (
+                <button class={`tab-main-btn ${idx === 0 ? 'active' : ''}`} data-main-index={idx}>
+                  {cat.mainLabel}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="tab-scroll-wrap">
+          <div class="tab-layer-2">
+            {
+              defaultFirstCategory?.subList.map((sub, i) => (
+                <button class={`tab-sub-btn ${i === 0 ? 'active' : ''}`} data-sub-target={sub.targetId}>
+                  {sub.label}
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="product-bodor-container">
+          <div class="product-sidebar-banner">
+            <h3>{defaultSubItem?.label}</h3>
+            <p>High-performance industrial laser processing equipment for metal fabrication workshops, reliable quality & factory direct supply.</p>
+            {
+              defaultSubItem && (
+                <a href={defaultSubItem.href} class="btn-learn">
+                  Learn More &rsaquo;
+                </a>
+              )
+            }
+          </div>
+          <div class="product-grid-wrap">
+            {
+              defaultProductList.map((item) => (
+                <a href={item.href} class="product-card" itemscope itemtype="https://schema.org/Product">
+                  <img class="product-card__img" src={item.image} alt={item.name} itemprop="image" loading="lazy" />
+                  <div class="product-card__body">
+                    <h3 itemprop="name">{item.name}</h3>
+                    <p itemprop="description">{item.desc}</p>
+                  </div>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;">
+      {
+        categoryDatasetWithImage.flatMap((mainCat) =>
+          Object.values(mainCat.productGroup)
+            .flat()
+            .map((product) => <a href={product.href}>{product.name}</a>)
+        )
+      }
+    </div>
+  </div>
+
+  <script>
+    // @ts-nocheck
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.querySelector('.product-tab-slider') as HTMLElement;
+      if (!container) return;
+
+      const dataset = JSON.parse(container.dataset.dataset || '[]');
+
+      const mainButtons = container.querySelectorAll('.tab-main-btn');
+      const subLayer = container.querySelector('.tab-layer-2') as HTMLElement;
+      const bodorContainer = container.querySelector('.product-bodor-container') as HTMLElement;
+      const bannerEl = bodorContainer.querySelector('.product-sidebar-banner') as HTMLElement;
+      const gridWrap = bodorContainer.querySelector('.product-grid-wrap') as HTMLElement;
+
+      let activeMainIndex = 0;
+      let activeSubTarget = dataset[0]?.subList[0]?.targetId || '';
+
+      function renderSubTabs(mainIndex) {
+        const cat = dataset[mainIndex];
+        if (!cat || !subLayer) return;
+        subLayer.innerHTML = '';
+        cat.subList.forEach((sub, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'tab-sub-btn' + (i === 0 ? ' active' : '');
+          btn.dataset.subTarget = sub.targetId;
+          btn.textContent = sub.label;
+          subLayer.appendChild(btn);
+        });
+        activeSubTarget = cat.subList[0]?.targetId || '';
+        renderProducts(mainIndex, activeSubTarget);
+      }
+
+      function renderProducts(mainIndex, subTarget) {
+        const cat = dataset[mainIndex];
+        if (!cat || !gridWrap || !bannerEl) return;
+        const fullList = cat.productGroup[subTarget] || [];
+        const list = fullList.slice(0, 8);
+        const currentSub = cat.subList.find((s) => s.targetId === subTarget);
+
+        const bannerTitle = bannerEl.querySelector('h3');
+        const bannerLink = bannerEl.querySelector('.btn-learn') as HTMLAnchorElement;
+        if (currentSub) {
+          bannerTitle.textContent = currentSub.label;
+          bannerLink.href = currentSub.href;
+        }
+
+        gridWrap.innerHTML = '';
+        list.forEach((item) => {
+          const card = document.createElement('a');
+          card.href = item.href;
+          card.className = 'product-card';
+          card.setAttribute('itemscope', '');
+          card.setAttribute('itemtype', 'https://schema.org/Product');
+          card.innerHTML = `
+<div class="product-card__img-wrap">
+  <img class="img-default product-card__img" src="${item.image}" alt="${item.name}" itemprop="image" loading="lazy" />
+  <img class="img-hover product-card__img" src="${item.imageHover}" alt="${item.name} detailed view" loading="lazy" />
+</div>
+<div class="product-card__body">
+  <h3 itemprop="name">${item.name}</h3>
+  <p itemprop="description">${item.desc}</p>
+</div>
+`;
+          gridWrap.appendChild(card);
+        });
+      }
+
+      let hoverDebounceTimer = null;
+      const isPointerFine = window.matchMedia('(pointer: fine)').matches;
+
+      // 一级Tab：click + hover切换
+      mainButtons.forEach((btn, idx) => {
+        btn.addEventListener('click', () => {
+          clearTimeout(hoverDebounceTimer);
+          mainButtons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeMainIndex = idx;
+          renderSubTabs(idx);
+        });
+
+        if (isPointerFine) {
+          btn.addEventListener('mouseenter', () => {
+            clearTimeout(hoverDebounceTimer);
+            hoverDebounceTimer = setTimeout(() => {
+              mainButtons.forEach((b) => b.classList.remove('active'));
+              btn.classList.add('active');
+              activeMainIndex = idx;
+              renderSubTabs(idx);
+            }, 120);
+          });
+          btn.addEventListener('mouseleave', () => {
+            clearTimeout(hoverDebounceTimer);
+          });
+        }
+      });
+
+      container.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('tab-sub-btn')) {
+          e.preventDefault();
+          const subTarget = target.dataset.subTarget;
+          if (!subTarget) return;
+          container.querySelectorAll('.tab-sub-btn').forEach((b) => b.classList.remove('active'));
+          target.classList.add('active');
+          activeSubTarget = subTarget;
+          renderProducts(activeMainIndex, subTarget);
+        }
+      });
+
+      // 新增：二级Tab hover悬浮切换（仅PC鼠标）
+      if (isPointerFine) {
+        container.addEventListener('mouseover', (e) => {
+          const target = e.target as HTMLElement;
+          if (!target.classList.contains('tab-sub-btn')) return;
+
+          clearTimeout(hoverDebounceTimer);
+          hoverDebounceTimer = setTimeout(() => {
+            const subTarget = target.dataset.subTarget;
+            if (!subTarget) return;
+            container.querySelectorAll('.tab-sub-btn').forEach((b) => b.classList.remove('active'));
+            target.classList.add('active');
+            activeSubTarget = subTarget;
+            renderProducts(activeMainIndex, subTarget);
+          }, 160);
+        });
+        container.addEventListener('mouseout', (e) => {
+          const target = e.target as HTMLElement;
+          if (target.classList.contains('tab-sub-btn')) {
+            clearTimeout(hoverDebounceTimer);
+          }
+        });
+      }
+
+      container.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains('tab-sub-btn')) {
+          e.preventDefault();
+          const subTarget = target.dataset.subTarget;
+          if (!subTarget) return;
+          container.querySelectorAll('.tab-sub-btn').forEach((b) => b.classList.remove('active'));
+          target.classList.add('active');
+          activeSubTarget = subTarget;
+          renderProducts(activeMainIndex, subTarget);
+        }
+      });
+
+      function enableDragScroll(wrap) {
+        let isDragging = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let hasMoved = false;
+        wrap.onmousedown = (e) => {
+          isDragging = true;
+          hasMoved = false;
+          startX = e.pageX - wrap.offsetLeft;
+          scrollLeft = wrap.scrollLeft;
+        };
+        wrap.onmousemove = (e) => {
+          if (!isDragging) return;
+          const x = e.pageX - wrap.offsetLeft;
+          const walk = x - startX;
+          if (Math.abs(walk) > 5) hasMoved = true;
+          wrap.scrollLeft = scrollLeft - walk;
+        };
+        wrap.onmouseup = () => (isDragging = false);
+        wrap.onmouseleave = () => (isDragging = false);
+        wrap.onclick = (e) => {
+          if (hasMoved) e.preventDefault();
+        };
+      }
+      container.querySelectorAll('.tab-scroll-wrap').forEach((wrap) => enableDragScroll(wrap));
+    });
+  </script>
+
+  <style>
+    .home-product-tab-section {
+      padding: clamp(64px, 6vw, 96px) 0;
+    }
+    .home-product-tab-section .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .section-heading {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      margin: 0 0 32px;
+      font-weight: 600;
+      color: var(--text-1);
+    }
+
+    .product-tab-wrap-glass {
+      background: rgba(255, 255, 255, 0.62);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow:
+        var(--shadow-light),
+        var(--shadow-medium),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .tab-scroll-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      cursor: grab;
+      margin-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .tab-scroll-wrap:active {
+      cursor: grabbing;
+    }
+    .tab-scroll-wrap::-webkit-scrollbar {
+      height: 5px;
+    }
+    .tab-scroll-wrap::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 10px;
+    }
+    .tab-scroll-wrap::-webkit-scrollbar-thumb {
+      background: rgba(var(--brand-main-rgb), 0.25);
+      border-radius: 10px;
+    }
+    .tab-scroll-wrap::-webkit-scrollbar-thumb:hover {
+      background: rgba(var(--brand-main-rgb), 0.38);
+    }
+
+    .tab-layer-1 {
+      display: flex;
+      gap: 14px;
+      padding-bottom: 16px;
+      width: max-content;
+    }
+    .tab-main-btn {
+      padding: 10px 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--brand-main-rgb), 0.08);
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(8px);
+      color: var(--text-1);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+    .tab-main-btn.active {
+      background: var(--brand-main);
+      color: var(--color-white);
+      border-color: var(--brand-main);
+      box-shadow: 0 3px 10px rgba(var(--brand-main-rgb), 0.28);
+    }
+    .tab-main-btn:hover:not(.active) {
+      border-color: rgba(var(--brand-main-rgb), 0.35);
+      color: var(--brand-main);
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    :global(.tab-layer-2) {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 16px;
+      width: max-content;
+    }
+    :global(.tab-sub-btn) {
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--brand-main-rgb), 0.08);
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(6px);
+      color: var(--text-1);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      white-space: nowrap;
+    }
+    :global(.tab-sub-btn.active) {
+      background: var(--brand-main);
+      color: var(--color-white);
+      border-color: var(--brand-main);
+      box-shadow: 0 3px 8px rgba(var(--brand-main-rgb), 0.22);
+    }
+    :global(.tab-sub-btn:hover:not(.active)) {
+      border-color: rgba(var(--brand-main-rgb), 0.35);
+      color: var(--brand-main);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    :global(.product-bodor-container) {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      margin-top: 24px;
+    }
+    :global(.product-sidebar-banner) {
+      background: rgba(12, 22, 38, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(10, 18, 32, 0.25);
+    }
+    :global(.product-sidebar-banner::after) {
+      content: '';
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      right: -70px;
+      bottom: -70px;
+    }
+    :global(.product-sidebar-banner h3) {
+      font-size: clamp(1.4rem, 2vw, 1.8rem);
+      margin: 0 0 16px;
+      line-height: 1.3;
+      color: var(--dark-text-1);
+    }
+    :global(.product-sidebar-banner p) {
+      margin: 0 0 32px;
+      color: var(--dark-text-2);
+      line-height: 1.65;
+      font-size: 1rem;
+    }
+    :global(.btn-learn) {
+      display: inline-block;
+      color: var(--dark-text-1);
+      text-decoration: none;
+      font-weight: 500;
+      transition:
+        color var(--transition-base),
+        transform var(--transition-base);
+    }
+    :global(.btn-learn:hover) {
+      color: var(--brand-light);
+      transform: translateX(4px);
+    }
+
+    :global(.product-grid-wrap) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+
+    :global(.product-card) {
+      border-radius: 20px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow:
+        0 2px 8px rgba(var(--brand-main-rgb), 0.05),
+        0 12px 24px rgba(var(--brand-main-rgb), 0.07);
+      transition: all var(--transition-base);
+      display: flex;
+      flex-direction: column;
+    }
+    :global(.product-card:hover) {
+      transform: translateY(-6px);
+      box-shadow:
+        0 6px 16px rgba(var(--brand-main-rgb), 0.08),
+        0 20px 40px rgba(var(--brand-main-rgb), 0.11);
+      background: rgba(255, 255, 255, 0.86);
+    }
+
+    :global(.product-card__img) {
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+      background-color: rgba(247, 247, 247, 0.6);
+    }
+    :global(.product-card__body) {
+      padding: 16px 18px;
+      flex-grow: 1;
+    }
+    :global(.product-card__body h3) {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-1);
+      transition: color var(--transition-base);
+      line-height: 1.35;
+    }
+    :global(.product-card:hover .product-card__body h3) {
+      color: var(--brand-main);
+    }
+    :global(.product-card__body p) {
+      margin: 0;
+      color: var(--text-2);
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 0.94rem;
+    }
+
+    /* 响应式 */
+    @media (max-width: 1200px) {
+      :global(.product-grid-wrap) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 1024px) {
+      :global(.product-bodor-container) {
+        grid-template-columns: 1fr;
+      }
+      .product-tab-wrap-glass {
+        padding: 20px;
+      }
+    }
+    @media (max-width: 768px) {
+      :global(.product-grid-wrap) {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 8px;
+        scroll-snap-type: x mandatory;
+        cursor: grab;
+      }
+      :global(.product-grid-wrap:active) {
+        cursor: grabbing;
+      }
+      :global(.product-grid-wrap)::-webkit-scrollbar {
+        height: 6px;
+      }
+      :global(.product-grid-wrap)::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+      }
+      :global(.product-grid-wrap)::-webkit-scrollbar-thumb {
+        background: rgba(var(--brand-main-rgb), 0.25);
+        border-radius: 10px;
+      }
+      :global(.product-card) {
+        flex: 0 0 72vw;
+        max-width: 320px;
+        scroll-snap-align: start;
+      }
+      :global(.product-sidebar-banner) {
+        padding: 28px 24px;
+      }
+      .product-tab-wrap-glass {
+        padding: 16px;
+        border-radius: 18px;
+      }
+    }
+    :global(.product-card__img-wrap) {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+    }
+    :global(.product-card__img-wrap .product-card__img) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background-color: rgba(247, 247, 247, 0.6);
+      transition: opacity var(--transition-base);
+    }
+    :global(.img-default) {
+      opacity: 1;
+    }
+    :global(.img-hover) {
+      opacity: 0;
+    }
+    :global(.product-card:hover .img-default) {
+      opacity: 0;
+    }
+    :global(.product-card:hover .img-hover) {
+      opacity: 1;
+    }
+  </style>
+</section>

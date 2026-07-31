@@ -1,0 +1,133 @@
+---
+export interface CaseItem {
+  image: string;
+  title: string;
+  location: string;
+  desc: string;
+}
+
+export interface Props {
+  id?: string;
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  caseList: CaseItem[];
+}
+const { id, sectionTitle, sectionSubtitle, caseList } = Astro.props;
+---
+
+<section class="product-customer-case" id={id}>
+  <div class="container">
+    <div class="section-header">
+      <h2>{sectionTitle}</h2>
+      {sectionSubtitle && <p class="section-desc">{sectionSubtitle}</p>}
+    </div>
+
+    <div class="case-grid">
+      {
+        caseList.map((item) => (
+          <div class="case-card">
+            <div class="case-img-wrap">
+              <img src={item.image} alt={item.title} loading="lazy" />
+            </div>
+            <div class="case-info">
+              <h3>{item.title}</h3>
+              <div class="case-location">{item.location}</div>
+              <p>{item.desc}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-customer-case {
+    padding: 5rem 0;
+  }
+  .container {
+    max-width: 1440px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #163a61;
+    margin: 0 0 0.6rem;
+  }
+  .section-desc {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #525966;
+    line-height: 1.7;
+  }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  .case-card {
+    border: 1px solid #e7ecf2;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.24s ease;
+  }
+  .case-card:hover {
+    box-shadow: 0 8px 26px rgba(22, 58, 97, 0.09);
+    border-color: #163a61;
+  }
+  .case-img-wrap {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+  }
+  .case-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.32s ease;
+  }
+  .case-card:hover .case-img-wrap img {
+    transform: scale(1.04);
+  }
+  .case-info {
+    padding: 1.4rem;
+  }
+  .case-info h3 {
+    font-size: 1.12rem;
+    color: #163a61;
+    margin: 0 0 0.4rem;
+  }
+  .case-location {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin-bottom: 0.7rem;
+  }
+  .case-info p {
+    margin: 0;
+    font-size: 0.93rem;
+    color: #475569;
+    line-height: 1.65;
+  }
+
+  @media (max-width: 768px) {
+    .product-customer-case {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .case-grid {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+    }
+    .case-img-wrap {
+      height: 190px;
+    }
+  }
+</style>

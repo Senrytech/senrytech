@@ -1,0 +1,154 @@
+---
+export interface SectionItem {
+  id: string;
+  label: string;
+  url: string;
+}
+
+export interface Props {
+  sections: SectionItem[];
+  activeId?: string;
+}
+const { sections, activeId } = Astro.props;
+---
+
+<div class="product-sticky-nav" data-sticky-nav>
+  <nav class="sticky-nav-inner">
+    <ul class="sticky-nav-list">
+      {
+        sections.map((item) => (
+          <li class={`sticky-nav-item ${activeId === item.id ? 'is-active' : ''}`}>
+            <a href={`#${item.id}`} class="sticky-nav-link" data-target-id={item.id}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .product-sticky-nav {
+    position: sticky;
+    top: 80px;
+    z-index: 90;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .sticky-nav-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding-inline: 2rem;
+  }
+
+  .sticky-nav-list {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sticky-nav-list::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .sticky-nav-list::-webkit-scrollbar-thumb {
+    background: #b8c2cc;
+    border-radius: 99px;
+  }
+
+  .sticky-nav-item {
+    flex-shrink: 0;
+  }
+
+  .sticky-nav-link {
+    display: inline-block;
+    padding: 1rem 1.25rem;
+    font-size: 0.95rem;
+    color: #4b5563;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .sticky-nav-link:hover {
+    color: #163a61;
+  }
+
+  .sticky-nav-item.is-active .sticky-nav-link {
+    color: #163a61;
+    border-color: #163a61;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .product-sticky-nav {
+      top: 64px;
+    }
+    .sticky-nav-inner {
+      padding-inline: 1rem;
+    }
+    .sticky-nav-link {
+      padding: 0.85rem 1rem;
+      font-size: 0.88rem;
+    }
+  }
+</style>
+
+<script>
+  const navContainer = document.querySelector<HTMLElement>('[data-sticky-nav]');
+  if (!navContainer) {
+  }
+
+  const links = document.querySelectorAll<HTMLAnchorElement>('.sticky-nav-link');
+  const observerOptions = {
+    rootMargin: '-120px 0px -70% 0px',
+    threshold: 0,
+  };
+
+  const observerCallback: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const targetId = entry.target.id;
+        links.forEach((link) => {
+          const linkId = link.dataset.targetId;
+          const li = link.closest<HTMLLIElement>('.sticky-nav-item');
+          if (linkId === targetId && li) {
+            li.classList.add('is-active');
+            link.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+          } else if (li) {
+            li.classList.remove('is-active');
+          }
+        });
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  links.forEach((link) => {
+    const targetId = link.dataset.targetId;
+    const targetEl = document.getElementById(targetId!);
+    if (targetEl) observer.observe(targetEl);
+  });
+
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.dataset.targetId;
+      const targetEl = document.getElementById(targetId!);
+      if (!targetEl) return;
+      const offsetTop = targetEl.offsetTop - 100;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
+    });
+  });
+</script>

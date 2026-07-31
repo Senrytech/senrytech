@@ -1,0 +1,84 @@
+---
+interface Props {
+  product: {
+    name: string;
+    href: string;
+    desc: string;
+  };
+}
+const { product } = Astro.props;
+---
+
+<div class="product-card" itemscope itemtype="https://schema.org/Product">
+  <meta itemprop="brand" content="Senrytech" />
+  <meta itemprop="model" content={product.name} />
+  <meta itemprop="manufacturer" content="Senrytech Laser Equipment Factory" />
+  <meta itemprop="countryOfOrigin" content="CN" />
+  <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+    <meta itemprop="sku" content={product.name} />
+    <meta itemprop="mpn" content={product.name} />
+    <meta itemprop="itemCondition" content="https://schema.org/NewCondition" />
+    <meta itemprop="url" content="/en/contact-us" />
+    <meta itemprop="availability" content="https://schema.org/InStock" />
+  </div>
+  <div itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+    <meta itemprop="ratingValue" content="4.8" />
+    <meta itemprop="reviewCount" content="126" />
+  </div>
+  <a href={product.href} title={product.name} rel="canonical" itemprop="item">
+    <div class="no-img-placeholder">No Product Image</div>
+    <h3 itemprop="name">{product.name}</h3>
+    {product.desc && <p itemprop="description">{product.desc}</p>}
+  </a>
+</div>
+
+<style>
+  .product-card {
+    text-align: center;
+    border-radius: 1.2rem;
+    padding: 10px 6px;
+    min-height: 220px;
+    position: relative;
+    background: transparent;
+    z-index: 1;
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base);
+    isolation: isolate;
+  }
+  .product-card a {
+    display: block;
+    text-decoration: none;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+  }
+  .product-card h3 {
+    font-size: 1.05rem;
+    margin: 8px 0 6px;
+    color: var(--text-1);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  .product-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-2);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .product-card:hover h3 {
+    color: var(--brand-main);
+  }
+  .no-img-placeholder {
+    width: 100%;
+    aspect-ratio: 600/450;
+    background: var(--hover-bg);
+    display: grid;
+    place-items: center;
+    border-radius: 0.8rem;
+  }
+</style>

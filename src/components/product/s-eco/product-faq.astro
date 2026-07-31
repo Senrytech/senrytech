@@ -1,0 +1,143 @@
+---
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  id?: string;
+  sectionTitle: string;
+  sectionSubtitle?: string;
+  faqList: FaqItem[];
+}
+const { id, sectionTitle, sectionSubtitle, faqList } = Astro.props;
+---
+
+<section class="product-faq" id={id}>
+  <div class="container">
+    <div class="section-header">
+      <h2>{sectionTitle}</h2>
+      {sectionSubtitle && <p class="section-desc">{sectionSubtitle}</p>}
+    </div>
+
+    <div class="faq-wrap">
+      {
+        faqList.map((item, index) => (
+          <div class="faq-item" data-faq>
+            <button class="faq-question">
+              <span>{item.question}</span>
+              <svg class="faq-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">{item.answer}</div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-faq {
+    padding: 5rem 0;
+  }
+  .container {
+    max-width: 1140px;
+    width: calc(100% - 4rem);
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-header h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    color: #163a61;
+    margin: 0 0 0.6rem;
+  }
+  .section-desc {
+    max-width: 800px;
+    margin: 0 auto;
+    color: #525966;
+    line-height: 1.7;
+  }
+
+  .faq-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .faq-item {
+    border: 1px solid #e7ecf2;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    border: none;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    color: #1e293b;
+    font-weight: 500;
+    gap: 1rem;
+  }
+  .faq-item.is-open .faq-question {
+    color: #163a61;
+  }
+  .faq-icon {
+    flex-shrink: 0;
+    transition: transform 0.24s ease;
+  }
+  .faq-item.is-open .faq-icon {
+    transform: rotate(180deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.28s ease;
+  }
+  .faq-item.is-open .faq-answer {
+    max-height: 800px;
+  }
+  .faq-answer-inner {
+    padding: 0 1.4rem 1.2rem;
+    color: #475569;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .product-faq {
+      padding: 3rem 0;
+    }
+    .container {
+      width: calc(100% - 2rem);
+    }
+    .faq-question {
+      padding: 1rem 1.1rem;
+      font-size: 0.95rem;
+    }
+    .faq-answer-inner {
+      padding: 0 1.1rem 1rem;
+    }
+  }
+</style>
+
+<script>
+  const faqItems = document.querySelectorAll<HTMLElement>('[data-faq]');
+  faqItems.forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>('.faq-question');
+    btn?.addEventListener('click', () => {
+      item.classList.toggle('is-open');
+    });
+  });
+</script>

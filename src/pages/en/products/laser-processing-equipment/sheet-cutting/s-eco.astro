@@ -1,0 +1,1045 @@
+---
+import BaseLayout from '../../../../../layouts/baselayout.astro';
+import Breadcrumb from '../../../../../components/breadcrumb.astro';
+import Footer from '../../../../../components/global/footer.astro';
+import { Image } from 'astro:assets';
+
+// ========== ASSETS图片统一导入【长期最优架构】==========
+// Banner大图
+import BannerPc from '/src/assets/images/products/sheet/s-eco/s-eco-banner-pc.webp';
+import BannerMobile from '/src/assets/images/products/sheet/s-eco/s-eco-banner-mobile.webp';
+// 安全围栏板块背景
+import EnclosureBgPc from '/src/assets/images/products/sheet/s-eco/s-eco-safety-enclosure-pc.webp';
+import EnclosureBgMobile from '/src/assets/images/products/sheet/s-eco/s-eco-safety-enclosure-mobile.webp';
+// 抗震动板块背景
+import AntiVibBgPc from '/src/assets/images/products/sheet/s-eco/s-eco-anti-vibration-pc.webp';
+import AntiVibBgMobile from '/src/assets/images/products/sheet/s-eco/s-eco-anti-vibration-mobile.webp';
+// 产品图库
+import ImgSafetyEnclosure from '/src/assets/images/products/sheet/s-eco/safety-enclosure.webp';
+import ImgMachineDetail from '/src/assets/images/products/sheet/s-eco/machine-detail-01.webp';
+import ImgCutSample from '/src/assets/images/products/sheet/s-eco/cutting-sample.webp';
+
+// ==================== 业务基础数据 ====================
+const locale = Astro.currentLocale ?? 'en';
+const siteUrl = Astro.site?.origin ?? 'https://www.senrytech.com';
+const pageSlug = 's-eco-series-fiber-laser-sheet-cutting-machine';
+const productModel = 'S-ECO Series';
+
+const pageTitle = 'S-ECO Series Fiber Laser Sheet Cutting Machine | CE Certified Economical Sheet Metal Laser Cutter for Europe, ASEAN, Middle East';
+const pageDesc =
+  'Senrytech S-ECO economical fiber laser sheet cutter for carbon steel, stainless steel, aluminum and brass. CE certified, stable bus servo drive, 1.0G acceleration, 1.5-3kW laser power, sizes 1313/1325/3015. Ideal for metal workshops in Europe, Southeast Asia, Middle East, North America and South America.';
+const canonicalUrl = `${siteUrl}/${locale}/products/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
+
+// ✅ OG图片注意：OG、社交分享图 必须使用public目录（爬虫无法读取assets打包后的哈希资源）
+const ogImage = `${siteUrl}/images/products/s-eco/s-eco-banner-pc.webp`;
+const preloadImage = ogImage;
+
+const breadcrumbItems = [
+  { label: 'Home', href: `/${locale}/` },
+  { label: 'Fiber Laser Cutters', href: `/${locale}/products/fiber-laser-cutters/` },
+  { label: 'Sheet Metal Laser Cutters', href: `/${locale}/products/fiber-laser-cutters/sheet-cutting/` },
+  { label: `${productModel} Laser Cutting Machine`, href: canonicalUrl },
+];
+
+const productBannerProps = {
+  breadcrumbs: breadcrumbItems,
+  productName: productModel,
+  // 组件如果仍然接收字符串背景路径：后续同步改造product-banner.astro支持传入Image对象；现阶段OG图不变
+  bannerImage: ogImage,
+} as any;
+
+// ✅ 产品图库：全部使用导入的assets图片（页面内渲染，启用Astro图片优化）
+const productImages = [BannerPc, ImgSafetyEnclosure, ImgMachineDetail, ImgCutSample];
+
+const specData = {
+  '1313': { workingArea: '1300×1300mm', laserPower: '1500W - 3000W', maxAcceleration: '1.0G' },
+  '1325': { workingArea: '1300×2500mm', laserPower: '1500W - 3000W', maxAcceleration: '1.0G' },
+  '3015': { workingArea: '3000×1500mm', laserPower: '1500W - 3000W', maxAcceleration: '1.0G' },
+};
+
+const faqList = [
+  {
+    question: 'What metal materials can the S-ECO laser cutting machine process?',
+    answer: 'The S-ECO series cuts carbon steel, stainless steel, aluminum alloy, brass and copper. Max cutting thickness depends on selected laser power from 1.5kW to 6kW.',
+  },
+  {
+    question: 'Is the S-ECO fiber laser machine compliant with international safety standards?',
+    answer: 'Yes. Full enclosed structure with safety light curtain, meets CE laser safety requirements for global metal fabrication factories.',
+  },
+  {
+    question: 'What working sizes are available for S-ECO series?',
+    answer: 'Three formats optional: 1313 (1300×1300mm), 1325 (1300×2500mm), 3015 (3000×1500mm).',
+  },
+  {
+    question: 'What after-sales support can Senrytech provide?',
+    answer: 'Global remote technical support, spare parts supply, installation guidance and operation training for all S-ECO laser cutters.',
+  },
+];
+
+const skuMap = {
+  '1313': 'S-ECO-1313',
+  '1325': 'S-ECO-1325',
+  '3015': 'S-ECO-3015',
+};
+const hsCode = '84561100';
+const targetRegions = ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America'];
+const youtubeVideoUrl = '';
+// 视频缩略图放public（外部爬虫读取）
+const youtubeThumb = `/images/products/s-eco/video-cover.webp`;
+
+// ⚠️ 重要说明：
+// productImages是assets导入对象，无法直接拿到完整外部URL，**Schema产品图片地址统一使用public路径版本用于谷歌爬虫抓取**
+const imageAbsoluteUrls = [
+  `${siteUrl}/images/products/sheet/s-eco/s-eco-banner-pc.webp`,
+  `${siteUrl}/images/products/sheet/s-eco/safety-enclosure.webp`,
+  `${siteUrl}/images/products/sheet/s-eco/machine-detail-01.webp`,
+  `${siteUrl}/images/products/sheet/s-eco/cutting-sample.webp`,
+];
+
+const faqSchemaData = faqList.map((item) => ({
+  '@type': 'Question',
+  name: item.question,
+  acceptedAnswer: {
+    '@type': 'Answer',
+    text: item.answer,
+  },
+}));
+
+const breadcrumbSchemaData = [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/${locale}/` },
+  { '@type': 'ListItem', position: 2, name: 'Fiber Laser Cutters', item: `${siteUrl}/${locale}/products/fiber-laser-cutters/` },
+  { '@type': 'ListItem', position: 3, name: 'Sheet Metal Laser Cutters', item: `${siteUrl}/${locale}/products/fiber-laser-cutters/sheet-cutting/` },
+  { '@type': 'ListItem', position: 4, name: `${productModel} Laser Cutting Machine`, item: `${canonicalUrl}` },
+];
+
+const productSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Senrytech S-ECO Series Fiber Laser Sheet Cutting Machine',
+  description: pageDesc,
+  brand: {
+    '@type': 'Brand',
+    name: 'Senrytech',
+    logo: `${siteUrl}/images/logo/senrytech-logo.webp`,
+  },
+  manufacturer: {
+    '@type': 'Organization',
+    name: 'Senrytech Laser',
+    url: `${siteUrl}/${locale}/`,
+  },
+  image: imageAbsoluteUrls,
+  mpn: 'S-ECO Series',
+  sku: 'S-ECO-SERIES',
+  offers: {
+    '@type': 'AggregateOffer',
+    offerCount: 3,
+    availability: 'https://schema.org/InStock',
+    offerDetails: 'Quotation based on laser power and working area; EXW / FOB trade terms, global shipping available',
+    deliveryLeadTime: '15-25 working days',
+    offers: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'ProductModel',
+          name: 'S-ECO 1313',
+          sku: `${skuMap['1313']}`,
+          mpn: `${skuMap['1313']}`,
+          additionalProperty: [
+            { '@type': 'PropertyValue', name: 'Working Area', value: '1300x1300mm' },
+            { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+          ],
+        },
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'ProductModel',
+          name: 'S-ECO 1325',
+          sku: `${skuMap['1325']}`,
+          mpn: `${skuMap['1325']}`,
+          additionalProperty: [
+            { '@type': 'PropertyValue', name: 'Working Area', value: '1300×2500mm' },
+            { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+          ],
+        },
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'ProductModel',
+          name: 'S-ECO 3015',
+          sku: `${skuMap['3015']}`,
+          mpn: `${skuMap['3015']}`,
+          additionalProperty: [
+            { '@type': 'PropertyValue', name: 'Working Area', value: '3000×1500mm' },
+            { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+          ],
+        },
+        availability: 'https://schema.org/InStock',
+      },
+    ],
+  },
+  additionalProperty: [
+    { '@type': 'PropertyValue', name: 'Max Acceleration', value: '1.0G' },
+    { '@type': 'PropertyValue', name: 'Available Laser Power', value: '1500W - 3000W' },
+    { '@type': 'PropertyValue', name: 'Optional Working Format', value: '1300×1300mm / 1300×2500mm / 3000×1500mm' },
+    { '@type': 'PropertyValue', name: 'HS Code', value: `${hsCode}` },
+    { '@type': 'PropertyValue', name: 'Certification', value: 'CE Standard' },
+    { '@type': 'PropertyValue', name: 'Target Export Regions', value: `${targetRegions.join(', ')}` },
+    { '@type': 'PropertyValue', name: 'Applicable Materials', value: 'Carbon Steel, Stainless Steel, Aluminum Alloy, Brass, Copper' },
+  ],
+};
+
+const videoSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Senrytech S-ECO Series Fiber Laser Cutting Machine Demonstration',
+  description: 'Video display of S-ECO economical laser cutter cutting carbon steel, stainless steel and aluminum sheet metal, showing stable cutting performance.',
+  thumbnailUrl: `${siteUrl}${youtubeThumb}`,
+  uploadDate: '2026-01-10',
+  contentUrl: youtubeVideoUrl,
+  embedUrl: youtubeVideoUrl?.replace('watch?v=', 'embed/') ?? '',
+};
+
+const faqSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqSchemaData,
+};
+
+const breadcrumbSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbSchemaData,
+};
+
+const orgSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Senrytech Laser',
+  legalName: 'Senrytech Laser Equipment Co., Ltd',
+  url: `${siteUrl}/${locale}/`,
+  logo: `${siteUrl}/images/logo/senrytech-logo.webp`,
+  description: 'Professional manufacturer of fiber laser cutting machines for sheet metal processing, supplying equipment worldwide with CE certification.',
+};
+
+const pageSchema = JSON.stringify([productSchemaRaw, faqSchemaRaw, breadcrumbSchemaRaw, orgSchemaRaw, videoSchemaRaw], null, 2);
+
+import ProductStickyNav from '../../../../../components/product/s-eco/product-sticky-nav.astro';
+import ProductBanner from '../../../../../components/product/s-eco/product-banner.astro';
+import ProductSellingPoint from '../../../../../components/product/s-eco/product-selling-point.astro';
+import ProductCuttingPerformance from '../../../../../components/product/s-eco/product-cutting-performance.astro';
+import ProductSafetyEnclosure from '../../../../../components/product/s-eco/product-safety-enclosure.astro';
+import ProductServoData from '../../../../../components/product/s-eco/product-servo-data.astro';
+import ProductAntiVibration from '../../../../../components/product/s-eco/product-anti-vibration.astro';
+import ProductSpecTab from '../../../../../components/product/s-eco/product-spec-tab.astro';
+import ProductCustomerCase from '../../../../../components/product/s-eco/product-customer-case.astro';
+import ProductGallery from '../../../../../components/product/s-eco/product-gallery.astro';
+import ProductRelated from '../../../../../components/product/s-eco/product-related.astro';
+import ProductAftersales from '../../../../../components/product/s-eco/product-after-sales.astro';
+import ProductCertificate from '../../../../../components/product/s-eco/product-certificate.astro';
+import ProductFaq from '../../../../../components/product/s-eco/product-faq.astro';
+import ProductInquireModal from '../../../../../components/product/s-eco/product-inquire-modal.astro';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDesc}
+  lang={locale}
+  canonical={canonicalUrl}
+  geoRegions={['EU', 'AS', 'NA', 'SA', 'ME']}
+  ogImage={ogImage}
+  preloadImage={preloadImage}
+  pageSchema={pageSchema}>
+  <main class="product-detail-page">
+    <ProductStickyNav sections={[]} />
+
+    <!-- 【重点改造】原ProductBanner组件内部CSS背景，后续可同步改造；当前页面内全屏视觉区块全部替换为Image模拟背景 -->
+    <ProductBanner {...productBannerProps} />
+
+    <ProductSellingPoint
+      id="selling-point"
+      title="Why Choose the S-ECO Series"
+      list={[
+        {
+          icon: '/assets/icons/economy.svg',
+          title: 'Economical fiber laser cutting solution',
+          desc: 'For small and medium workshops',
+        },
+        {
+          icon: '/assets/icons/servo.svg',
+          title: 'Stable bus servo drive',
+          desc: '1.0G acceleration for efficient cutting',
+        },
+        {
+          icon: '/assets/icons/safety.svg',
+          title: 'Full enclosed structure',
+          desc: 'CE safety design for reliable operation',
+        },
+        {
+          icon: '/assets/icons/flex.svg',
+          title: 'Flexible working formats',
+          desc: 'From 1313 to 3015 to match different production needs',
+        },
+      ]}
+    />
+    <ProductCuttingPerformance
+      id="cutting-performance"
+      sectionTitle="Cutting Performance"
+      sectionSubtitle="Stable cutting for multiple metal materials"
+      tableHead={['Material', 'Max Thickness']}
+      tableRows={[
+        ['Carbon Steel', '20mm'],
+        ['Stainless Steel', '12mm'],
+        ['Aluminum', '8mm'],
+        ['Brass', '6mm'],
+      ]}
+    />
+
+    <!-- ========== 安全围栏区块｜移除CSS background，使用Image ========== -->
+    <section class="fullscreen-visual" id="safety-enclosure">
+      <div class="bg-layer pc">
+        <Image src={EnclosureBgPc} alt="S-ECO laser safety enclosed cabinet" class="bg-img" sizes="100vw" />
+      </div>
+      <div class="bg-layer mobile">
+        <Image src={EnclosureBgMobile} alt="S-ECO safety enclosure mobile view" class="bg-img" sizes="100vw" />
+      </div>
+      <div class="fullscreen-text">
+        <h2>Safety Enclosure</h2>
+        <p>
+          Comprehensive protection for laser operation. Fully enclosed protective design with CE compliant safety protection, avoid laser radiation risk for workshop operators.
+        </p>
+      </div>
+    </section>
+
+    <ProductServoData
+      {...{
+        title: 'Servo Data',
+        image: BannerPc,
+        dataList: [
+          { label: 'Servo Drive', value: 'Bus servo drive system' },
+          { label: 'Acceleration', value: '1.0G' },
+          { label: 'Motion Control', value: 'Rapid and accurate sheet cutting' },
+        ],
+      } as any}
+    />
+
+    <!-- ========== 抗震动区块｜移除CSS background，使用Image ========== -->
+    <section class="fullscreen-dark-visual">
+      <div class="bg-layer pc">
+        <Image src={AntiVibBgPc} alt="S-ECO rigid anti-vibration machine frame" class="bg-img" sizes="100vw" />
+      </div>
+      <div class="bg-layer mobile">
+        <Image src={AntiVibBgMobile} alt="Anti-vibration structure mobile view" class="bg-img" sizes="100vw" />
+      </div>
+      <div class="dark-text-wrap">
+        <h2>Anti-Vibration Structure</h2>
+        <p>Rigid machine structure for stable cutting, reduced vibration during high-speed operation, improved cut quality and longer equipment service life.</p>
+      </div>
+    </section>
+
+    <ProductSpecTab
+      id="machine-spec"
+      sectionTitle="Technical Specifications"
+      sectionSubtitle="S-ECO Series Parameter List"
+      tabList={[
+        {
+          tabLabel: 'Basic Parameters',
+          tableHead: ['Item', 'Specifications'],
+          tableRows: [
+            ['Laser Power', '1500W - 6000W'],
+            ['Working Area', '3015 / 4020 / 6025'],
+          ],
+        },
+        {
+          tabLabel: 'Performance',
+          tableHead: ['Item', 'Value'],
+          tableRows: [
+            ['Max Speed', '120 m/min'],
+            ['Position Accuracy', '±0.03 mm'],
+          ],
+        },
+      ]}
+    />
+    <ProductCustomerCase
+      {...{
+        sectionTitle: 'Customer Cases',
+        caseList: [
+          {
+            title: 'Small Fabrication Workshop',
+            description: 'Reliable daily cutting for flexible production schedules.',
+          },
+        ],
+      } as any}
+    />
+    <ProductGallery {...{ imageList: productImages } as any} />
+    <ProductRelated sectionTitle="Related Products" productList={[]} />
+    <ProductAftersales
+      {...{
+        sectionTitle: 'After-Sales Support',
+        serviceList: ['Global technical support and maintenance guidance', 'Spare parts supply and installation assistance', 'Operation training and remote troubleshooting'],
+      } as any}
+    />
+    <ProductCertificate
+      id="certificate"
+      sectionTitle="Certificates"
+      sectionSubtitle="Our machine has passed multiple international certifications"
+      certList={[
+        {
+          image: '/images/cert-ce.jpg',
+          title: 'CE Certificate',
+        },
+        {
+          image: '/images/cert-iso.jpg',
+          title: 'ISO Certificate',
+        },
+      ]}
+    />
+    <ProductFaq {...{ faqList, sectionTitle: 'Frequently Asked Questions' } as any} />
+    <Footer locale={locale} />
+  </main>
+
+  <!-- 弹窗组件 -->
+  <product-inquire-modal {productModel} {locale}></product-inquire-modal>
+
+  <!-- 浮动WhatsApp按钮（保留在主页面） -->
+  <a href="https://wa.me/86XXXXXXXXXXX" target="_blank" rel="noopener noreferrer" class="wa-float">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.145-.566.343-.095.197-.66 1.139-.813 1.373-.153.234-.306.263-.57.088-.264-.174-1.11-.41-2.123-1.311-.785-.697-1.317-1.561-1.471-1.825-.154-.265-.016-.409.164-.574.166-.153.367-.39.49-.585.124-.194.166-.347.031-.542-.134-.194-.57-.934-.782-1.287-.212-.353-.424-.306-.57-.312-.146-.006-.311-.006-.476.006-.164.012-.422.063-.644.311-.222.248-.847.827-.847 2.003 0 1.177.87 2.309.994 2.482.124.173 1.749 2.666 4.225 3.734.593.258 1.052.412 1.407.525.595.19 1.139.162 1.563.098.425-.064 1.324-.54 1.51-1.066.186-.526.186-.976.13-1.066-.055-.09-.254-.149-.551-.298M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z">
+      </path>
+    </svg>
+  </a>
+
+  <!-- 第三方swiper资源，保留主页面 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+
+  <!-- 全局统一JS脚本 全部保留在主页面 -->
+  <script is:inline>
+    window.senrytechProductMeta = {
+      series: 'S-ECO',
+      models: ['S-ECO-1313', 'S-ECO-1325', 'S-ECO-3015'],
+      category: 'fiber laser sheet cutting machine',
+      targetRegions: ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America'],
+      hsCode: '84561100',
+      certified: ['CE'],
+    };
+    function throttle(fn, delay = 80) {
+      let last = 0;
+      return (...args) => {
+        const now = Date.now();
+        if (now - last >= delay) {
+          last = now;
+          fn.apply(this, args);
+        }
+      };
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll('.fade-observe').forEach((el) => observer.observe(el));
+
+    document.querySelectorAll('.spec-tabs .tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.spec-tabs .tab-btn').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
+    let gallerySwiperInstance = null;
+    const swiperObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !gallerySwiperInstance) {
+          gallerySwiperInstance = new Swiper('.gallerySwiper', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: { el: '.gallerySwiper .swiper-pagination' },
+            breakpoints: { 768: { slidesPerView: 2 } },
+          });
+        }
+      });
+    });
+    const swiperWrap = document.querySelector('.gallerySwiper');
+    if (swiperWrap) swiperObserver.observe(swiperWrap);
+
+    const modalTrigger = document.querySelectorAll('.modal-trigger');
+    const modalWrap = document.getElementById('modal-inquireNow');
+    const modalClose = document.querySelectorAll('.modal-close');
+    modalTrigger.forEach((btn) => btn.addEventListener('click', () => modalWrap.classList.add('open')));
+    modalClose.forEach((el) => el.addEventListener('click', () => modalWrap.classList.remove('open')));
+
+    document.querySelectorAll('.contact-form').forEach((form) => {
+      form.addEventListener('submit', () => {
+        const urlInput = form.querySelector('.userUrl');
+        if (urlInput) urlInput.value = window.location.href;
+      });
+    });
+
+    const anchorLinks = document.querySelectorAll('.sticky-anchor-nav a');
+    const sections = Array.from(anchorLinks).map((link) => ({ link, section: document.getElementById(link.dataset.target) }));
+    anchorLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.getElementById(link.dataset.target);
+        target?.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+    function setActiveAnchor() {
+      const scrollY = window.scrollY + 150;
+      let current = null;
+      for (const item of sections) {
+        if (!item.section) continue;
+        if (scrollY >= item.section.offsetTop) current = item;
+      }
+      anchorLinks.forEach((a) => a.classList.remove('active'));
+      if (current) current.link.classList.add('active');
+    }
+    const setActiveAnchorThrottled = throttle(setActiveAnchor, 90);
+    window.addEventListener('scroll', setActiveAnchorThrottled);
+    window.addEventListener('load', setActiveAnchor);
+  </script>
+
+  <!-- CSS：彻底删除所有 background-image: url("/src/assets/xxx") -->
+  <style>
+    .banner-wrap {
+      position: relative;
+    }
+    .banner-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.25));
+      pointer-events: none;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 32px;
+      line-height: 46px;
+      color: var(--text-1);
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+    .brand-color {
+      color: var(--brand-light);
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 10px 32px;
+      background: var(--brand-light);
+      color: var(--color-white);
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+      transition: var(--transition-base);
+    }
+    .btn-primary:hover {
+      background: var(--brand-hover);
+    }
+
+    .banner-section {
+      position: relative;
+      height: 900px;
+      min-height: 100svh;
+      overflow: hidden;
+    }
+    /* ==================== 全新：Image充当背景布局样式 ==================== */
+    .bg-layer {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+    .bg-layer.mobile {
+      display: none;
+    }
+    .bg-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .banner-text-wrap {
+      position: absolute;
+      top: 120px;
+      right: 0;
+      width: 100%;
+    }
+    .banner-text {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-left: 24px;
+    }
+    .banner-text h1 {
+      font-size: 80px;
+      color: var(--color-white);
+      font-weight: 700;
+      line-height: 84px;
+      margin-bottom: 12px;
+    }
+    .banner-text h1 strong {
+      color: var(--brand-light);
+    }
+    .banner-text p {
+      color: var(--color-white);
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+    .btn-inquire {
+      padding: 10px 36px;
+      border-radius: var(--radius-full);
+      border: none;
+      background: var(--color-white);
+      color: #111111;
+      font-size: 17px;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+    .btn-inquire:hover {
+      background: var(--brand-light);
+      color: var(--color-white);
+    }
+
+    .selling-point {
+      background: var(--bg-light);
+    }
+    .advantage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .advantage-card {
+      background: var(--color-white);
+      padding: 28px;
+      border-radius: var(--radius-md);
+      min-height: 270px;
+      transition: var(--transition-base);
+    }
+    .advantage-card:hover {
+      box-shadow: 0 8px 20px rgba(192, 199, 218, 0.6);
+    }
+    .card-icon-wrap {
+      width: 52px;
+      height: 52px;
+      background: #f2f4f7;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .advantage-card h3 {
+      font-size: 22px;
+      color: var(--text-1);
+      margin-bottom: 12px;
+    }
+
+    .fullscreen-visual,
+    .fullscreen-dark-visual {
+      position: relative;
+      height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .fullscreen-text,
+    .dark-text-wrap {
+      max-width: 1120px;
+      width: 100%;
+      padding: 0 24px;
+      z-index: 2;
+      position: relative;
+    }
+    .fullscreen-text h2 {
+      text-align: left;
+      color: var(--text-1);
+      margin-bottom: 20px;
+    }
+    .fullscreen-text p {
+      max-width: 62%;
+      text-align: left;
+      color: var(--text-1);
+      font-size: 18px;
+      line-height: 28px;
+      background: rgba(255, 255, 255, 0.25);
+      padding: 32px;
+      border-radius: 12px;
+    }
+    .dark-text-wrap h2 {
+      text-align: left;
+      color: var(--color-white);
+      margin-bottom: 20px;
+    }
+    .dark-text-wrap p {
+      max-width: 62%;
+      text-align: left;
+      color: var(--color-white);
+      font-size: 20px;
+      line-height: 30px;
+    }
+
+    .black-data-block {
+      background: #000;
+      color: var(--color-white);
+    }
+    .black-data-block h2 {
+      color: var(--color-white);
+      text-align: left;
+    }
+    .black-data-block p {
+      text-align: left;
+      max-width: 72%;
+      margin-bottom: 48px;
+    }
+    .data-row {
+      display: flex;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .data-row li {
+      list-style: none;
+    }
+    .data-row h3 {
+      font-size: 48px;
+      color: var(--color-white);
+      margin-bottom: 8px;
+    }
+    .data-image img {
+      width: 100%;
+      border-radius: var(--radius-md);
+    }
+
+    .spec-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 11px 26px;
+      border: 1px solid #c9c9c9;
+      background: var(--color-white);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: var(--transition-base);
+      font-size: 16px;
+    }
+    .tab-btn.active {
+      background: var(--brand-light);
+      color: var(--color-white);
+      border-color: var(--brand-light);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    table {
+      width: min(920px, 100%);
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    table td {
+      border: 1px solid #e4e4e4;
+      padding: 16px 20px;
+      font-size: 16px;
+    }
+    table tr:nth-child(odd) {
+      background: #f8f9fb;
+    }
+
+    .gallery-img-item img {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+    }
+    .related-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .related-item img {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+    }
+    .link-more {
+      color: var(--brand-light);
+      display: inline-block;
+      margin-top: 10px;
+      text-decoration: none;
+    }
+
+    /* FAQ样式 */
+    .faq-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border: 1px solid #e5e7eb;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      background: var(--color-white);
+    }
+    .faq-item summary {
+      padding: 16px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-1);
+      list-style: none;
+    }
+    .faq-item p {
+      padding: 0 20px 16px;
+    }
+
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-wrap.open {
+      display: flex;
+    }
+    .modal-shade {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+    }
+    .modal-box {
+      position: relative;
+      background: var(--color-white);
+      border-radius: var(--radius-md);
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      color: var(--text-3);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--text-1);
+    }
+    .form-control {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #e5e6eb;
+      border-radius: var(--radius-sm);
+      background: var(--bg-light);
+      font-size: 15px;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--brand-light);
+      box-shadow: 0 0 0 1.5px rgba(35, 87, 143, 0.22);
+    }
+    .form-terms {
+      margin: 24px 0;
+    }
+    .form-submit {
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    .sticky-anchor-nav {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 99;
+    }
+    .sticky-anchor-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sticky-anchor-nav a {
+      display: block;
+      padding: 6px 14px;
+      color: var(--text-3);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: var(--transition-base);
+    }
+    .sticky-anchor-nav a.active {
+      color: var(--brand-light);
+      border-left-color: var(--brand-light);
+    }
+
+    /* Banner内面包屑样式 */
+    .banner-breadcrumb {
+      position: absolute;
+      top: 24px;
+      left: 0;
+      width: 100%;
+      z-index: 3;
+    }
+    .banner-breadcrumb .container {
+      max-width: 1120px;
+      padding: 0 24px;
+      margin: 0 auto;
+    }
+    .banner-breadcrumb a,
+    .banner-breadcrumb span {
+      color: var(--color-white) !important;
+    }
+    .banner-breadcrumb a:hover {
+      color: var(--brand-light) !important;
+    }
+
+    .placeholder-notice {
+      color: var(--text-3);
+      font-style: italic;
+      padding: 32px;
+      border: 1px dashed #ccc;
+      text-align: center;
+      border-radius: var(--radius-sm);
+    }
+    .cutting-table-wrap,
+    .case-grid,
+    .cert-gallery {
+      margin-top: 24px;
+    }
+
+    /* 移动端适配 */
+    @media screen and (max-width: 1024px) {
+      .banner-text h1 {
+        font-size: 52px;
+        line-height: 1.2;
+      }
+      .advantage-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sticky-anchor-nav {
+        display: none;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      h2 {
+        font-size: 26px;
+      }
+      /* 移动端切换移动端图片 */
+      .bg-layer.pc {
+        display: none;
+      }
+      .bg-layer.mobile {
+        display: block;
+      }
+      .banner-section {
+        height: auto;
+        min-height: 100svh;
+      }
+      .banner-text-wrap {
+        top: auto;
+        bottom: 60px;
+      }
+      .banner-text h1 {
+        font-size: 36px;
+      }
+      .advantage-grid {
+        grid-template-columns: 1fr;
+      }
+      .fullscreen-visual,
+      .fullscreen-dark-visual {
+        height: auto;
+        min-height: unset;
+        padding: 120px 0;
+      }
+      .fullscreen-text p,
+      .dark-text-wrap p,
+      .black-data-block p {
+        max-width: 100%;
+      }
+      .data-row {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .modal-box {
+        padding: 24px;
+      }
+      .banner-breadcrumb {
+        top: 16px;
+      }
+    }
+    .cutting-performance__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .cutting-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .cutting-table th,
+    .cutting-table td {
+      border: 1px solid #e2e8f0;
+      padding: 14px 10px;
+      text-align: center;
+    }
+    .cutting-table th {
+      background-color: #163a61;
+      color: #fff;
+    }
+    .cutting-table tbody tr:nth-child(even) {
+      background-color: #f7f9fc;
+    }
+
+    /* 移动端切换单列 */
+    @media (max-width: 768px) {
+      .cutting-performance__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

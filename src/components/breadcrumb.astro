@@ -1,0 +1,140 @@
+---
+// Breadcrumb.astro
+export interface CrumbItem {
+  label: string;
+  url?: string;
+}
+
+interface Props {
+  items: CrumbItem[];
+  class?: string; // 新增
+}
+
+const { items } = Astro.props;
+
+interface SchemaListItem {
+  "@type": "ListItem";
+  position: number;
+  name: string;
+  item?: string;
+}
+
+const breadcrumbSchemaItems: SchemaListItem[] = items.map((item, idx) => {
+  const itemData: SchemaListItem = {
+    "@type": "ListItem",
+    position: idx + 1,
+    name: item.label,
+  };
+  if (item.url) {
+    itemData.item = new URL(item.url, Astro.site).href;
+  }
+  return itemData;
+});
+---
+
+<nav aria-label="Breadcrumb navigation" class="breadcrumb-wrap">
+  <ol class="breadcrumb-list">
+    {items.map((item) => (
+      <li class="breadcrumb-item">
+        {item.url ? (
+          <a href={item.url} class="breadcrumb-link">{item.label}</a>
+        ) : (
+          <span class="breadcrumb-current">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": {breadcrumbSchemaItems}
+}
+</script>
+
+<style>
+.breadcrumb-wrap {
+  width: 100%;
+  padding: 16px 24px;
+  max-width: 1400px;
+  margin-inline: auto;
+  background: rgba(255, 255, 255, 0.02);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+.breadcrumb-item:not(:last-child)::after {
+  content: "/";
+  color: var(--text-3);
+  user-select: none;
+  margin-inline: 10px;
+}
+
+.breadcrumb-link {
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color var(--transition-base);
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.breadcrumb-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: var(--brand-main);
+  transition: width var(--transition-base);
+}
+
+.breadcrumb-link:hover {
+  color: var(--brand-main);
+}
+.breadcrumb-link:hover::after {
+  width: 100%;
+}
+
+.breadcrumb-current {
+  color: var(--text-1);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+@media screen and (max-width: 768px) {
+  .breadcrumb-wrap {
+    padding: 12px 16px;
+  }
+  .breadcrumb-list {
+    font-size: 0.8rem;
+  }
+  .breadcrumb-link,
+  .breadcrumb-current {
+    max-width: 160px;
+  }
+}
+</style>

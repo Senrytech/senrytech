@@ -1,0 +1,299 @@
+---
+interface Props {
+  locale: string;
+}
+const { locale } = Astro.props;
+const isEn = locale.startsWith('en');
+---
+
+<section class="home-faq-inquiry" aria-labelledby="faq-heading">
+  <div class="container">
+    <h2 id="faq-heading" class="section-heading">Frequently Asked Questions & Inquiry</h2>
+    <div class="inquiry-wrap">
+      <!-- 左侧FAQ：增加标准FAQPage结构化标记 -->
+      <div class="inquiry-faq" itemscope itemtype="https://schema.org/FAQPage">
+        <div class="faq-list">
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="faq-question">
+              <span itemprop="name">Do you offer export service to Ecuador, Peru, Brazil?</span>
+              <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p itemprop="text">
+                We provide complete export solutions for South America, including Ecuador, Peru, Brazil, Indonesia. We support Spanish, English and Portuguese communication for
+                local metal fabrication customers.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="faq-question">
+              <span itemprop="name">What’s your lead time for fiber laser cutting machine?</span>
+              <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p itemprop="text">Standard 1500W~12kW machine: 15~25 working days. High power 20kW~40kW heavy laser cutter: 30~45 working days.</p>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="faq-question">
+              <span itemprop="name">What support do you provide after delivery?</span>
+              <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p itemprop="text">
+                24/7 multilingual remote technical support, operation manual, video training and spare parts supply. We do not provide local on-site service in overseas countries.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="faq-question">
+              <span itemprop="name">Can I customize laser power and working size?</span>
+              <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p itemprop="text">
+                Custom power, exchange table, working area and cutting accessories are available. Our engineer can design matched configuration according to your processing
+                drawings.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="faq-question">
+              <span itemprop="name">How to get official quotation with shipping cost?</span>
+              <svg class="faq-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+            <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+              <p itemprop="text">
+                Send your max cutting thickness, material type, required production output and destination port. We will calculate complete machine price + sea freight quotation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧表单 -->
+      <div class="inquiry-form-wrap">
+        <h3>Get Your Custom Quotation</h3>
+        <p>Share your metal processing requirements, our engineer will send matched machine & price plan.</p>
+        <form class="inquiry-form" action="#" method="POST">
+          <div class="form-row">
+            <input type="text" name="name" placeholder="Your Full Name" required />
+          </div>
+          <div class="form-row">
+            <input type="text" name="processing" placeholder="Metal Processing Needs" required />
+          </div>
+          <div class="form-row">
+            <input type="email" name="email" placeholder="Your Email Address" required />
+          </div>
+          <button type="submit" class="btn-primary">Request Quotation</button>
+        </form>
+        <div class="whatsapp-quick">
+          <a href="https://wa.me/xxxxxxxxx" target="_blank" rel="noopener noreferrer">Contact via WhatsApp Directly</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.querySelector('.home-faq-inquiry');
+    if (!section) return;
+    const faqItems = section.querySelectorAll('.faq-item');
+
+    faqItems.forEach((item) => {
+      const btn = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      if (!btn || !answer) return;
+
+      btn.addEventListener('click', () => {
+        const isCurrentOpen = item.classList.contains('open');
+
+        // 互斥：先关闭所有
+        faqItems.forEach((i) => i.classList.remove('open'));
+
+        // 如果当前点击条目本来就是打开状态 → 全部关闭；否则打开当前
+        if (!isCurrentOpen) {
+          item.classList.add('open');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .home-faq-inquiry {
+    padding: clamp(64px, 6vw, 96px) 0;
+  }
+  .home-faq-inquiry .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .section-heading {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin: 0 0 32px;
+    font-weight: 600;
+    color: var(--text-1);
+  }
+  .inquiry-wrap {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    align-items: stretch; /* 重点：高度自动对齐 */
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    border: var(--border-light);
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    overflow: hidden;
+    transition: background var(--transition-base);
+  }
+  .faq-item:hover {
+    background: var(--hover-bg);
+  }
+  .faq-item.open {
+    background: var(--hover-bg);
+  }
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-1);
+  }
+  .faq-arrow {
+    transition: transform var(--transition-base);
+  }
+  .faq-item.open .faq-arrow {
+    transform: rotate(180deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-base);
+  }
+  .faq-item.open .faq-answer {
+    max-height: 320px;
+  }
+  .faq-answer p {
+    margin: 0;
+    padding: 0 24px 20px 24px; /* 左右和标题padding对齐 */
+    color: var(--text-2);
+    line-height: 1.65;
+  }
+
+  /* 右侧表单容器增加背景区块，平衡视觉重量 */
+  .inquiry-form-wrap {
+    background: var(--grad-apple-mid);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+  .inquiry-form-wrap h3 {
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    margin: 0 0 12px;
+    color: var(--text-1);
+  }
+  .inquiry-form-wrap p {
+    color: var(--text-2);
+    margin: 0 0 24px;
+  }
+  .inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+  }
+  .form-row input {
+    width: 100%;
+    padding: 16px;
+    border: var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--card-bg);
+    font-size: 1rem;
+    color: var(--text-1);
+    transition: border-color var(--transition-base);
+  }
+  .form-row input:focus {
+    outline: none;
+    border-color: var(--brand-main);
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: var(--brand-main);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background var(--transition-base),
+      transform var(--transition-base);
+    margin-top: 8px;
+  }
+  .btn-primary:hover {
+    background: var(--brand-light);
+    transform: translateY(-3px);
+  }
+  .whatsapp-quick {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .whatsapp-quick a {
+    color: var(--brand-main);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+  .whatsapp-quick a:hover {
+    color: var(--brand-light);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .inquiry-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 768px) {
+    .faq-question {
+      padding: 16px 20px;
+    }
+    .faq-answer p {
+      padding: 0 20px 16px;
+    }
+    .inquiry-form-wrap {
+      padding: 28px 24px;
+    }
+  }
+</style>

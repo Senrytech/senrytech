@@ -1,0 +1,129 @@
+---
+export interface Props {
+  breadcrumbs: {
+    label: string;
+    href: string;
+  }[];
+  productName: string;
+  subTitle?: string;
+  bannerImage: string;
+}
+const { breadcrumbs, productName, subTitle, bannerImage } = Astro.props;
+---
+
+<section class="product-banner">
+  <div class="banner-bg">
+    <img src={bannerImage} alt="Banner" />
+  </div>
+  <div class="banner-container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        {
+          breadcrumbs.map((item, idx) => (
+            <li>
+              {idx === breadcrumbs.length - 1 ? <span>{item.label}</span> : <a href={item.href}>{item.label}</a>}
+              {idx !== breadcrumbs.length - 1 && <span class="sep">/</span>}
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <div class="banner-text">
+      <h1>{productName}</h1>
+      {subTitle && <p class="banner-sub">{subTitle}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-banner {
+    position: relative;
+    width: 100%;
+    height: clamp(320px, 35vh, 480px);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .banner-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+  .banner-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .banner-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.25) 55%, transparent);
+  }
+
+  .banner-container {
+    position: relative;
+    z-index: 2;
+    width: min(1440px, calc(100% - 4rem));
+    margin: 0 auto;
+    padding-bottom: 3rem;
+  }
+
+  .breadcrumb ol {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 0 1.2rem;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #e2e8f0;
+  }
+  .breadcrumb a {
+    color: #cbd5e1;
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  .breadcrumb .sep {
+    opacity: 0.65;
+  }
+  .breadcrumb span {
+    color: #ffffff;
+  }
+
+  .banner-text h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  .banner-sub {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    margin: 0.6rem 0 0;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .product-banner {
+      height: clamp(260px, 32vh, 360px);
+    }
+    .banner-container {
+      width: calc(100% - 2rem);
+      padding-bottom: 2rem;
+    }
+    .breadcrumb ol {
+      font-size: 0.82rem;
+    }
+    .banner-sub {
+      font-size: 0.95rem;
+    }
+  }
+</style>
