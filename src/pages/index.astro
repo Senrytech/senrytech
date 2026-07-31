@@ -8,21 +8,32 @@ import GlobalCustomerCases from '../components/home/global-customer-cases.astro'
 import HomeTechFAQInquiry from '../components/home/faq-inquiry.astro';
 import Footer from '../components/global/footer.astro';
 import BreadCrumb from '../components/breadcrumb.astro';
+import { buildNavHref } from '../lib/nav-base.ts';
 
-const locale = Astro.currentLocale ?? 'en';
+// 修复locale类型报错
+// 原写法删掉，改用这个
+const locale: string = Astro.currentLocale ?? 'en';
 const siteUrl = Astro.site?.origin ?? 'https://www.senrytech.com';
 
-// 页面元数据
+// 统一路由【只在这里维护路径】
+const pathSheetCut = 'laser-processing-equipment/sheet-cutting';
+const pathSheetTube = 'laser-processing-equipment/sheet-tube';
+const pathWelding = 'laser-processing-equipment/welding';
+const pathContact = 'contact-us';
+
+// 生成字符串链接，规避URL类型冲突
+const urlSheetCut = buildNavHref(locale, pathSheetCut);
+const urlSheetTube = buildNavHref(locale, pathSheetTube);
+const urlWelding = buildNavHref(locale, pathWelding);
+const urlContact = buildNavHref(locale, pathContact);
+
 const pageTitle = 'Senrytech Laser | Fiber Laser Cutting & Welding Machine Manufacturer | Export to Ecuador, Peru, Saudi Arabia, UAE';
 const pageDesc =
   'Jinan factory supply 1.5kW–40kW fiber laser cutters, tube laser machines & 4-in-1 handheld laser welders. Export metal laser equipment to Ecuador, Peru, Colombia, Saudi Arabia, UAE, Egypt. Request factory quotation.';
 const pageOgImage = new URL('/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp', siteUrl).href;
 const targetCountryCodes = ['EC', 'PE', 'CO', 'ES', 'SA', 'AE', 'EG'];
-
-// 【预留LCP预加载图片，图片就绪解除注释】
 const lcpImageSrc = '/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp';
 
-// 页面专属结构化JSON-LD
 const pageSchemaData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -93,9 +104,9 @@ const pageSchemaData = {
           position: 1,
           item: {
             '@type': 'Product',
-            '@id': `${siteUrl}/en/products/sheet-cutting#product`,
+            '@id': new URL(urlSheetCut, siteUrl).href + '#product',
             name: 'High Precision Fiber Laser Sheet Cutting Machine',
-            inLanguage: 'en',
+            inLanguage: locale,
             description: 'Factory direct supply 1000W–30000W metal laser cutting machine for carbon steel, stainless steel, aluminum alloy.',
             model: 'SEN-FC Series',
             productCategory: 'Fiber Laser Sheet Cutting Machine',
@@ -104,7 +115,7 @@ const pageSchemaData = {
             image: new URL('/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp', siteUrl).href,
             offers: {
               '@type': 'Offer',
-              url: new URL('/en/products/sheet-cutting', siteUrl).href,
+              url: new URL(urlSheetCut, siteUrl).href,
               availability: 'https://schema.org/InStock',
               itemCondition: 'https://schema.org/NewCondition',
             },
@@ -115,9 +126,9 @@ const pageSchemaData = {
           position: 2,
           item: {
             '@type': 'Product',
-            '@id': `${siteUrl}/en/products/tube-cutting#product`,
+            '@id': new URL(urlSheetTube, siteUrl).href + '#product',
             name: 'Sheet & Tube Integrated Fiber Laser Cutting Machine',
-            inLanguage: 'en',
+            inLanguage: locale,
             description: 'Multi-functional laser equipment for flat plates, round tubes, square and rectangular profiles, save factory space and investment cost.',
             model: 'SEN-FCT Series',
             productCategory: 'Plate & Tube Laser Cutter',
@@ -126,7 +137,7 @@ const pageSchemaData = {
             image: new URL('/assets/images/banner/sheet-tube-laser-cutter-saudi-uae-egypt-export.webp', siteUrl).href,
             offers: {
               '@type': 'Offer',
-              url: new URL('/en/products/sheet-tube', siteUrl).href,
+              url: new URL(urlSheetTube, siteUrl).href,
               availability: 'https://schema.org/InStock',
               itemCondition: 'https://schema.org/NewCondition',
             },
@@ -137,9 +148,9 @@ const pageSchemaData = {
           position: 3,
           item: {
             '@type': 'Product',
-            '@id': `${siteUrl}/en/products/welding#product`,
+            '@id': new URL(urlWelding, siteUrl).href + '#product',
             name: 'Handheld Fiber Laser Welding Machine',
-            inLanguage: 'en',
+            inLanguage: locale,
             description: 'All-in-one 4-in-1 laser machine for welding, cleaning, cutting & rust removal, easy operation for small metal workshops.',
             model: 'SEN-HW4 Series',
             productCategory: 'Portable Handheld Laser Welder',
@@ -148,7 +159,7 @@ const pageSchemaData = {
             image: new URL('/assets/images/banner/handheld-4in1-laser-welder-global-export-factory.webp', siteUrl).href,
             offers: {
               '@type': 'Offer',
-              url: new URL('/en/products/welding', siteUrl).href,
+              url: new URL(urlWelding, siteUrl).href,
               availability: 'https://schema.org/InStock',
               itemCondition: 'https://schema.org/NewCondition',
             },
@@ -182,9 +193,9 @@ const pageSchemaData = {
           title: 'High Precision Fiber Laser Sheet Cutter',
           desc: 'Factory direct supply 1000W–30000W metal laser cutting machine for carbon steel, stainless steel, aluminum alloy.',
           btnPrimaryText: 'View Products',
-          btnPrimaryHref: '/en/products/sheet-cutting',
+          btnPrimaryHref: urlSheetCut,
           btnOutlineText: 'Get Quote',
-          btnOutlineHref: '/en/contact-us',
+          btnOutlineHref: urlContact,
           targetRegion: 'Ecuador,Peru,Colombia,Spain',
           productModel: 'SEN-FC Series',
           productCategory: 'Fiber Laser Sheet Cutting Machine',
@@ -195,9 +206,9 @@ const pageSchemaData = {
           title: 'Sheet & Tube Integrated Laser Cutting Machine',
           desc: 'One machine processes flat sheets, round, square and rectangular tubes, lower investment and workshop occupancy.',
           btnPrimaryText: 'View Products',
-          btnPrimaryHref: '/en/products/sheet-tube',
+          btnPrimaryHref: urlSheetTube,
           btnOutlineText: 'Get Quote',
-          btnOutlineHref: '/en/contact-us',
+          btnOutlineHref: urlContact,
           targetRegion: 'Saudi Arabia,UAE,Egypt',
           productModel: 'SEN-FCT Series',
           productCategory: 'Plate & Tube Laser Cutting Machine',
@@ -208,9 +219,9 @@ const pageSchemaData = {
           title: '4-in-1 Handheld Fiber Laser Welder',
           desc: 'Integrated welding, cleaning, cutting & rust removal, simple operation for small metal fabrication factories.',
           btnPrimaryText: 'View Products',
-          btnPrimaryHref: '/en/products/welding',
+          btnPrimaryHref: urlWelding,
           btnOutlineText: 'Get Quote',
-          btnOutlineHref: '/en/contact-us',
+          btnOutlineHref: urlContact,
           productModel: 'SEN-HW4 Series',
           productCategory: 'Handheld Fiber Laser Welding Machine',
         },

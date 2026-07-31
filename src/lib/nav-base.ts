@@ -34,7 +34,7 @@ export function nameToImgSlug(name: string): string {
  * @param rawPath 基础路径（不带 /en/）
  * @returns 完整路由 href
  */
-export function buildNavHref(locale: ValidLocale, rawPath: string): string {
+export function buildNavHref(locale: string | ValidLocale, rawPath: string): string {
   return `/${locale}/${rawPath}`.replace(/\/+/g, '/');
 }
 

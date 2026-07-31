@@ -3,10 +3,8 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   output: 'static',
-  // =====【预览 senrytech 仓库启用】=====
-  base: '/senrytech/',
-  site: 'https://senrytech.github.io/senrytech/',
-  // =====【本地开发 / 正式上线时删除上面两行】=====
+  // base: '/senrytech/', //本地开发永久注释
+  site: 'https://senrytech.com',
   trailingSlash: 'always',
   i18n: {
     defaultLocale: 'en',

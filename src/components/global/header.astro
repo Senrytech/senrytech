@@ -104,11 +104,7 @@ const siteUrl1 = Astro.site?.href ?? import.meta.env.SITE ?? 'https://senrytech.
                                           </div>
                                           <div itemscope itemtype="https://schema.org/ListItem">
                                             <meta itemprop="position" content={String(idx + 1)} />
-                                            <a
-                                              href={pro.href}
-                                              title={`${item.label} ${pro.name} industrial metal processing machine`}
-                                              rel="prefetch noopener canonical"
-                                              itemprop="item">
+                                            <a href={pro.href} title={`${item.label} ${pro.name} industrial metal processing machine`} rel="prefetch noopener canonical">
                                               {targetImg ? (
                                                 <Image src={targetImg} alt={pro.name} width={600} height={450} quality={85} itemprop="image" />
                                               ) : (
@@ -124,8 +120,9 @@ const siteUrl1 = Astro.site?.href ?? import.meta.env.SITE ?? 'https://senrytech.
                                                   No Product Image
                                                 </div>
                                               )}
-                                              <h3 itemprop="name">{pro.name}</h3>
-                                              {pro.desc && <p itemprop="description">{pro.desc}</p>}
+                                              {/* 移除h3/p上的 itemprop，避免跨scope属性冲突 */}
+                                              <h3>{pro.name}</h3>
+                                              {pro.desc && <p>{pro.desc}</p>}
                                             </a>
                                           </div>
                                         </div>

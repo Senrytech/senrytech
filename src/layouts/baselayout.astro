@@ -10,46 +10,44 @@ interface Props {
   ogImage?: string;
   preloadImage?: string;
 }
-const { title, description, canonical, lang = Astro.currentLocale ?? 'en', geoRegions = [], geoKeywords = [], pageSchema = '', ogImage, preloadImage } = Astro.props;
+const { title, description, canonical, lang, geoRegions = [], geoKeywords = [], pageSchema = '', ogImage, preloadImage } = Astro.props;
 
 const currentLocale = Astro.currentLocale ?? 'en';
 const regionCodeList = geoRegions.join(',');
 const factoryPosition = '36.6663;117.0702';
 const geoPlaceName = 'Jinan, Shandong, China';
-
 const baseUrl = Astro.site ? String(Astro.site).replace(/\/$/, '') : '';
 
-// 剥离语言前缀，获取纯净路由路径
-const stripLocalePrefix = (path: string, locale: string) => {
-  const prefix = `/${locale}`;
-  if (path === prefix) return '/';
-  return path.startsWith(`${prefix}/`) ? path.slice(prefix.length) : path;
+const getRelativeUrl = (path: string) => {
+  const i18n = (Astro as typeof Astro & { i18n?: { getRelativeUrl?: (path: string) => string } }).i18n;
+  return i18n?.getRelativeUrl?.(path) ?? path;
 };
-const cleanPath = stripLocalePrefix(Astro.url.pathname, currentLocale);
 
-// Canonical 链接生成
-const pageCanonicalUrl = canonical && canonical.trim() ? canonical : `${baseUrl}/${currentLocale}${cleanPath}`;
-const xDefaultUrl = `${baseUrl}/en${cleanPath}`;
+// 生成相对路径时优先使用 Astro i18n API；若当前类型不包含该接口则回退到原始路径
+const cleanPath = getRelativeUrl(Astro.url.pathname);
 
-// Website Schema
+// Canonical 优先使用传入值，否则自动生成标准地址
+const pageCanonicalUrl = canonical?.trim() || `${baseUrl}${Astro.url.pathname}`;
+const xDefaultUrl = `${baseUrl}${getRelativeUrl('/en' + cleanPath)}`;
+
+// RTL 文字方向
+const htmlDir = currentLocale === 'ar' ? 'rtl' : 'ltr';
+
+// 和 astro.config.mjs i18n.locales 完全一一对应，禁止简写！
+const langCodes = ['ar', 'de', 'en', 'es', 'fr', 'ru', 'zh-CN'] as const;
+
 const websiteSchema = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   '@id': `${pageCanonicalUrl}#website`,
   name: 'Senrytech Laser',
-  url: currentLocale === 'en' ? `${baseUrl}/` : `${baseUrl}/${currentLocale}/`,
+  url: currentLocale === 'en' ? `${baseUrl}/en/` : `${baseUrl}/${currentLocale}/`,
   potentialAction: {
     '@type': 'SearchAction',
-    target: currentLocale === 'en' ? `${baseUrl}/search?q={search_term_string}` : `${baseUrl}/${currentLocale}/search?q={search_term_string}`,
+    target: currentLocale === 'en' ? `${baseUrl}/en/search?q={search_term_string}` : `${baseUrl}/${currentLocale}/search?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 });
-
-// RTL 文字方向
-const htmlDir = currentLocale === 'ar' ? 'rtl' : 'ltr';
-
-// 支持语种列表
-const langCodes = ['en', 'zh', 'de', 'es', 'fr', 'ru', 'ar'] as const;
 
 import Header from '../components/global/header.astro';
 import '../styles/global.css';
