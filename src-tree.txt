@@ -1,0 +1,265 @@
+卷 闪迪 的文件夹 PATH 列表
+卷序列号为 00000202 1085:9D3B
+G:\GITHUB\SENRYTECH\SRC
++---assets
+|   +---fonts
+|   \---images
+|       +---banner
+|       |       fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp
+|       |       handheld-4in1-laser-welder-global-export-factory.webp
+|       |       sheet-tube-laser-cutter-saudi-uae-egypt-export.webp
+|       |       
+|       +---blog
+|       +---case
+|       |       argentina-factory.webp
+|       |       brazil-heavy-plate.webp
+|       |       ecuador-fabrication.webp
+|       |       indonesia-tube.webp
+|       |       peru-mining.webp
+|       |       
+|       +---global
+|       |       senrytech-logo.svg
+|       |       
+|       +---icon
+|       +---products
+|       |   +---pipe-cutting
+|       |   \---sheet
+|       |       |   senrytech-s-c.png
+|       |       |   senrytech-s-cpromax.png
+|       |       |   senrytech-s-eco.png
+|       |       |   senrytech-s-g.png
+|       |       |   senrytech-s-m.png
+|       |       |   senrytech-s-plus.png
+|       |       |   senrytech-s-pro.png
+|       |       |   senrytech-s-promax.png
+|       |       |   senrytech-s-s.png
+|       |       |   senrytech-s-ultra.png
+|       |       |   snerytech-s-cpromax.png
+|       |       |   
+|       |       \---s-eco
+|       |               cutting-sample.webp
+|       |               machine-detail-01.webp
+|       |               s-eco-anti-vibration-mobile.webp
+|       |               s-eco-anti-vibration-pc.webp
+|       |               s-eco-banner-mobile.webp
+|       |               s-eco-banner-pc.webp
+|       |               s-eco-machine-overview.webp
+|       |               s-eco-safety-enclosure-mobile.webp
+|       |               s-eco-safety-enclosure-pc.webp
+|       |               safety-enclosure copy 3.webp
+|       |               safety-enclosure copy 4.webp
+|       |               safety-enclosure.webp
+|       |               
+|       \---tech
+|               heavy-plate-cutting.webp
+|               
++---components
+|   |   breadcrumb.astro
+|   |   
+|   +---global
+|   |       footer.astro
+|   |       header.astro
+|   |       
+|   +---home
+|   |       banner-carousel.astro
+|   |       faq-inquiry.astro
+|   |       global-customer-cases.astro
+|   |       global-market-solutions.astro
+|   |       home-product-tab-slider.astro
+|   |       home-tech-advantage.astro
+|   |       
+|   +---industry-solutions
+|   +---islands
+|   |       gallery-swiper.astro
+|   |       
+|   +---laser-processing-equipment
+|   +---page-block
+|   +---product
+|   |   |   product-card.astro
+|   |   |   
+|   |   \---s-eco
+|   |           product-after-sales.astro
+|   |           product-anti-vibration.astro
+|   |           product-banner.astro
+|   |           product-certificate.astro
+|   |           product-customer-case.astro
+|   |           product-cutting-performance.astro
+|   |           product-faq.astro
+|   |           product-gallery.astro
+|   |           product-inquire-modal.astro
+|   |           product-related.astro
+|   |           product-safety-enclosure.astro
+|   |           product-selling-point.astro
+|   |           product-servo-data.astro
+|   |           product-spec-tab.astro
+|   |           product-sticky-nav.astro
+|   |           
+|   +---resources
+|   +---schema
+|   |       navschema.astro
+|   |       
+|   +---seo
+|   |       hreflang-links.astro
+|   |       meta-auto.astro
+|   |       schema-article.astro
+|   |       schema-breadcrumb.astro
+|   |       schema-faq.astro
+|   |       schema-how-to.astro
+|   |       schema-product.astro
+|   |       
+|   \---ui
++---content
+|   +---blog
+|   +---faq
+|   +---process-guides
+|   +---product
+|   \---solutions
++---data
+|   \---product
+|           s-eco.data.js
+|           
++---i18n
+|   +---navigation
+|   |       ar.ts
+|   |       de.ts
+|   |       en.ts
+|   |       es.ts
+|   |       fr.ts
+|   |       nav.ts
+|   |       ru.ts
+|   |       zh-CN.ts
+|   |       
+|   \---pages
+|       +---auxiliary
+|       |       en.json
+|       |       
+|       +---clean
+|       |       en.json
+|       |       
+|       +---form
+|       |       en.json
+|       |       
+|       +---home
+|       +---mark
+|       |       en.json
+|       |       
+|       +---multi
+|       |       en.json
+|       |       
+|       +---product-sheet
+|       |       en.json
+|       |       
+|       +---product-tube
+|       |       en.json
+|       |       
+|       +---st
+|       |       en.json
+|       |       
+|       \---weld
+|               en.json
+|               
++---layouts
+|       baselayout.astro
+|       
++---lib
+|       i18n-loader.ts
+|       i18n-nav-builder.ts
+|       nav-base.ts
+|       seo.ts
+|       
++---pages
+|   |   index.astro
+|   |   
+|   +---about-senrytech
+|   |   |   index.astro
+|   |   |   
+|   |   +---certifications
+|   |   |       index.astro
+|   |   |       
+|   |   +---company-profile
+|   |   |       index.astro
+|   |   |       
+|   |   \---factory-strength
+|   |           index.astro
+|   |           
+|   +---complete-production-line
+|   |   |   index.astro
+|   |   |   
+|   |   +---product-auxiliary
+|   |   +---product-form
+|   |   \---product-multi
+|   +---contact-support
+|   |   |   index.astro
+|   |   |   
+|   |   +---after-sales
+|   |   |       index.astro
+|   |   |       
+|   |   +---contact-us
+|   |   |       index.astro
+|   |   |       
+|   |   \---faq
+|   |           index.astro
+|   |           
+|   +---industry-solutions
+|   |   |   index.astro
+|   |   |   
+|   |   +---advertising-engraving
+|   |   |       index.astro
+|   |   |       
+|   |   +---agri-machinery
+|   |   |       index.astro
+|   |   |       
+|   |   +---automotive-cutting
+|   |   |       index.astro
+|   |   |       
+|   |   +---construction-machinery
+|   |   |       index.astro
+|   |   |       
+|   |   \---kitchenware-solution
+|   |           index.astro
+|   |           
+|   +---laser-industry-insight
+|   |   |   index.astro
+|   |   |   
+|   |   +---customer-cases
+|   |   |       index.astro
+|   |   |       
+|   |   +---industry-news
+|   |   |       index.astro
+|   |   |       
+|   |   \---tech-articles
+|   |           index.astro
+|   |           
+|   +---laser-knowledge
+|   |   |   index.astro
+|   |   |   
+|   |   +---buying-guides
+|   |   |       index.astro
+|   |   |       
+|   |   +---manuals-downloads
+|   |   |       index.astro
+|   |   |       
+|   |   \---specs-advantages
+|   |           index.astro
+|   |           
+|   \---laser-processing-equipment
+|       |   index.astro
+|       |   
+|       +---product-clean
+|       +---product-mark
+|       +---product-sheet
+|       |       s-eco.astro
+|       |       
+|       +---product-st
+|       +---product-tube
+|       \---product-weld
++---public
+|       llms-full.txt
+|       llms.txt
+|       
++---scripts
+|       global.js
+|       
+\---styles
+        global.css
+        
