@@ -9,25 +9,27 @@ interface Props {
 }
 const { locale, siteUrl, navData } = Astro.props;
 
-// 去除尾部斜杠，避免链接双斜杠
+// 清理域名末尾斜杠，避免双斜杠问题
 const baseUrl = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+
+// 适配路由：英文首页 = domain/，其他语种 = domain/{locale}/
+const navRootUrl = locale === 'en' ? `${baseUrl}/` : `${baseUrl}/${locale}/`;
 
 const navschema = JSON.stringify({
   '@context': 'https://schema.org',
-  '@type': 'SiteNavigationElement',
+  '@type': 'NavigationElement',
   name: 'Main Navigation',
-  description: 'Senrytech Laser official website main navigation for laser cutting, welding, cleaning machines and industry solutions',
-  url: `${baseUrl}/${locale}/`,
+  description: 'Senrytech Laser official website main navigation for industrial laser equipment',
+  url: navRootUrl,
   publisher: {
-    "@type": "Organization",
-    "name": "Senrytech Laser",
-    "alternateName": "Senrytech"
+    '@type': 'Organization',
+    'name': 'Senrytech Laser',
+    'alternateName': 'Senrytech'
   },
   hasItemList: {
-    "@type": "ItemList",
+    '@type': 'ItemList',
     itemListOrder: 'ItemListOrderAscending',
     itemListElement: navData.map((item, idx) => ({
-      '@type': 'ListItem',
       position: idx + 1,
       name: item.label,
       item: `${baseUrl}${item.href}`

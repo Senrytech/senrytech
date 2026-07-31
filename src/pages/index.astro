@@ -7,21 +7,22 @@ import HomeTechAdvantage from '../components/home/home-tech-advantage.astro';
 import GlobalCustomerCases from '../components/home/global-customer-cases.astro';
 import HomeTechFAQInquiry from '../components/home/faq-inquiry.astro';
 import Footer from '../components/global/footer.astro';
-import BreadCrumb from '../components/breadcrumb.astro';
-import { buildNavHref } from '../lib/nav-base.ts';
 
-// 修复locale类型报错
-// 原写法删掉，改用这个
-const locale: string = Astro.currentLocale ?? 'en';
+type ValidLocale = string;
+
+const buildNavHref = (locale: ValidLocale, path: string) => {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return locale === 'en' ? normalizedPath : `/${locale}${normalizedPath}`;
+};
+
+const locale = (Astro.currentLocale ?? 'en') as ValidLocale;
 const siteUrl = Astro.site?.origin ?? 'https://www.senrytech.com';
 
-// 统一路由【只在这里维护路径】
-const pathSheetCut = 'laser-processing-equipment/sheet-cutting';
-const pathSheetTube = 'laser-processing-equipment/sheet-tube';
-const pathWelding = 'laser-processing-equipment/welding';
-const pathContact = 'contact-us';
+const pathSheetCut = 'laser-processing-equipment/product-sheet/s-eco.astro';
+const pathSheetTube = 'laser-processing-equipment/product-tube/';
+const pathWelding = 'laser-processing-equipment/product-weld/';
+const pathContact = 'contact-support/contact-us/index.astro';
 
-// 生成字符串链接，规避URL类型冲突
 const urlSheetCut = buildNavHref(locale, pathSheetCut);
 const urlSheetTube = buildNavHref(locale, pathSheetTube);
 const urlWelding = buildNavHref(locale, pathWelding);
@@ -29,7 +30,7 @@ const urlContact = buildNavHref(locale, pathContact);
 
 const pageTitle = 'Senrytech Laser | Fiber Laser Cutting & Welding Machine Manufacturer | Export to Ecuador, Peru, Saudi Arabia, UAE';
 const pageDesc =
-  'Jinan factory supply 1.5kW–40kW fiber laser cutters, tube laser machines & 4-in-1 handheld laser welders. Export metal laser equipment to Ecuador, Peru, Colombia, Saudi Arabia, UAE, Egypt. Request factory quotation.';
+  'Jinan factory supplies 1.5kW–40kW fiber laser cutters, sheet & tube laser machines and 4-in-1 handheld laser welders. Export industrial metal laser equipment to Ecuador, Peru, Colombia, Saudi Arabia, UAE and Egypt. Contact us for factory direct quotation.';
 const pageOgImage = new URL('/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp', siteUrl).href;
 const targetCountryCodes = ['EC', 'PE', 'CO', 'ES', 'SA', 'AE', 'EG'];
 const lcpImageSrc = '/assets/images/banner/fiber-laser-sheet-cutter-for-ecuador-peru-colombia-spain-factory.webp';
@@ -69,6 +70,14 @@ const pageSchemaData = {
         longitude: 117.0702,
       },
       availableLanguage: ['English', 'Español', 'العربية'],
+      openingHours: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '08:30',
+          closes: '18:00',
+        },
+      ],
       areaServed: [
         { '@type': 'Country', name: 'Ecuador' },
         { '@type': 'Country', name: 'Peru' },
@@ -93,6 +102,7 @@ const pageSchemaData = {
     {
       '@type': 'ItemList',
       '@id': `${Astro.site}/${locale}/#banner-product-list`,
+      additionalType: 'https://schema.org/ProductList',
       name: 'Senrytech Laser Main Export Machines',
       description: 'Industrial fiber laser cutting machine, tube laser cutter, portable laser welding machine factory direct export for metal fabrication customers',
       numberOfItems: 3,

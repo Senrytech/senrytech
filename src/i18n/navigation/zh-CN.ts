@@ -1,4 +1,4 @@
-import type { NavTranslation } from '../lib/nav-base';
+import type { NavTranslation } from '../../lib/nav-base';
 
 const nav: NavTranslation = [
   { label: '首页' },

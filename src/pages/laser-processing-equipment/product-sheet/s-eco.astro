@@ -28,7 +28,7 @@ const productModel = 'S-ECO Series';
 const pageTitle = 'S-ECO Series Fiber Laser Sheet Cutting Machine | CE Certified Economical Sheet Metal Laser Cutter for Europe, ASEAN, Middle East';
 const pageDesc =
   'Senrytech S-ECO economical fiber laser sheet cutter for carbon steel, stainless steel, aluminum and brass. CE certified, stable bus servo drive, 1.0G acceleration, 1.5-3kW laser power, sizes 1313/1325/3015. Ideal for metal workshops in Europe, Southeast Asia, Middle East, North America and South America.';
-const canonicalUrl = `${siteUrl}/${locale}/products/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
+const canonicalUrl = `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
 
 // ✅ OG图片注意：OG、社交分享图 必须使用public目录（爬虫无法读取assets打包后的哈希资源）
 const ogImage = `${siteUrl}/images/products/s-eco/s-eco-banner-pc.webp`;
@@ -36,8 +36,8 @@ const preloadImage = ogImage;
 
 const breadcrumbItems = [
   { label: 'Home', href: `/${locale}/` },
-  { label: 'Fiber Laser Cutters', href: `/${locale}/products/fiber-laser-cutters/` },
-  { label: 'Sheet Metal Laser Cutters', href: `/${locale}/products/fiber-laser-cutters/sheet-cutting/` },
+  { label: 'Fiber Laser Cutters', href: `/${locale}/fiber-laser-cutters/` },
+  { label: 'Sheet Metal Laser Cutters', href: `/${locale}/fiber-laser-cutters/sheet-cutting/` },
   { label: `${productModel} Laser Cutting Machine`, href: canonicalUrl },
 ];
 
@@ -107,8 +107,8 @@ const faqSchemaData = faqList.map((item) => ({
 
 const breadcrumbSchemaData = [
   { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/${locale}/` },
-  { '@type': 'ListItem', position: 2, name: 'Fiber Laser Cutters', item: `${siteUrl}/${locale}/products/fiber-laser-cutters/` },
-  { '@type': 'ListItem', position: 3, name: 'Sheet Metal Laser Cutters', item: `${siteUrl}/${locale}/products/fiber-laser-cutters/sheet-cutting/` },
+  { '@type': 'ListItem', position: 2, name: 'Fiber Laser Cutters', item: `${siteUrl}/${locale}/fiber-laser-cutters/` },
+  { '@type': 'ListItem', position: 3, name: 'Sheet Metal Laser Cutters', item: `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/` },
   { '@type': 'ListItem', position: 4, name: `${productModel} Laser Cutting Machine`, item: `${canonicalUrl}` },
 ];
 

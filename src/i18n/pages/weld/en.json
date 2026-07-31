@@ -1,0 +1,44 @@
+[
+  {
+    "model": "Senrytech W ECO",
+    "seoTitle": "Senrytech W ECO | Air Cooled 4-in-1 Compact Handheld Fiber Laser Welder",
+    "metaDesc": "Air cooling portable 4-in-1 laser equipment for welding, cleaning, cutting and rust removal, lightweight design for small metal workshops.",
+    "h1": "Senrytech W ECO Air-Cooled 4-in-1 Handheld Laser Welder",
+    "categoryKey": "weld"
+  },
+  {
+    "model": "Senrytech W PRO",
+    "seoTitle": "Senrytech W PRO | Water Cooled 4-in-1 Handheld Laser Welder for Metal Fabrication",
+    "metaDesc": "Water-cooled handheld laser welder with stable continuous operation. Multi-function welding, cleaning and cutting machine for metal processing.",
+    "h1": "Senrytech W PRO Water-Cooled 4-in-1 Handheld Laser Welder",
+    "categoryKey": "weld"
+  },
+  {
+    "model": "Senrytech W ULTRA",
+    "seoTitle": "Senrytech W ULTRA | High Power Water Cooled Handheld Fiber Laser Welder",
+    "metaDesc": "High-power water cooling handheld laser welder, suitable for thick metal welding tasks in heavy metal fabrication factories.",
+    "h1": "Senrytech W ULTRA High Power Handheld Fiber Laser Welder",
+    "categoryKey": "weld"
+  },
+  {
+    "model": "Senrytech W RW",
+    "seoTitle": "Senrytech W RW | Automated Robotic Fiber Laser Welding Machine with Work Platform",
+    "metaDesc": "Robot arm laser welding workstation, realizes automatic continuous welding for standardized metal production lines.",
+    "h1": "Senrytech W RW Robotic Fiber Laser Welding Workstation",
+    "categoryKey": "weld"
+  },
+  {
+    "model": "Senrytech W R4IN1",
+    "seoTitle": "Senrytech W R4IN1 | 4-in-1 Multi Function Robotic Fiber Laser Welding System",
+    "metaDesc": "Robot integrated laser welding, cleaning and cutting functions, flexible automated processing solution for metal factories.",
+    "h1": "Senrytech W R4IN1 Robotic 4-in-1 Laser Processing System",
+    "categoryKey": "weld"
+  },
+  {
+    "model": "Senrytech W RM",
+    "seoTitle": "Senrytech W RM | Full Automatic Robotic Fiber Laser Welding Processing Machine",
+    "metaDesc": "Complete automatic robotic laser welding equipment, designed for large-scale continuous metal product manufacturing.",
+    "h1": "Senrytech W RM Full Automatic Robotic Laser Welding Machine",
+    "categoryKey": "weld"
+  }
+]

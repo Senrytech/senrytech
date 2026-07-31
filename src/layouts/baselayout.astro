@@ -8,32 +8,51 @@ interface Props {
   geoKeywords?: string[];
   pageSchema?: string;
   ogImage?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   preloadImage?: string;
+  twitterSite?: string;
 }
-const { title, description, canonical, lang, geoRegions = [], geoKeywords = [], pageSchema = '', ogImage, preloadImage } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  lang,
+  geoRegions = [],
+  geoKeywords = [],
+  pageSchema = '',
+  ogImage,
+  ogImageWidth = 1200,
+  ogImageHeight = 630,
+  preloadImage,
+  twitterSite = '@SenrytechLaser',
+} = Astro.props;
 
 const currentLocale = Astro.currentLocale ?? 'en';
+const htmlLang = lang ?? currentLocale;
+const htmlDir = currentLocale === 'ar' ? 'rtl' : 'ltr';
+
 const regionCodeList = geoRegions.join(',');
 const factoryPosition = '36.6663;117.0702';
 const geoPlaceName = 'Jinan, Shandong, China';
-const baseUrl = Astro.site ? String(Astro.site).replace(/\/$/, '') : '';
+
+const baseUrl = Astro.site ? String(Astro.site).replace(/\/+$/, '') : '';
+
+const normalizeTrailingSlash = (path: string) => path.replace(/\/+$/, '');
 
 const getRelativeUrl = (path: string) => {
   const i18n = (Astro as typeof Astro & { i18n?: { getRelativeUrl?: (path: string) => string } }).i18n;
-  return i18n?.getRelativeUrl?.(path) ?? path;
+  const rawPath = i18n?.getRelativeUrl?.(path) ?? path;
+  return normalizeTrailingSlash(rawPath);
 };
 
-// 生成相对路径时优先使用 Astro i18n API；若当前类型不包含该接口则回退到原始路径
 const cleanPath = getRelativeUrl(Astro.url.pathname);
 
-// Canonical 优先使用传入值，否则自动生成标准地址
-const pageCanonicalUrl = canonical?.trim() || `${baseUrl}${Astro.url.pathname}`;
-const xDefaultUrl = `${baseUrl}${getRelativeUrl('/en' + cleanPath)}`;
+const autoCanonicalPath = normalizeTrailingSlash(Astro.url.pathname);
+const pageCanonicalUrl = canonical?.trim() || `${baseUrl}${autoCanonicalPath}`;
+const xDefaultPath = getRelativeUrl('/en' + cleanPath);
+const xDefaultUrl = `${baseUrl}${xDefaultPath}`;
 
-// RTL 文字方向
-const htmlDir = currentLocale === 'ar' ? 'rtl' : 'ltr';
-
-// 和 astro.config.mjs i18n.locales 完全一一对应，禁止简写！
 const langCodes = ['ar', 'de', 'en', 'es', 'fr', 'ru', 'zh-CN'] as const;
 
 const websiteSchema = JSON.stringify({
@@ -41,10 +60,10 @@ const websiteSchema = JSON.stringify({
   '@type': 'WebSite',
   '@id': `${pageCanonicalUrl}#website`,
   name: 'Senrytech Laser',
-  url: currentLocale === 'en' ? `${baseUrl}/en/` : `${baseUrl}/${currentLocale}/`,
+  url: `${baseUrl}${getRelativeUrl('/' + currentLocale + '/')}`,
   potentialAction: {
     '@type': 'SearchAction',
-    target: currentLocale === 'en' ? `${baseUrl}/en/search?q={search_term_string}` : `${baseUrl}/${currentLocale}/search?q={search_term_string}`,
+    target: `${baseUrl}${getRelativeUrl('/' + currentLocale + '/search')}?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 });
@@ -54,7 +73,7 @@ import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang={lang} dir={htmlDir}>
+<html lang={htmlLang} dir={htmlDir}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -65,24 +84,25 @@ import '../styles/global.css';
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <!-- TODO:Meta Keywords 预留，Google目前不参与排名，后期如需启用直接解除注释，取值 geoKeywords.join(',') -->
+    <!-- {geoKeywords.length > 0 && <meta name="keywords" content={geoKeywords.join(', ')} />} -->
 
     <link rel="canonical" href={pageCanonicalUrl} />
 
-    <link rel="llms.txt" href={`${Astro.site}/llms.txt`} type="text/plain" />
+    <link rel="llms.txt" href={`${baseUrl}/llms.txt`} type="text/plain" />
 
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" />
 
-    <!-- Hreflang 多语言切换标签 -->
     {
       langCodes.map((langCode) => {
-        const alternateUrl = `${baseUrl}/${langCode}${cleanPath}`;
+        const altPath = getRelativeUrl('/' + langCode + cleanPath);
+        const alternateUrl = baseUrl + altPath;
         return <link rel="alternate" hreflang={langCode} href={alternateUrl} />;
       })
     }
     <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
 
-    <!-- GEO 地域SEO标签 -->
     {
       geoRegions.length > 0 && (
         <>
@@ -94,32 +114,63 @@ import '../styles/global.css';
       )
     }
 
-    <!-- Open Graph / Twitter -->
-    <meta property="og:locale" content={lang} />
+    <meta property="og:locale" content={htmlLang} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={pageCanonicalUrl} />
     <meta property="og:site_name" content="Senrytech Laser" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {
+      ogImage && (
+        <>
+          <meta property="og:image" content={ogImage} />
+          <meta property="og:image:width" content={String(ogImageWidth)} />
+          <meta property="og:image:height" content={String(ogImageHeight)} />
+          <meta property="og:image:type" content="image/webp" />
+        </>
+      )
+    }
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={twitterSite} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
-    <!-- 图标资源 -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- 结构化数据 -->
     <script type="application/ld+json" set:html={websiteSchema} />
     {pageSchema && <script type="application/ld+json" set:html={pageSchema} />}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "${baseUrl}/#organization",
+        "name": "Senrytech Laser",
+        "url": "${baseUrl}",
+        "logo": "${baseUrl}/logo.png",
+        "description": "Professional fiber laser cutting machine manufacturer",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Jinan",
+          "addressRegion": "Shandong",
+          "country": "CN"
+        }
+      }
+    </script>
+    <!-- TODO:全局注入BreadcrumbList结构化数据封装 -->
+    <!-- TODO:第三方域名dns-prefetch预连接补充 -->
+    <!-- TODO:配置CSP安全策略，提升站点安全指标 -->
+    <!-- TODO:多语言页面检测，增加noindex分支（用于草稿/测试页） -->
   </head>
 
   <body>
     <Header />
     <slot />
+    <!-- TODO:全局footer组件引入 -->
+    <!-- TODO:悬浮询盘/在线聊天组件按需全局挂载 -->
+    <!-- TODO:页面滚动性能监控埋点 -->
   </body>
 </html>

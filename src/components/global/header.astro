@@ -10,7 +10,7 @@ const allProductImages = import.meta.glob<ImageMetadata>('../../assets/images/pr
 });
 
 const brandName = 'Senrytech';
-import { getNavByLocale, type RenderNavMainItem } from '../../i18n/nav';
+import { getNavByLocale, type RenderNavMainItem } from '../../i18n/navigation/nav';
 const rawLocale = Astro.currentLocale;
 const currentLocale = rawLocale ?? 'en';
 const navData = getNavByLocale(currentLocale);

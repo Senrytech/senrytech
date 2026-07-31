@@ -3,7 +3,7 @@ interface Props {
   locale: string;
 }
 const { locale } = Astro.props;
-import { getNavByLocale } from '../../i18n/nav';
+import { getNavByLocale } from '../../i18n/navigation/nav';
 
 const navList = getNavByLocale(locale);
 
