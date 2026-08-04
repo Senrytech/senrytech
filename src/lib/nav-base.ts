@@ -48,47 +48,47 @@ export const PRODUCT_CATEGORY_MAP: ProductCategoryItem[] = [
   {
     category: 'sheet',
     navLabel: 'Fiber Sheet Metal Laser Cutters',
-    routeDir: 'product-sheet',
+    routeDir: 'laser-processing-equipment/fiber-laser-cutters/sheet',
   },
   {
     category: 'tube',
     navLabel: 'Fiber Tube Laser Cutters',
-    routeDir: 'product-tube',
+    routeDir: 'laser-processing-equipment/fiber-laser-cutters/tube',
   },
   {
     category: 'st',
     navLabel: 'Fiber Sheet & Tube Combo Cutters',
-    routeDir: 'product-st',
+    routeDir: 'laser-processing-equipment/fiber-laser-cutters/combo',
   },
   {
     category: 'weld',
     navLabel: 'Fiber Laser Welding Machines',
-    routeDir: 'product-weld',
+    routeDir: 'laser-processing-equipment/laser-welder',
   },
   {
     category: 'clean',
     navLabel: 'Industrial Laser Cleaning Machines',
-    routeDir: 'product-clean',
+    routeDir: 'laser-processing-equipment/laser-cleaner',
   },
   {
     category: 'mark',
     navLabel: 'Fiber Laser Marking & Engraving Machines',
-    routeDir: 'product-mark',
+    routeDir: 'laser-processing-equipment/laser-marker',
   },
   {
     category: 'auxiliary',
     navLabel: 'Laser Auxiliary Equipment',
-    routeDir: 'product-auxiliary',
+    routeDir: 'complete-production-line/laser-auxiliary-equipment',
   },
   {
     category: 'form',
     navLabel: 'Metal Forming Machines',
-    routeDir: 'product-form',
+    routeDir: 'complete-production-line/metal-forming-machine',
   },
   {
     category: 'multi',
     navLabel: 'Multi-Material Laser Cutting Equipment',
-    routeDir: 'product-multi',
+    routeDir: 'complete-production-line/multi-material-cutting',
   },
 ];
 

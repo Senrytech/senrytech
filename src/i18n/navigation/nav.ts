@@ -75,7 +75,7 @@ const rawNavData: NavMainItem[] = [
     subList: [
       {
         label: 'Fiber Sheet Metal Laser Cutters',
-        href: 'laser-processing-equipment/product-sheet',
+        href: 'laser-processing-equipment/fiber-laser-cutters/sheet',
         targetId: 'sheet',
         seoTitle: 'Fiber Sheet Metal Laser Cutters | Industrial Plate Cutting Equipment for North America & European Fabricators - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -83,7 +83,7 @@ const rawNavData: NavMainItem[] = [
       },
       {
         label: 'Fiber Tube Laser Cutters',
-        href: 'laser-processing-equipment/product-tube',
+        href: 'laser-processing-equipment/fiber-laser-cutters/tube',
         targetId: 'tube',
         seoTitle: 'Fiber Tube & Pipe Laser Cutters | CNC Metal Pipe Cutting Systems for North America & Europe - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -91,7 +91,7 @@ const rawNavData: NavMainItem[] = [
       },
       {
         label: 'Fiber Sheet & Tube Combo Cutters',
-        href: 'laser-processing-equipment/product-st',
+        href: 'laser-processing-equipment/fiber-laser-cutters/combo',
         targetId: 'st',
         seoTitle: 'Sheet & Tube Combo Laser Processing Equipment | Dual-Use Cutting Machines for Metal Fabrication Plants Across North America & EU - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -99,7 +99,7 @@ const rawNavData: NavMainItem[] = [
       },
       {
         label: 'Fiber Laser Welding Machines',
-        href: 'laser-processing-equipment/product-weld',
+        href: 'laser-processing-equipment/fiber-laser-cutters/weld',
         targetId: 'weld',
         seoTitle: 'Fiber Laser Welding Machines | Handheld & Robotic Welders for North American & European Metal Fabrication - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -107,7 +107,7 @@ const rawNavData: NavMainItem[] = [
       },
       {
         label: 'Industrial Laser Cleaning Machines',
-        href: 'laser-processing-equipment/product-clean',
+        href: 'laser-processing-equipment/fiber-laser-cutters/clean',
         targetId: 'clean',
         seoTitle: 'Industrial Laser Cleaning Machines | Rust & Paint Removal Equipment for Workshops in North America & Europe - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -115,7 +115,7 @@ const rawNavData: NavMainItem[] = [
       },
       {
         label: 'Fiber Laser Marking & Engraving Machines',
-        href: 'laser-processing-equipment/product-mark',
+        href: 'laser-processing-equipment/fiber-laser-cutters/mark',
         targetId: 'mark',
         seoTitle: 'Fiber, UV & CO2 Laser Marking Machines | Permanent Metal Engravers for Manufacturers in North America & EU - Senrytech',
         geoRegions: [...BASE_GEO_REGIONS],
@@ -126,177 +126,177 @@ const rawNavData: NavMainItem[] = [
       sheet: [
         {
           name: 'Senrytech S ECO',
-          href: 'laser-processing-equipment/product-sheet/s-eco',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-eco',
           desc: '1500W–6000W Economic Fiber Laser Sheet Metal Cutter | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S PLUS',
-          href: 'laser-processing-equipment/product-sheet/s-plus',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-plus',
           desc: 'Upgraded Heavy Bed Fiber Laser Sheet Cutter for Metal Fabrication | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S PRO',
-          href: 'laser-processing-equipment/product-sheet/s-pro',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-pro',
           desc: 'High Efficiency Fiber Laser Cutter with Exchange Worktable | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S PROMAX',
-          href: 'laser-processing-equipment/product-sheet/s-promax',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-promax',
           desc: 'Fully Enclosed Dustproof Fiber Laser Sheet Cutter | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S ULTRA',
-          href: 'laser-processing-equipment/product-sheet/s-ultra',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-ultra',
           desc: 'Auto Loading Unloading Fiber Laser Sheet Cutting Machine | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S S',
-          href: 'laser-processing-equipment/product-sheet/s-s',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-s',
           desc: 'Small Enclosed Fiber Laser Cutter with Side Feeding for Metal Sheet | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S C',
-          href: 'laser-processing-equipment/product-sheet/s-c',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-c',
           desc: 'Aluminum Coil Slitting Fiber Laser Sheet Cutting Machine | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S CPROMAX',
-          href: 'laser-processing-equipment/product-sheet/s-cpromax',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-cpromax',
           desc: 'Enclosed Coil Laser Cutter for Aluminum & Metal Sheet Fabrication | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S G',
-          href: 'laser-processing-equipment/product-sheet/s-g',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-g',
           desc: 'Gantry Track Fiber Laser Cutter for Thick Heavy Metal Plates | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech S M',
-          href: 'laser-processing-equipment/product-sheet/s-m',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/s-m',
           desc: 'High Precision Small Fiber Laser Cutter for Thin Metal Sheets | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       tube: [
         {
           name: 'Senrytech T2',
-          href: 'laser-processing-equipment/product-tube/t2',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t2',
           desc: 'Economic Dual-Chuck Fiber Laser Pipe Cutter for Metal Tube | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech T2 PLUS',
-          href: 'laser-processing-equipment/product-tube/t2-plus',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t2-plus',
           desc: 'Upgraded Stable Bed Fiber Laser Tube Cutting Machine | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech T2 ULTRA',
-          href: 'laser-processing-equipment/product-tube/t2-ultra',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t2-ultra',
           desc: 'Side Loading Fiber Laser Pipe Cutter for Square & Round Tube | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech T3 PLUS',
-          href: 'laser-processing-equipment/product-tube/t3-plus',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t3-plus',
           desc: '3-Chuck Upgraded Bed Fiber Laser Tube Cutting Machine | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech T3 ULTRA',
-          href: 'laser-processing-equipment/product-tube/t3-ultra',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t3-ultra',
           desc: '3-Chuck Side Loading Fiber Laser Pipe Cutter for Long Tube | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech T4 ULTRA',
-          href: 'laser-processing-equipment/product-tube/t4-ultra',
+          href: 'laser-processing-equipment/fiber-laser-cutters/tube/t4-ultra',
           desc: '4-Chuck Heavy Duty Fiber Laser Tube Cutter for All Metal Profiles | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       st: [
         {
           name: 'Senrytech AT',
-          href: 'laser-processing-equipment/product-st/at',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/at',
           desc: 'Dual Use Sheet & Tube Fiber Laser Combo Cutting Machine | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech AT PRO',
-          href: 'laser-processing-equipment/product-st/at-pro',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/at-pro',
           desc: 'Exchange Worktable Sheet Tube Combo Fiber Laser Cutter | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech AT PROMAX',
-          href: 'laser-processing-equipment/product-st/at-promax',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/at-promax',
           desc: 'Fully Enclosed Sheet & Tube Combo Fiber Laser Cutting Machine | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech AT ULTRA',
-          href: 'laser-processing-equipment/product-st/at-ultra',
+          href: 'laser-processing-equipment/fiber-laser-cutters/sheet/at-ultra',
           desc: 'Auto Loading Sheet Tube Combo Fiber Laser Cutting Machine | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       weld: [
         {
           name: 'Senrytech W ECO',
-          href: 'laser-processing-equipment/product-weld/w-eco',
+          href: 'laser-processing-equipment/laser-welder/w-eco',
           desc: 'Air Cooled 4-in-1 Compact Handheld Fiber Laser Welder | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech W PRO',
-          href: 'laser-processing-equipment/product-weld/w-pro',
+          href: 'laser-processing-equipment/laser-welder/w-pro',
           desc: 'Water Cooled 4-in-1 Handheld Laser Welder for Metal Fabrication | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech W ULTRA',
-          href: 'laser-processing-equipment/product-weld/w-ultra',
+          href: 'laser-processing-equipment/laser-welder/w-ultra',
           desc: 'High Power Water Cooled Handheld Fiber Laser Welder | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech W RW',
-          href: 'laser-processing-equipment/product-weld/w-rw',
+          href: 'laser-processing-equipment/laser-welder/w-rw',
           desc: 'Automated Robotic Fiber Laser Welding Machine with Work Platform | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech W R4IN1',
-          href: 'laser-processing-equipment/product-weld/w-r4in1',
+          href: 'laser-processing-equipment/laser-welder/w-r4in1',
           desc: '4-in-1 Multi Function Robotic Fiber Laser Welding System | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech W RM',
-          href: 'laser-processing-equipment/product-weld/w-rm',
+          href: 'laser-processing-equipment/laser-welder/w-rm',
           desc: 'Full Automatic Robotic Fiber Laser Welding Processing Machine | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       clean: [
         {
           name: 'Senrytech C R',
-          href: 'laser-processing-equipment/product-clean/c-r',
+          href: 'laser-processing-equipment/laser-cleaner/c-r',
           desc: 'Portable Backpack Low Power Laser Rust Cleaning Machine | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech C C',
-          href: 'laser-processing-equipment/product-clean/c-c',
+          href: 'laser-processing-equipment/laser-cleaner/c-c',
           desc: 'Trolley Commercial Laser Rust Cleaning Machine for Workshop Use | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech C I',
-          href: 'laser-processing-equipment/product-clean/c-i',
+          href: 'laser-processing-equipment/laser-cleaner/c-i',
           desc: 'Heavy Duty Industrial Fiber Laser Rust Removal Cleaning Machine | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       mark: [
         {
           name: 'Senrytech M UV',
-          href: 'laser-processing-equipment/product-mark/m-uv',
+          href: 'laser-processing-equipment/laser-marker/m-uv',
           desc: 'UV Laser Marking Engraving Machine for Glass & Plastic Products | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech M MOPA',
-          href: 'laser-processing-equipment/product-mark/m-mopa',
+          href: 'laser-processing-equipment/laser-marker/m-mopa',
           desc: 'MOPA Fiber Laser Deep Engraving Marking Machine for Metal | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech M Fiber',
-          href: 'laser-processing-equipment/product-mark/m-fiber',
+          href: 'laser-processing-equipment/laser-marker/m-fiber',
           desc: 'Fiber Laser Marking Machine for Metal Hardware & Auto Parts | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech M CO2',
-          href: 'laser-processing-equipment/product-mark/m-co2',
+          href: 'laser-processing-equipment/laser-marker/m-co2',
           desc: 'CO2 Laser Engraving Marking Machine for Wood Leather Non-Metal | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
@@ -338,49 +338,49 @@ const rawNavData: NavMainItem[] = [
       aux: [
         {
           name: 'Senrytech CO2 Laser Engraver',
-          href: 'complete-production-line/laser-auxiliary/co2-engraver',
+          href: 'complete-production-line/laser-auxiliary-equipment/co2-engraver',
           desc: 'CO2 Laser Engraver for Wood, Acrylic & Non-Metal Engraving | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech CNC Router',
-          href: 'complete-production-line/laser-auxiliary/cnc-router',
+          href: 'complete-production-line/laser-auxiliary-equipment/cnc-router',
           desc: 'Industrial CNC Router for Woodworking & Advertising Sign Making | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Mold Laser Welder',
-          href: 'complete-production-line/laser-auxiliary/mold-welder',
+          href: 'complete-production-line/laser-auxiliary-equipment/mold-welder',
           desc: 'Mold Laser Welder for Metal Mold Repair & Precision Welding | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Letter Bender',
-          href: 'complete-production-line/laser-auxiliary/letter-bender',
+          href: 'complete-production-line/laser-auxiliary-equipment/letter-bender',
           desc: 'Advertising Letter Bender for Stainless Steel Sign Fabrication | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],
       form: [
         {
           name: 'Senrytech CNC Bending Machine',
-          href: 'complete-production-line/metal-forming/cnc-bender',
+          href: 'complete-production-line/metal-forming-machine/cnc-bender',
           desc: 'CNC Metal Bending Machine for Stainless Steel & Carbon Steel Fabrication | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Shearing Machine',
-          href: 'complete-production-line/metal-forming/shearing-machine',
+          href: 'complete-production-line/metal-forming-machine/shearing-machine',
           desc: 'Hydraulic CNC Shearing Machine for Sheet Metal Cutting Workshops | Senrytech Factory, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Metal Deburrer',
-          href: 'complete-production-line/metal-forming/deburrer',
+          href: 'complete-production-line/metal-forming-machine/deburrer',
           desc: 'Automatic Metal Deburrer for Removing Burrs & Sharp Edges | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Slag Remover',
-          href: 'complete-production-line/metal-forming/slag-remover',
+          href: 'complete-production-line/metal-forming-machine/slag-remover',
           desc: 'Laser Cutting Slag Remover for Laser Cut Metal Plates | Senrytech Manufacturer, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
         {
           name: 'Senrytech Pipe Bender',
-          href: 'complete-production-line/metal-forming/pipe-bender',
+          href: 'complete-production-line/metal-forming-machine/pipe-bender',
           desc: 'CNC Pipe Bending Machine for Round & Square Metal Tube Processing | Senrytech, factory direct supply for USA, Canada, UK, Germany metal fabrication workshops',
         },
       ],

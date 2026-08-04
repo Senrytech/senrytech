@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../../layouts/baselayout.astro';
-import Breadcrumb from '../../../components/breadcrumb.astro';
-import Footer from '../../../components/global/footer.astro';
+import BaseLayout from '../../../../layouts/baselayout.astro';
+import Breadcrumb from '../../../../components/breadcrumb.astro';
+import Footer from '../../../../components/global/footer.astro';
 import { Image } from 'astro:assets';
 
 import BannerPc from '/src/assets/images/products/sheet/s-eco/s-eco-banner-pc.webp';
@@ -21,9 +21,8 @@ const productModel = 'S-ECO Series';
 const coreKeyword = 'fiber laser cutting machine';
 
 // 标题严格60字符内定稿
-const pageTitle = 'Economical S-ECO Fiber Laser Cutting Machine | CE Sheet Metal Laser Cutter - Senrytech';
-// Meta描述锁定155字符，植入转化长尾，适配多语种翻译不截断
-const pageDesc = 'Senrytech S-ECO CE laser cutter,1.5-3kW,1.0G acceleration,stable for unstable voltage Africa & SEA,ideal small workshop carbon steel cutting equipment.';
+const pageTitle = `Economical S-ECO ${coreKeyword} | CE Sheet Metal Laser Cutter - Senrytech`;
+const pageDesc = `Senrytech S-ECO CE ${coreKeyword},1.5-3kW,1.0G acceleration,stable for unstable voltage Africa & SEA,ideal small workshop carbon steel cutting equipment.`;
 const canonicalUrl = `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
 
 const ogImage = `${siteUrl}/images/products/sheet/s-eco/s-eco-banner-pc.webp`;
@@ -273,21 +272,21 @@ const navSections = [
   { id: 'product-faq', label: 'FAQ' },
 ];
 
-import ProductStickyNav from '../../../components/product/s-eco/product-sticky-nav.astro';
-import ProductBanner from '../../../components/product/s-eco/product-banner.astro';
-import ProductSellingPoint from '../../../components/product/s-eco/product-selling-point.astro';
-import ProductCuttingPerformance from '../../../components/product/s-eco/product-cutting-performance.astro';
-import ProductSafetyEnclosure from '../../../components/product/s-eco/product-safety-enclosure.astro';
-import ProductServoData from '../../../components/product/s-eco/product-servo-data.astro';
-import ProductAntiVibration from '../../../components/product/s-eco/product-anti-vibration.astro';
-import ProductSpecTab from '../../../components/product/s-eco/product-spec-tab.astro';
-import ProductCustomerCase from '../../../components/product/s-eco/product-customer-case.astro';
-import ProductGallery from '../../../components/product/s-eco/product-gallery.astro';
-import ProductRelated from '../../../components/product/s-eco/product-related.astro';
-import ProductAftersales from '../../../components/product/s-eco/product-after-sales.astro';
-import ProductCertificate from '../../../components/product/s-eco/product-certificate.astro';
-import ProductFaq from '../../../components/product/s-eco/product-faq.astro';
-import ProductInquireModal from '../../../components/product/s-eco/product-inquire-modal.astro';
+import ProductStickyNav from '../../../../components/product/s-eco/product-sticky-nav.astro';
+import ProductBanner from '../../../../components/product/s-eco/product-banner.astro';
+import ProductSellingPoint from '../../../../components/product/s-eco/product-selling-point.astro';
+import ProductCuttingPerformance from '../../../../components/product/s-eco/product-cutting-performance.astro';
+import ProductSafetyEnclosure from '../../../../components/product/s-eco/product-safety-enclosure.astro';
+import ProductServoData from '../../../../components/product/s-eco/product-servo-data.astro';
+import ProductAntiVibration from '../../../../components/product/s-eco/product-anti-vibration.astro';
+import ProductSpecTab from '../../../../components/product/s-eco/product-spec-tab.astro';
+import ProductCustomerCase from '../../../../components/product/s-eco/product-customer-case.astro';
+import ProductGallery from '../../../../components/product/s-eco/product-gallery.astro';
+import ProductRelated from '../../../../components/product/s-eco/product-related.astro';
+import ProductAftersales from '../../../../components/product/s-eco/product-after-sales.astro';
+import ProductCertificate from '../../../../components/product/s-eco/product-certificate.astro';
+import ProductFaq from '../../../../components/product/s-eco/product-faq.astro';
+import ProductInquireModal from '../../../../components/product/s-eco/product-inquire-modal.astro';
 ---
 
 <BaseLayout
