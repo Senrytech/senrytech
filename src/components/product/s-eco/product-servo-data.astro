@@ -4,20 +4,21 @@ export interface Props {
   title: string;
   subtitle?: string;
   image: string;
+  imageAlt: string;
   dataList: {
     label: string;
     value: string;
   }[];
   reverse?: boolean;
 }
-const { id, title, subtitle, image, dataList, reverse = false } = Astro.props;
+const { id, title, subtitle, image, imageAlt, dataList, reverse = false } = Astro.props;
 ---
 
 <section class="product-servo-data" id={id}>
   <div class="container">
     <div class={`servo-row ${reverse ? 'servo-reverse' : ''}`}>
       <div class="servo-media">
-        <img src={image} alt={title} loading="lazy" />
+        <img src={image} alt={imageAlt} loading="lazy" />
       </div>
       <div class="servo-content">
         <h2>{title}</h2>

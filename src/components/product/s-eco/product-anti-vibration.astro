@@ -8,13 +8,14 @@ export interface Props {
     title: string;
     desc: string;
   }[];
+  bgAlt: string;
 }
-const { id, title, subtitle, bgImage, featureList } = Astro.props;
+const { id, title, subtitle, bgImage, featureList, bgAlt } = Astro.props;
 ---
 
 <section class="product-anti-vibration" id={id}>
   <div class="vib-bg">
-    <img src={bgImage} alt={title} loading="lazy" />
+    <img src={bgImage} alt={bgAlt} loading="lazy" />
   </div>
   <div class="container">
     <div class="vib-content-wrap">

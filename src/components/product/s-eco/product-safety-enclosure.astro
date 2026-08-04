@@ -4,20 +4,21 @@ export interface Props {
   title: string;
   subtitle?: string;
   image: string;
+  imageAlt: string;
   featureList: {
     title: string;
     desc: string;
   }[];
   reverse?: boolean;
 }
-const { id, title, subtitle, image, featureList, reverse = false } = Astro.props;
+const { id, title, subtitle, image, imageAlt, featureList, reverse = false } = Astro.props;
 ---
 
 <section class="product-safety-enclosure" id={id}>
   <div class="container">
     <div class={`enclosure-row ${reverse ? 'row-reverse' : ''}`}>
       <div class="enclosure-media">
-        <img src={image} alt={title} loading="lazy" />
+        <img src={image} alt={imageAlt} loading="lazy" />
       </div>
       <div class="enclosure-content">
         <h2>{title}</h2>

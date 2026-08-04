@@ -1,15 +1,9 @@
 ---
-export interface AftersalesItem {
-  icon: string;
-  title: string;
-  desc: string;
-}
-
 export interface Props {
   id?: string;
   sectionTitle: string;
   sectionSubtitle?: string;
-  serviceList: AftersalesItem[];
+  serviceList: string[];
 }
 const { id, sectionTitle, sectionSubtitle, serviceList } = Astro.props;
 ---
@@ -23,13 +17,9 @@ const { id, sectionTitle, sectionSubtitle, serviceList } = Astro.props;
 
     <div class="aftersales-grid">
       {
-        serviceList.map((item) => (
+        serviceList.map((text) => (
           <div class="aftersales-card">
-            <div class="aftersales-icon">
-              <img src={item.icon} alt={item.title} loading="lazy" />
-            </div>
-            <h3>{item.title}</h3>
-            <p>{item.desc}</p>
+            <p>{text}</p>
           </div>
         ))
       }

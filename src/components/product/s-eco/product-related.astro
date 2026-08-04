@@ -1,9 +1,8 @@
 ---
 export interface RelatedProduct {
-  title: string;
-  image: string;
-  href: string;
-  tag?: string;
+  name: string;
+  slug: string;
+  anchorText: string;
 }
 
 export interface Props {
@@ -25,13 +24,10 @@ const { id, sectionTitle, sectionSubtitle, productList } = Astro.props;
     <div class="related-grid">
       {
         productList.map((item) => (
-          <a href={item.href} class="related-card">
-            <div class="related-img">
-              <img src={item.image} alt={item.title} loading="lazy" />
-              {item.tag && <span class="related-tag">{item.tag}</span>}
-            </div>
+          <a href={`/${item.slug}/`} class="related-card">
             <div class="related-text">
-              <h3>{item.title}</h3>
+              <h3>{item.name}</h3>
+              <p>{item.anchorText}</p>
             </div>
           </a>
         ))

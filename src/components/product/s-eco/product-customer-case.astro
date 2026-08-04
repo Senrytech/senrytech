@@ -3,11 +3,12 @@ export interface CaseItem {
   image: string;
   title: string;
   location: string;
-  desc: string;
+  desc?: string;
+  description: string;
 }
 
 export interface Props {
-  id?: string;
+  id: string;
   sectionTitle: string;
   sectionSubtitle?: string;
   caseList: CaseItem[];
@@ -32,7 +33,7 @@ const { id, sectionTitle, sectionSubtitle, caseList } = Astro.props;
             <div class="case-info">
               <h3>{item.title}</h3>
               <div class="case-location">{item.location}</div>
-              <p>{item.desc}</p>
+              <p>{item.description}</p>
             </div>
           </div>
         ))

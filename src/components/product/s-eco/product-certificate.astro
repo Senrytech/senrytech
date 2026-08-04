@@ -1,14 +1,13 @@
 ---
-export interface CertificateItem {
-  image: string;
-  title: string;
-}
-
 export interface Props {
-  id?: string;
+  id: string;
   sectionTitle: string;
   sectionSubtitle?: string;
-  certList: CertificateItem[];
+  certList: Array<{
+    image: string;
+    title: string;
+    alt: string;
+  }>;
 }
 const { id, sectionTitle, sectionSubtitle, certList } = Astro.props;
 ---

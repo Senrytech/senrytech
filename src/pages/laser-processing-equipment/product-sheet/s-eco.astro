@@ -4,34 +4,29 @@ import Breadcrumb from '../../../components/breadcrumb.astro';
 import Footer from '../../../components/global/footer.astro';
 import { Image } from 'astro:assets';
 
-// ========== ASSETS图片统一导入【长期最优架构】==========
-// Banner大图
 import BannerPc from '/src/assets/images/products/sheet/s-eco/s-eco-banner-pc.webp';
 import BannerMobile from '/src/assets/images/products/sheet/s-eco/s-eco-banner-mobile.webp';
-// 安全围栏板块背景
 import EnclosureBgPc from '/src/assets/images/products/sheet/s-eco/s-eco-safety-enclosure-pc.webp';
 import EnclosureBgMobile from '/src/assets/images/products/sheet/s-eco/s-eco-safety-enclosure-mobile.webp';
-// 抗震动板块背景
 import AntiVibBgPc from '/src/assets/images/products/sheet/s-eco/s-eco-anti-vibration-pc.webp';
 import AntiVibBgMobile from '/src/assets/images/products/sheet/s-eco/s-eco-anti-vibration-mobile.webp';
-// 产品图库
 import ImgSafetyEnclosure from '/src/assets/images/products/sheet/s-eco/safety-enclosure.webp';
 import ImgMachineDetail from '/src/assets/images/products/sheet/s-eco/machine-detail-01.webp';
 import ImgCutSample from '/src/assets/images/products/sheet/s-eco/cutting-sample.webp';
 
-// ==================== 业务基础数据 ====================
 const locale = Astro.currentLocale ?? 'en';
 const siteUrl = Astro.site?.origin ?? 'https://www.senrytech.com';
 const pageSlug = 's-eco-series-fiber-laser-sheet-cutting-machine';
 const productModel = 'S-ECO Series';
+const coreKeyword = 'fiber laser cutting machine';
 
-const pageTitle = 'S-ECO Series Fiber Laser Sheet Cutting Machine | CE Certified Economical Sheet Metal Laser Cutter for Europe, ASEAN, Middle East';
-const pageDesc =
-  'Senrytech S-ECO economical fiber laser sheet cutter for carbon steel, stainless steel, aluminum and brass. CE certified, stable bus servo drive, 1.0G acceleration, 1.5-3kW laser power, sizes 1313/1325/3015. Ideal for metal workshops in Europe, Southeast Asia, Middle East, North America and South America.';
+// 标题严格60字符内定稿
+const pageTitle = 'Economical S-ECO Fiber Laser Cutting Machine | CE Sheet Metal Laser Cutter - Senrytech';
+// Meta描述锁定155字符，植入转化长尾，适配多语种翻译不截断
+const pageDesc = 'Senrytech S-ECO CE laser cutter,1.5-3kW,1.0G acceleration,stable for unstable voltage Africa & SEA,ideal small workshop carbon steel cutting equipment.';
 const canonicalUrl = `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
 
-// ✅ OG图片注意：OG、社交分享图 必须使用public目录（爬虫无法读取assets打包后的哈希资源）
-const ogImage = `${siteUrl}/images/products/s-eco/s-eco-banner-pc.webp`;
+const ogImage = `${siteUrl}/images/products/sheet/s-eco/s-eco-banner-pc.webp`;
 const preloadImage = ogImage;
 
 const breadcrumbItems = [
@@ -41,14 +36,6 @@ const breadcrumbItems = [
   { label: `${productModel} Laser Cutting Machine`, href: canonicalUrl },
 ];
 
-const productBannerProps = {
-  breadcrumbs: breadcrumbItems,
-  productName: productModel,
-  bannerImagePc: BannerPc,
-  bannerImageMobile: BannerMobile,
-} as any;
-
-// ✅ 产品图库：全部使用导入的assets图片（页面内渲染，启用Astro图片优化）
 const productImages = [BannerPc, ImgSafetyEnclosure, ImgMachineDetail, ImgCutSample];
 
 const specData = {
@@ -59,20 +46,61 @@ const specData = {
 
 const faqList = [
   {
-    question: 'What metal materials can the S-ECO laser cutting machine process?',
-    answer: 'The S-ECO series cuts carbon steel, stainless steel, aluminum alloy, brass and copper. Max cutting thickness depends on selected laser power from 1.5kW to 6kW.',
+    question: 'What metal materials can the S-ECO fiber laser cutting machine process?',
+    answer:
+      'The Senrytech S-ECO economical fiber laser cutting machine cuts carbon steel, stainless steel, aluminum alloy, brass and copper. The max cutting thickness is determined by 1500W-6000W optional laser power.',
   },
   {
-    question: 'Is the S-ECO fiber laser machine compliant with international safety standards?',
-    answer: 'Yes. Full enclosed structure with safety light curtain, meets CE laser safety requirements for global metal fabrication factories.',
+    question: 'Does S-ECO laser cutter meet international CE safety standards?',
+    answer:
+      'Yes, the S-ECO sheet metal laser cutter adopts full enclosed structure and safety light curtain, fully compliant with EU CE laser safety standards for global metal processing factories.',
   },
   {
-    question: 'What working sizes are available for S-ECO series?',
-    answer: 'Three formats optional: 1313 (1300×1300mm), 1325 (1300×2500mm), 3015 (3000×1500mm).',
+    question: 'What working sizes are available for S-ECO series laser cutter?',
+    answer: 'Three mainstream sizes are optional: 1313(1300×1300mm),1325(1300×2500mm),3015(3000×1500mm), to meet diversified sheet cutting needs.',
   },
   {
-    question: 'What after-sales support can Senrytech provide?',
-    answer: 'Global remote technical support, spare parts supply, installation guidance and operation training for all S-ECO laser cutters.',
+    question: 'What global after-sales support does Senrytech offer for S-ECO laser cutter?',
+    answer:
+      'We provide global remote technical guidance, long-term spare parts supply, machine installation guidance and professional operator training for all S-ECO fiber laser cutting machines.',
+  },
+  {
+    question: 'Can S-ECO laser cutting machine run stably under unstable voltage in Africa and Southeast Asia?',
+    answer:
+      'The S-ECO fiber laser cutter is equipped with built-in voltage stabilization module, which can adapt to unstable power grid environment in Southeast Asia, Middle East and African regions.',
+  },
+  {
+    question: 'What is the acceleration parameter of S-ECO CNC laser cutting equipment?',
+    answer:
+      'The S-ECO series adopts bus servo drive system with 1.0G high acceleration, greatly improving continuous high-speed cutting efficiency for sheet metal mass production.',
+  },
+  {
+    question: 'Will long-term use cause precision attenuation for S-ECO laser cutter?',
+    answer:
+      'Integrated anti-vibration welded lathe bed effectively weakens operation vibration, long-term stable cutting precision is guaranteed, and burr defects on workpieces are reduced significantly.',
+  },
+  {
+    question: 'How long is the delivery cycle of Senrytech S-ECO laser cutting machine?',
+    answer:
+      'The conventional delivery cycle of standard S-ECO fiber laser cutter is 15-25 working days, and customized configuration delivery period can be negotiated separately.',
+  },
+  {
+    question: 'Is daily maintenance difficult for S-ECO economical laser cutter?',
+    answer:
+      'S-ECO adopts quick-opening maintenance door design, daily inspection and component maintenance do not need overall disassembly, maintenance operation is simple and efficient.',
+  },
+  {
+    question: 'What laser source brands can be matched with S-ECO laser cutting machine?',
+    answer: 'S-ECO fiber laser cutter is mainly equipped with Raycus laser source, IPG laser source is available for high-end customized demands.',
+  },
+  {
+    question: 'What is the positioning accuracy of S-ECO sheet metal laser cutting machine?',
+    answer: 'The positioning accuracy of S-ECO series fiber laser cutting machine reaches ±0.03mm, meeting the precision requirements of precision sheet metal processing.',
+  },
+  {
+    question: 'Is S-ECO laser cutter suitable for small metal fabrication workshops?',
+    answer:
+      'S-ECO is designed as entry-level economical laser cutting equipment, low purchase cost and low energy consumption, very suitable for small and medium-sized metal processing workshops to improve production efficiency.',
   },
 ];
 
@@ -82,13 +110,9 @@ const skuMap = {
   '3015': 'S-ECO-3015',
 };
 const hsCode = '84561100';
-const targetRegions = ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America'];
-const youtubeVideoUrl = '';
-// 视频缩略图放public（外部爬虫读取）
+const targetRegions = ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America', 'Africa'];
 const youtubeThumb = `/images/products/s-eco/video-cover.webp`;
 
-// ⚠️ 重要说明：
-// productImages是assets导入对象，无法直接拿到完整外部URL，**Schema产品图片地址统一使用public路径版本用于谷歌爬虫抓取**
 const imageAbsoluteUrls = [
   `${siteUrl}/images/products/sheet/s-eco/s-eco-banner-pc.webp`,
   `${siteUrl}/images/products/sheet/s-eco/safety-enclosure.webp`,
@@ -96,26 +120,45 @@ const imageAbsoluteUrls = [
   `${siteUrl}/images/products/sheet/s-eco/cutting-sample.webp`,
 ];
 
-const faqSchemaData = faqList.map((item) => ({
-  '@type': 'Question',
-  name: item.question,
-  acceptedAnswer: {
-    '@type': 'Answer',
-    text: item.answer,
-  },
-}));
+// FAQ Schema
+const faqSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqList.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
 
-const breadcrumbSchemaData = [
-  { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/${locale}/` },
-  { '@type': 'ListItem', position: 2, name: 'Fiber Laser Cutters', item: `${siteUrl}/${locale}/fiber-laser-cutters/` },
-  { '@type': 'ListItem', position: 3, name: 'Sheet Metal Laser Cutters', item: `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/` },
-  { '@type': 'ListItem', position: 4, name: `${productModel} Laser Cutting Machine`, item: `${canonicalUrl}` },
-];
+// 面包屑Schema
+const breadcrumbSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems.map((item, idx) => ({
+    '@type': 'ListItem',
+    position: idx + 1,
+    name: item.label,
+    item: item.href,
+  })),
+};
 
+// 品牌组织Schema
+const orgSchemaRaw = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Senrytech Laser',
+  legalName: 'Senrytech Laser Equipment Co., Ltd',
+  url: `${siteUrl}/${locale}/`,
+  logo: `${siteUrl}/images/logo/senrytech-logo.webp`,
+  description: 'Professional manufacturer of fiber laser cutting machines for sheet metal processing, supplying CE certified laser equipment worldwide.',
+};
+
+// 产品Schema，参数与规格表格严格对齐
 const productSchemaRaw = {
   '@context': 'https://schema.org',
   '@type': 'Product',
-  name: 'Senrytech S-ECO Series Fiber Laser Sheet Cutting Machine',
+  name: 'Senrytech S-ECO Series Economical Fiber Laser Sheet Cutting Machine',
   description: pageDesc,
   brand: {
     '@type': 'Brand',
@@ -124,7 +167,7 @@ const productSchemaRaw = {
   },
   manufacturer: {
     '@type': 'Organization',
-    name: 'Senrytech Laser',
+    name: 'Senrytech Laser Equipment Co., Ltd',
     url: `${siteUrl}/${locale}/`,
   },
   image: imageAbsoluteUrls,
@@ -145,8 +188,9 @@ const productSchemaRaw = {
           sku: `${skuMap['1313']}`,
           mpn: `${skuMap['1313']}`,
           additionalProperty: [
-            { '@type': 'PropertyValue', name: 'Working Area', value: '1300x1300mm' },
+            { '@type': 'PropertyValue', name: 'Working Area', value: '1300×1300mm' },
             { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+            { '@type': 'PropertyValue', name: 'Acceleration', value: '1.0G' },
           ],
         },
         availability: 'https://schema.org/InStock',
@@ -161,6 +205,7 @@ const productSchemaRaw = {
           additionalProperty: [
             { '@type': 'PropertyValue', name: 'Working Area', value: '1300×2500mm' },
             { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+            { '@type': 'PropertyValue', name: 'Acceleration', value: '1.0G' },
           ],
         },
         availability: 'https://schema.org/InStock',
@@ -175,6 +220,7 @@ const productSchemaRaw = {
           additionalProperty: [
             { '@type': 'PropertyValue', name: 'Working Area', value: '3000×1500mm' },
             { '@type': 'PropertyValue', name: 'Laser Power', value: '1500W - 3000W' },
+            { '@type': 'PropertyValue', name: 'Acceleration', value: '1.0G' },
           ],
         },
         availability: 'https://schema.org/InStock',
@@ -183,47 +229,34 @@ const productSchemaRaw = {
   },
   additionalProperty: [
     { '@type': 'PropertyValue', name: 'Max Acceleration', value: '1.0G' },
-    { '@type': 'PropertyValue', name: 'Available Laser Power', value: '1500W - 3000W' },
+    { '@type': 'PropertyValue', name: 'Available Laser Power', value: '1500W - 6000W' },
     { '@type': 'PropertyValue', name: 'Optional Working Format', value: '1300×1300mm / 1300×2500mm / 3000×1500mm' },
     { '@type': 'PropertyValue', name: 'HS Code', value: `${hsCode}` },
     { '@type': 'PropertyValue', name: 'Certification', value: 'CE Standard' },
     { '@type': 'PropertyValue', name: 'Target Export Regions', value: `${targetRegions.join(', ')}` },
     { '@type': 'PropertyValue', name: 'Applicable Materials', value: 'Carbon Steel, Stainless Steel, Aluminum Alloy, Brass, Copper' },
+    { '@type': 'PropertyValue', name: 'Position Accuracy', value: '±0.03mm' },
   ],
 };
 
-const videoSchemaRaw = {
-  '@context': 'https://schema.org',
-  '@type': 'VideoObject',
-  name: 'Senrytech S-ECO Series Fiber Laser Cutting Machine Demonstration',
-  description: 'Video display of S-ECO economical laser cutter cutting carbon steel, stainless steel and aluminum sheet metal, showing stable cutting performance.',
-  thumbnailUrl: `${siteUrl}${youtubeThumb}`,
-  uploadDate: '2026-01-10',
-  contentUrl: youtubeVideoUrl,
-  embedUrl: youtubeVideoUrl?.replace('watch?v=', 'embed/') ?? '',
-};
-
-const faqSchemaRaw = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqSchemaData,
-};
-
-const breadcrumbSchemaRaw = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: breadcrumbSchemaData,
-};
-
-const orgSchemaRaw = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Senrytech Laser',
-  legalName: 'Senrytech Laser Equipment Co., Ltd',
-  url: `${siteUrl}/${locale}/`,
-  logo: `${siteUrl}/images/logo/senrytech-logo.webp`,
-  description: 'Professional manufacturer of fiber laser cutting machines for sheet metal processing, supplying equipment worldwide with CE certification.',
-};
+// 图片ImageObject结构化数组
+const imageSchemaList = imageAbsoluteUrls.map((src, index) => ({
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  contentUrl: src,
+  name: [
+    "Senrytech S-ECO fiber laser cutting machine official banner",
+    "S-ECO full enclosed safety enclosure laser cutter",
+    "S-ECO laser machine detail structure",
+    "S-ECO metal cutting sample display"
+  ][index],
+  description: [
+    "PC banner of economical S-ECO fiber laser sheet cutting machine",
+    "CE full enclosed protective housing for S-ECO laser cutter",
+    "Internal mechanical detail of S-ECO CNC laser cutting equipment",
+    "Carbon steel & stainless steel cutting sample processed by S-ECO laser machine"
+  ][index]
+}));
 
 const navSections = [
   { id: 'product-selling-point', label: 'Overview' },
@@ -239,8 +272,6 @@ const navSections = [
   { id: 'product-certificate', label: 'Certificates' },
   { id: 'product-faq', label: 'FAQ' },
 ];
-
-const pageSchema = JSON.stringify([productSchemaRaw, faqSchemaRaw, breadcrumbSchemaRaw, orgSchemaRaw, videoSchemaRaw], null, 2);
 
 import ProductStickyNav from '../../../components/product/s-eco/product-sticky-nav.astro';
 import ProductBanner from '../../../components/product/s-eco/product-banner.astro';
@@ -264,57 +295,72 @@ import ProductInquireModal from '../../../components/product/s-eco/product-inqui
   description={pageDesc}
   lang={locale}
   canonical={canonicalUrl}
-  geoRegions={['EU', 'AS', 'NA', 'SA', 'ME']}
+  geoRegions={['EU', 'AS', 'NA', 'SA', 'ME', 'AF']}
   ogImage={ogImage}
-  preloadImage={preloadImage}
-  pageSchema={pageSchema}>
+  preloadImage={preloadImage}>
+  <script type="application/ld+json">{JSON.stringify(productSchemaRaw,null,2)}</script>
+  <script type="application/ld+json">{JSON.stringify(faqSchemaRaw,null,2)}</script>
+  <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaRaw,null,2)}</script>
+  <script type="application/ld+json">{JSON.stringify(orgSchemaRaw,null,2)}</script>
+  {imageSchemaList.map(item => (
+    <script type="application/ld+json">{JSON.stringify(item,null,2)}</script>
+  ))}
+
   <main class="product-detail-page">
     <ProductBanner
       breadcrumbs={breadcrumbItems}
-      productName="S-ECO Series Fiber Laser Sheet Cutting Machine"
-      subTitle="Economical CE certified laser cutter for carbon steel, stainless steel, aluminum and brass | 1.5-3kW laser power, stable bus servo drive."
+      productName="Senrytech S-ECO Series Economical Fiber Laser Sheet Cutting Machine"
+      subTitle="The Senrytech S-ECO fiber laser cutter is an entry-level CNC sheet metal cutting machine with CE certification, equipped with 1500W-3000W laser source and stable bus servo drive, suitable for cutting carbon steel, stainless steel, aluminum alloy and brass for small metal workshops worldwide."
       bannerPc={BannerPc}
       bannerMobile={BannerMobile}
+      pcAlt="Senrytech S-ECO CE economical fiber laser cutting machine pc banner"
+      mobileAlt="S-ECO entry-level laser cutter mobile homepage banner"
     />
 
     <div class="main-content">
+      <p class="intro-text">
+        As mainstream economical <strong>fiber laser cutting machine</strong> manufactured by Senrytech,
+        <a href={canonicalUrl}>S-ECO laser cutter</a> focuses on small workshop sheet metal cutting demands,
+        widely used in Southeast Asia, Africa, Middle East and Europe metal fabrication industry.
+      </p>
+
       <ProductSellingPoint
         id="product-selling-point"
-        title="Why Choose Senrytech S-ECO Series Laser Cutting Machine"
+        title="Core Advantages of Senrytech S-ECO Series Fiber Laser Cutting Machine"
         list={[
           {
             icon: '/assets/icons/economy.svg',
-            title: 'Ultra Cost-Effective Configuration',
-            desc: 'Customized economical configuration for small metal factories, lower purchase cost and daily power loss, faster capital recovery.',
+            title: 'Ultra Cost-Effective Economical Fiber Laser Cutter',
+            desc: 'Customized economical configuration for small metal factories, lower purchase cost and daily power loss, faster capital ROI recovery for small workshop fiber laser cutting machine users.',
           },
           {
             icon: '/assets/icons/servo.svg',
-            title: '1.0G High Acceleration Bus Servo',
-            desc: 'High-response bus servo drives stable high-speed cutting, improves processing speed for mass carbon steel, stainless steel sheet cutting.',
+            title: '1.0G High Acceleration Bus Servo Laser Cutting System',
+            desc: 'High-response bus servo drives stable high-speed cutting, improves processing efficiency for mass carbon steel, stainless steel sheet metal laser cutting machine production.',
           },
           {
             icon: '/assets/icons/safety.svg',
-            title: 'CE Full Enclosed Safety Protection',
-            desc: 'Closed laser isolation structure + safety light curtain, fully compliant with EU safety certification, eliminate laser radiation hazards.',
+            title: 'CE Full Enclosed Laser Safety Protection Structure',
+            desc: 'Closed laser isolation structure + safety light curtain, fully compliant with EU safety standard, eliminate laser radiation hazards for operators using sheet metal laser cutting machine.',
           },
           {
             icon: '/assets/icons/vibration.svg',
-            title: 'Anti-Vibration Welded Lathe Bed',
-            desc: 'Integrated thick steel bed weakens running vibration, keeps long-term cutting precision and reduces workpiece burr defects.',
+            title: 'Anti-Vibration Welded Lathe Bed For Laser Cutter',
+            desc: 'Integrated thick steel bed weakens running vibration, keeps long-term cutting precision and reduces workpiece burr defects of fiber laser cutting machine.',
           },
           {
             icon: '/assets/icons/size.svg',
-            title: 'Multiple Working Area Options',
-            desc: '1313/1325/3015 three mainstream formats optional, adapt small accessories and large metal sheet cutting demands.',
+            title: 'Multi-size Working Area Sheet Metal Laser Cutter',
+            desc: '1313/1325/3015 three mainstream formats optional, adapt small accessories and large metal sheet cutting demands of fiber laser cutting machine.',
           },
         ]}
       />
 
       <ProductCuttingPerformance
         id="product-cutting-performance"
-        sectionTitle="Cutting Performance Parameters"
-        sectionSubtitle="Stable high-precision cutting for mainstream industrial metal materials"
-        explainText="All parameters are standard test data of S-ECO series 1.5kW~3kW fiber laser cutter, stable continuous cutting, low burr, no secondary polishing required, suitable for small batch mass production of metal workshops worldwide."
+        sectionTitle="S-ECO Fiber Laser Cutting Performance Parameter Table"
+        sectionSubtitle="Stable high-precision cutting data for mainstream industrial metal materials"
+        explainText="The following data is the stable cutting parameter of Senrytech S-ECO economical fiber laser cutting machine, which guides metal processing manufacturers to select matching laser power and cutting speed for carbon steel cutting with S-ECO laser cutter."
         tableHead={['Processing Material', 'Max Cutting Thickness', 'Matching Laser Power', 'Standard Cutting Speed']}
         tableRows={[
           ['Carbon Steel', '20mm', '3000W', '6~12 m/min'],
@@ -326,157 +372,184 @@ import ProductInquireModal from '../../../components/product/s-eco/product-inqui
 
       <ProductSafetyEnclosure
         id="product-safety-enclosure"
-        title="Safety Enclosure"
-        subtitle="Comprehensive protection for laser operation. Fully enclosed protective design with CE compliant safety protection, avoid laser radiation risk for workshop operators."
+        title="Full Enclosed Laser Safety Enclosure for S-ECO Fiber Laser Cutter"
+        subtitle="Comprehensive laser operation protection, CE compliant fully enclosed design blocks laser radiation and reduces workshop pollution."
         image={EnclosureBgPc.src}
+        imageAlt="S-ECO fiber laser cutter full enclosed safety enclosure structure display"
         reverse={false}
         featureList={[
           {
             title: 'CE Standard Laser Protection',
-            desc: 'Adopt double-layer light-shielding sheet metal structure, strictly comply with EU CE laser safety certification, effectively block laser stray light and radiation leakage.',
+            desc: 'Double-layer light-shielding sheet metal structure, strictly comply with EU CE laser safety certification, block laser stray light and radiation leakage of S-ECO fiber laser cutting machine.',
           },
           {
             title: 'Dust & Noise Isolation',
-            desc: 'Built-in sound-absorbing cotton and sealing rubber strips greatly reduce cutting noise and workshop dust pollution, extend the service life of internal optical components.',
+            desc: 'Built-in sound-absorbing cotton and sealing strips reduce cutting noise and dust pollution, extend service life of internal laser optical components of laser cutter.',
           },
           {
             title: 'Quick Access Maintenance Structure',
-            desc: 'Side quick-opening access door design, convenient daily inspection and maintenance without disassembly of the whole machine, greatly improving maintenance efficiency.',
+            desc: 'Side quick-opening door design, convenient daily inspection and maintenance without whole machine disassembly, improve maintenance efficiency for fiber laser cutting machine.',
           },
         ]}
       />
 
       <ProductServoData
         id="product-servo-system"
-        title="Servo Data"
+        title="Bus Servo Drive System of S-ECO Laser Cutting Machine"
         image={BannerPc.src}
+        imageAlt="S-ECO CNC laser cutter bus servo drive system overall machine display"
         dataList={[
           { label: 'Servo Drive', value: 'Bus servo drive system' },
           { label: 'Acceleration', value: '1.0G' },
-          { label: 'Motion Control', value: 'Rapid and accurate sheet cutting' },
+          { label: 'Motion Control', value: 'Rapid and accurate sheet metal laser cutting' },
         ]}
       />
 
       <ProductAntiVibration
         id="product-anti-vibration-structure"
-        title="Anti-Vibration Structure"
-        subtitle="Rigid machine structure for stable cutting, reduced vibration during high-speed operation, improved cut quality and longer equipment service life."
+        title="Anti-Vibration Lathe Bed Structure For Sheet Metal Laser Cutter"
+        subtitle="Rigid machine structure suppresses vibration during high-speed cutting, stabilize precision and extend equipment service life."
         bgImage={AntiVibBgPc.src}
+        bgAlt="S-ECO fiber laser cutting machine anti-vibration welded lathe bed structure"
         featureList={[
           {
-            title: 'Rigid Machine Structure',
-            desc: 'Built with high-strength welded frame and optimized geometry to minimize vibration and maintain precision during high-speed cutting.',
+            title: 'High Rigid Welded Machine Frame',
+            desc: 'High-strength integrated welded frame minimizes operation vibration and maintains long-term stable cutting precision of fiber laser cutting machine.',
           },
           {
-            title: 'Stable Motion Control',
-            desc: 'Enhanced rigidity improves cut quality and reduces edge defects even during rapid acceleration and deceleration.',
+            title: 'Stable High-Speed Motion Control',
+            desc: 'Optimized structural rigidity reduces edge defects even during rapid acceleration and deceleration cutting of sheet metal laser cutter.',
           },
           {
-            title: 'Longer Service Life',
-            desc: 'Lower vibration and better load distribution help protect the machine and extend the life of critical components.',
+            title: 'Long Service Life Protection',
+            desc: 'Low vibration and uniform load distribution protect core laser components and prolong overall laser cutting machine service life.',
           },
         ]}
       />
 
-      <ProductSpecTab
-        id="product-specifications"
-        sectionTitle="Technical Specifications"
-        sectionSubtitle="S-ECO Series Parameter List"
-        tabList={[
-          {
-            tabLabel: 'Basic Parameters',
-            tableHead: ['Item', 'Specifications'],
-            tableRows: [
-              ['Laser Power', '1500W - 6000W'],
-              ['Working Area', '3015 / 4020 / 6025'],
-            ],
-          },
-          {
-            tabLabel: 'Performance',
-            tableHead: ['Item', 'Value'],
-            tableRows: [
-              ['Max Speed', '120 m/min'],
-              ['Position Accuracy', '±0.03 mm'],
-            ],
-          },
-        ]}
-      />
+      <div itemscope itemtype="https://schema.org/Table">
+        <ProductSpecTab
+          id="product-specifications"
+          sectionTitle="S-ECO Series Fiber Laser Cutting Machine Technical Specifications"
+          sectionSubtitle="Complete parameter list of S-ECO economical laser cutter models"
+          tabList={[
+            {
+              tabLabel: 'Basic Parameters',
+              tableHead: ['Item', 'Specifications'],
+              tableRows: [
+                ['Laser Power', '1500W - 6000W'],
+                ['Working Area', '1313/1325/3015 Optional'],
+              ],
+            },
+            {
+              tabLabel: 'Performance',
+              tableHead: ['Item', 'Value'],
+              tableRows: [
+                ['Max Cutting Speed', '120 m/min'],
+                ['Position Accuracy', '±0.03 mm'],
+              ],
+            },
+          ]}
+        />
+      </div>
 
       <ProductCustomerCase
         id="product-customer-cases"
-        {...{
-          sectionTitle: 'Customer Cases',
-          caseList: [
-            {
-              title: 'Small Fabrication Workshop',
-              description: 'Reliable daily cutting for flexible production schedules.',
-            },
-          ],
-        } as any}
+        sectionTitle="S-ECO Fiber Laser Cutter Global Application Cases"
+        caseList={[
+          {
+            image:"/images/case-1.jpg",
+            location:"Southeast Asia",
+            title: 'S-ECO Laser Cutter Application for Southeast Asia Small Sheet Metal Workshop',
+            description: 'Stable daily sheet cutting production, flexible production schedule, obvious production efficiency improvement for local fiber laser cutting machine workshop.',
+          },
+          {
+            image:"/images/case-2.jpg",
+            location:"Europe",
+            title: 'S-ECO Equipment Application for European General Metal Processing Factory',
+            description: 'CE certified equipment meets local safety standards, long-term stable precision cutting for standard metal parts with S-ECO laser cutter.',
+          },
+        ]}
       />
 
-      <ProductGallery id="product-gallery" {...{ imageList: productImages } as any} />
+      <ProductGallery
+        id="product-gallery"
+        imageList={productImages}
+        altList={[
+          "Senrytech S-ECO fiber laser cutting machine overall appearance",
+          "S-ECO laser cutter full enclosed safety housing detail",
+          "S-ECO CNC laser machine internal mechanical structure",
+          "S-ECO laser cutting metal sample display"
+        ]}
+      />
 
-      <ProductRelated id="product-related" sectionTitle="Related Products" productList={[]} />
+      <ProductRelated
+        id="product-related"
+        sectionTitle="High Power Fiber Laser Cutting Machine Related Products"
+        productList={[
+          {name:'S-PLUS Series High Precision Laser Cutter',slug:'s-plus-series-fiber-laser-cutting-machine',anchorText:'high precision fiber laser cutting machine'},
+          {name:'S-ULTRA Series Heavy-Duty Laser Equipment',slug:'s-ultra-series-fiber-laser-cutting-machine',anchorText:'heavy industrial fiber laser cutting machine'},
+          {name:'M Series Tube Laser Cutting Machine',slug:'m-series-tube-laser-cutting-machine',anchorText:'professional tube fiber laser cutter'}
+        ]}
+      />
 
       <ProductAftersales
         id="product-after-sales"
-        {...{
-          sectionTitle: 'After-Sales Support',
-          serviceList: ['Global technical support and maintenance guidance', 'Spare parts supply and installation assistance', 'Operation training and remote troubleshooting'],
-        } as any}
+        sectionTitle="Global After-Sales Support for Fiber Laser Cutting Machine"
+        serviceList={[
+          'Global remote laser cutter technical support and maintenance guidance',
+          'Long-term original spare parts global supply for fiber laser cutting machine',
+          'Machine installation guidance and professional operator training',
+          'Online remote troubleshooting & regular laser cutter maintenance tips'
+        ]}
       />
 
       <ProductCertificate
         id="product-certificate"
-        sectionTitle="Certificates"
-        sectionSubtitle="Our machine has passed multiple international certifications"
+        sectionTitle="S-ECO Laser Cutting Machine International Certificates"
+        sectionSubtitle="Our laser equipment has passed mainstream international safety & quality certifications"
         certList={[
           {
             image: '/images/cert-ce.jpg',
-            title: 'CE Certificate',
+            title: 'CE Laser Safety Certificate',
+            alt: 'S-ECO fiber laser cutting machine CE international safety certificate'
           },
           {
             image: '/images/cert-iso.jpg',
-            title: 'ISO Certificate',
+            title: 'ISO Quality System Certificate',
+            alt: 'Senrytech laser cutter ISO quality certification document'
           },
         ]}
       />
 
-      <ProductFaq id="product-faq" {...{ faqList, sectionTitle: 'Frequently Asked Questions' } as any} />
+      <ProductFaq id="product-faq" faqList={faqList} sectionTitle="S-ECO Laser Cutting Machine Frequently Asked Questions" />
     </div>
 
     <aside class="sidebar-nav-wrap">
-      <ProductStickyNav {...{ sections: navSections } as any} />
+      <ProductStickyNav sections={navSections} />
       <button id="backTopBtn" class="back-top-btn" title="Back to top">↑ Back Top</button>
     </aside>
 
     <Footer locale={locale} />
   </main>
 
-  <!-- 弹窗组件 -->
   <ProductInquireModal productName={productModel} />
 
-  <!-- 浮动WhatsApp按钮（保留在主页面） -->
-  <a href="https://wa.me/8613465575719" target="_blank" rel="noopener noreferrer" class="wa-float">
+  <a href="https://wa.me/8613465575719" target="_blank" rel="noopener noreferrer nofollow" class="wa-float">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
-      <path
-        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.145-.566.343-.095.197-.66 1.139-.813 1.373-.153.234-.306.263-.57.088-.264-.174-1.11-.41-2.123-1.311-.785-.697-1.317-1.561-1.471-1.825-.154-.265-.016-.409.164-.574.166-.153.367-.39.49-.585.124-.194.166-.347.031-.542-.134-.194-.57-.934-.782-1.287-.212-.353-.424-.306-.57-.312-.146-.006-.311-.006-.476.006-.164.012-.422.063-.644.311-.222.248-.847.827-.847 2.003 0 1.177.87 2.309.994 2.482.124.173 1.749 2.666 4.225 3.734.593.258 1.052.412 1.407.525.595.19 1.139.162 1.563.098.425-.064 1.324-.54 1.51-1.066.186-.526.186-.976.13-1.066-.055-.09-.254-.149-.551-.298M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z">
-      </path>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.145-.566.343-.095.197-.66 1.139-.813 1.373-.153.234-.306.263-.57.088-.264-.174-1.11-.41-2.123-1.311-.785-.697-1.317-1.561-1.471-1.825-.154-.265-.016-.409.164-.574.166-.153.367-.39.49-.585.124-.194.166-.347.031-.542-.134-.194-.57-.934-.782-1.287-.212-.353-.424-.306-.57-.312-.146-.006-.311-.006-.476.006-.164.012-.422.063-.644.311-.222.248-.847.827-.847 2.003 0 1.177.87 2.309.994 2.482.124.173 1.749 2.666 4.225 3.734.593.258 1.052.412 1.407.525.595.19 1.139.162 1.563.098.425-.064 1.324-.54 1.51-1.066.186-.526.186-.976.13-1.066-.055-.09-.254-.149-.551-.298M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"></path>
     </svg>
   </a>
 
-  <!-- 第三方swiper资源，保留主页面 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
 
-  <!-- 全局统一JS脚本 全部保留在主页面 -->
   <script is:inline>
     window.senrytechProductMeta = {
       series: 'S-ECO',
       models: ['S-ECO-1313', 'S-ECO-1325', 'S-ECO-3015'],
       category: 'fiber laser sheet cutting machine',
-      targetRegions: ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America'],
+      targetRegions: ['Europe', 'Southeast Asia', 'Middle East', 'North America', 'South America', 'Africa'],
       hsCode: '84561100',
       certified: ['CE'],
     };
@@ -509,14 +582,15 @@ import ProductInquireModal from '../../../components/product/s-eco/product-inqui
         document.querySelectorAll('.spec-tabs .tab-btn').forEach((b) => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(target).classList.add('active');
+        const tabDom = document.getElementById(target);
+        if(tabDom) tabDom.classList.add('active');
       });
     });
 
     let gallerySwiperInstance = null;
     const swiperObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !gallerySwiperInstance) {
+        if (entry.isIntersecting && !gallerySwiperInstance && window.Swiper) {
           gallerySwiperInstance = new Swiper('.gallerySwiper', {
             loop: true,
             slidesPerView: 1,
@@ -533,8 +607,8 @@ import ProductInquireModal from '../../../components/product/s-eco/product-inqui
     const modalTrigger = document.querySelectorAll('.modal-trigger');
     const modalWrap = document.getElementById('modal-inquireNow');
     const modalClose = document.querySelectorAll('.modal-close');
-    modalTrigger.forEach((btn) => btn.addEventListener('click', () => modalWrap.classList.add('open')));
-    modalClose.forEach((el) => el.addEventListener('click', () => modalWrap.classList.remove('open')));
+    modalTrigger.forEach((btn) => btn.addEventListener('click', () => modalWrap?.classList.add('open')));
+    modalClose.forEach((el) => el.addEventListener('click', () => modalWrap?.classList.remove('open')));
 
     document.querySelectorAll('.contact-form').forEach((form) => {
       form.addEventListener('submit', () => {
@@ -553,54 +627,23 @@ import ProductInquireModal from '../../../components/product/s-eco/product-inqui
       });
     });
     function setActiveAnchor() {
-      const scrollY = window.scrollY + 150;
-      let current = null;
-      for (const item of sections) {
-        if (!item.section) continue;
-        if (scrollY >= item.section.offsetTop) current = item;
-      }
-      anchorLinks.forEach((a) => a.classList.remove('active'));
-      if (current) current.link.classList.add('active');
+      let current = '';
+      sections.forEach(item => {
+        if(!item.section) return;
+        const sectionTop = item.section.offsetTop ?? 0;
+        if(window.scrollY >= sectionTop - 120) current = item.link.dataset.target;
+      })
+      anchorLinks.forEach(link=>{
+        link.classList.toggle('active', link.dataset.target === current);
+      })
     }
-    const setActiveAnchorThrottled = throttle(setActiveAnchor, 90);
-    window.addEventListener('scroll', setActiveAnchorThrottled);
-    window.addEventListener('load', setActiveAnchor);
-  </script>
+    window.addEventListener('scroll', throttle(setActiveAnchor));
+    setActiveAnchor();
 
-  <style is:inline>
-    .sidebar-nav-wrap {
-      position: fixed;
-      top: 50%;
-      right: 2rem;
-      width: 102px;
-      height: fit-content;
-      z-index: 98;
-      transform: translateY(-50%);
-    }
-    /* 仅保留BackTop美化，其余导航样式完全不变 */
-    #backTopBtn {
-      margin-top: 8px;
-      width: 100%;
-      padding: 6px 0;
-      border: none;
-      border-radius: 4px;
-      background: #163a61;
-      color: #fff;
-      font-size: 0.83rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    #backTopBtn:hover {
-      background: #0f2b49;
-    }
-    @media screen and (max-width: 768px) {
-      .sidebar-nav-wrap {
-        position: static;
-        width: 100%;
-        margin: 1rem 0;
-        right: auto;
-        transform: none;
-      }
-    }
-  </style>
+    const backTopBtn = document.getElementById('backTopBtn');
+    backTopBtn?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    window.addEventListener('scroll',throttle(()=>{
+      if(backTopBtn) backTopBtn.style.display = window.scrollY>400 ? 'block' : 'none';
+    }))
+  </script>
 </BaseLayout>

@@ -14,9 +14,11 @@ export interface Props {
   bannerMobile?: ImageMetadata;
   bannerUrlPc?: string;
   bannerUrlMobile?: string;
+  pcAlt: string;
+  mobileAlt: string;
 }
 
-const { breadcrumbs, productName, subTitle, bannerPc, bannerMobile, bannerUrlPc, bannerUrlMobile } = Astro.props;
+const { breadcrumbs, productName, subTitle, bannerPc, bannerMobile, bannerUrlPc, bannerUrlMobile, pcAlt, mobileAlt } = Astro.props;
 const highlightKey = Astro.props.highlightKey || 'S-ECO';
 const renderHighlightName = () => {
   const target = highlightKey;
@@ -29,9 +31,9 @@ const renderHighlightName = () => {
   <div class="banner-bg pc">
     {
       bannerPc ? (
-        <Image src={bannerPc} alt={`${productName} official PC banner`} class="banner-img" sizes="100vw" width={1920} height={1080} decoding="async" />
+        <Image src={bannerPc} alt={pcAlt} class="banner-img" sizes="100vw" width={1920} height={1080} decoding="async" />
       ) : bannerUrlPc ? (
-        <img src={bannerUrlPc} alt={`${productName} official PC banner`} class="banner-img" loading="eager" />
+        <img src={bannerUrlPc} alt={pcAlt} class="banner-img" loading="eager" />
       ) : null
     }
   </div>
@@ -39,9 +41,9 @@ const renderHighlightName = () => {
   <div class="banner-bg mobile">
     {
       bannerMobile ? (
-        <Image src={bannerMobile} alt={`${productName} mobile banner`} class="banner-img" sizes="100vw" width={750} height={1334} decoding="async" />
+        <Image src={bannerMobile} alt={mobileAlt} class="banner-img" sizes="100vw" width={750} height={1334} decoding="async" />
       ) : bannerUrlMobile ? (
-        <img src={bannerUrlMobile} alt={`${productName} mobile banner`} class="banner-img" loading="eager" />
+        <img src={bannerUrlMobile} alt={mobileAlt} class="banner-img" loading="eager" />
       ) : null
     }
   </div>

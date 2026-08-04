@@ -1,16 +1,13 @@
 ---
-export interface GalleryImage {
-  thumbnail: string;
-  original: string;
-  alt: string;
-}
+import type { ImageMetadata } from 'astro';
 
 export interface Props {
-  id?: string;
+  id: string;
   sectionTitle?: string;
-  imageList: GalleryImage[];
+  imageList: ImageMetadata[];
+  altList: string[];
 }
-const { id, sectionTitle, imageList } = Astro.props;
+const { id, sectionTitle, imageList, altList } = Astro.props;
 ---
 
 <section class="product-gallery" id={id}>
@@ -22,22 +19,21 @@ const { id, sectionTitle, imageList } = Astro.props;
         </div>
       )
     }
-
     <div class="gallery-swiper">
       <div class="swiper-main">
         {
-          imageList.map((img) => (
+          imageList.map((img, idx) => (
             <div class="swiper-slide">
-              <img src={img.original} alt={img.alt} loading="lazy" />
+              <img src={img.src} alt={altList[idx]} loading="lazy" />
             </div>
           ))
         }
       </div>
       <div class="swiper-thumbs">
         {
-          imageList.map((img) => (
+          imageList.map((img, idx) => (
             <div class="thumb-slide">
-              <img src={img.thumbnail} alt={img.alt} loading="lazy" />
+              <img src={img.src} alt={altList[idx]} loading="lazy" />
             </div>
           ))
         }
