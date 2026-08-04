@@ -16,9 +16,10 @@ export interface Props {
   bannerUrlMobile?: string;
   pcAlt: string;
   mobileAlt: string;
+  introText?: string;
 }
 
-const { breadcrumbs, productName, subTitle, bannerPc, bannerMobile, bannerUrlPc, bannerUrlMobile, pcAlt, mobileAlt } = Astro.props;
+const { breadcrumbs, productName, subTitle, bannerPc, bannerMobile, bannerUrlPc, bannerUrlMobile, pcAlt, mobileAlt, introText } = Astro.props;
 const highlightKey = Astro.props.highlightKey || 'S-ECO';
 const renderHighlightName = () => {
   const target = highlightKey;
@@ -70,6 +71,7 @@ const renderHighlightName = () => {
     <div class="banner-text">
       <h1><span class="model-name">S-ECO</span> Series Fiber Laser Sheet<br />Cutting Machine</h1>
       {subTitle && <p class="banner-sub">{subTitle}</p>}
+      {introText && <div class="banner-sub">{introText}</div>}
     </div>
   </div>
 </section>
@@ -218,6 +220,30 @@ const renderHighlightName = () => {
     }
     .right-side-nav {
       right: 10px;
+    }
+  }
+  .banner-intro {
+    width: min(1440px, calc(100% - 4rem));
+    margin: 0 auto;
+    padding: 28px 0 36px;
+    line-height: 1.72;
+    font-size: 1rem;
+    color: #222;
+    border-top: 1px solid #eee;
+  }
+  .banner-intro strong {
+    font-weight: 600;
+  }
+  .banner-intro a {
+    color: #163a61;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  @media (max-width: 768px) {
+    .banner-intro {
+      width: calc(100% - 2rem);
+      padding: 22px 0 30px;
+      font-size: 0.96rem;
     }
   }
 </style>

@@ -20,18 +20,18 @@ const pageSlug = 's-eco-series-fiber-laser-sheet-cutting-machine';
 const productModel = 'S-ECO Series';
 const coreKeyword = 'fiber laser cutting machine';
 
-// 标题严格60字符内定稿
 const pageTitle = `Economical S-ECO ${coreKeyword} | CE Sheet Metal Laser Cutter - Senrytech`;
 const pageDesc = `Senrytech S-ECO CE ${coreKeyword},1.5-3kW,1.0G acceleration,stable for unstable voltage Africa & SEA,ideal small workshop carbon steel cutting equipment.`;
-const canonicalUrl = `${siteUrl}/${locale}/fiber-laser-cutters/sheet-cutting/${pageSlug}/`;
+const canonicalUrl = `${siteUrl}/${locale}/laser-processing-equipment/fiber-laser-cutters/sheet/${pageSlug}/`;
 
 const ogImage = `${siteUrl}/images/products/sheet/s-eco/s-eco-banner-pc.webp`;
 const preloadImage = ogImage;
 
 const breadcrumbItems = [
   { label: 'Home', href: `/${locale}/` },
-  { label: 'Fiber Laser Cutters', href: `/${locale}/fiber-laser-cutters/` },
-  { label: 'Sheet Metal Laser Cutters', href: `/${locale}/fiber-laser-cutters/sheet-cutting/` },
+  { label: 'Laser Processing Equipment', href: `/${locale}/laser-processing-equipment/` },
+  { label: 'Fiber Laser Cutters', href: `/${locale}/laser-processing-equipment/fiber-laser-cutters/` },
+  { label: 'Sheet', href: `/${locale}/laser-processing-equipment/fiber-laser-cutters/sheet/` },
   { label: `${productModel} Laser Cutting Machine`, href: canonicalUrl },
 ];
 
@@ -314,41 +314,43 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
       bannerMobile={BannerMobile}
       pcAlt="Senrytech S-ECO CE economical fiber laser cutting machine pc banner"
       mobileAlt="S-ECO entry-level laser cutter mobile homepage banner"
+      introText={
+        <>
+          As mainstream economical <strong>fiber laser cutting machine</strong> manufactured by Senrytech,
+          S-ECO laser cutter focuses on small workshop sheet metal cutting demands,
+          widely used in Southeast Asia, Africa, Middle East and Europe metal fabrication industry.
+        </>
+      }
     />
 
     <div class="main-content">
-      <p class="intro-text">
-        As mainstream economical <strong>fiber laser cutting machine</strong> manufactured by Senrytech,
-        <a href={canonicalUrl}>S-ECO laser cutter</a> focuses on small workshop sheet metal cutting demands,
-        widely used in Southeast Asia, Africa, Middle East and Europe metal fabrication industry.
-      </p>
 
       <ProductSellingPoint
         id="product-selling-point"
         title="Core Advantages of Senrytech S-ECO Series Fiber Laser Cutting Machine"
         list={[
           {
-            icon: '/assets/icons/economy.svg',
+            icon: '/assets/images/icons/economy.svg',
             title: 'Ultra Cost-Effective Economical Fiber Laser Cutter',
             desc: 'Customized economical configuration for small metal factories, lower purchase cost and daily power loss, faster capital ROI recovery for small workshop fiber laser cutting machine users.',
           },
           {
-            icon: '/assets/icons/servo.svg',
+            icon: '/assets/images/icons/servo.svg',
             title: '1.0G High Acceleration Bus Servo Laser Cutting System',
             desc: 'High-response bus servo drives stable high-speed cutting, improves processing efficiency for mass carbon steel, stainless steel sheet metal laser cutting machine production.',
           },
           {
-            icon: '/assets/icons/safety.svg',
+            icon: '/assets/images/icons/safety.svg',
             title: 'CE Full Enclosed Laser Safety Protection Structure',
             desc: 'Closed laser isolation structure + safety light curtain, fully compliant with EU safety standard, eliminate laser radiation hazards for operators using sheet metal laser cutting machine.',
           },
           {
-            icon: '/assets/icons/vibration.svg',
+            icon: '/assets/images/icons/vibration.svg',
             title: 'Anti-Vibration Welded Lathe Bed For Laser Cutter',
             desc: 'Integrated thick steel bed weakens running vibration, keeps long-term cutting precision and reduces workpiece burr defects of fiber laser cutting machine.',
           },
           {
-            icon: '/assets/icons/size.svg',
+            icon: '/assets/images/icons/size.svg',
             title: 'Multi-size Working Area Sheet Metal Laser Cutter',
             desc: '1313/1325/3015 three mainstream formats optional, adapt small accessories and large metal sheet cutting demands of fiber laser cutting machine.',
           },
