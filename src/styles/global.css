@@ -260,3 +260,41 @@ section[id] {
 .num-highlight {
   color: #30658c;
 }
+
+/* 追加全局通用工具类 */
+.brand-color {
+  color: var(--brand-light);
+}
+.num-highlight {
+  color: var(--brand-aux);
+}
+table {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+table td {
+  border: 1px solid rgba(var(--brand-main-rgb), 0.1);
+  padding: 16px 20px;
+}
+table tr:nth-child(odd) {
+  background: var(--bg-light);
+}
+/* 旧冲突导航全局永久隐藏 */
+.sticky-anchor-nav {
+  display: none;
+}
+/* 占位文本通用类 */
+.placeholder-notice {
+  color: var(--text-3);
+  font-style: italic;
+  padding: 32px;
+  border: 1px dashed rgba(var(--brand-main-rgb), 0.15);
+  text-align: center;
+  border-radius: var(--radius-sm);
+}
+.cutting-table-wrap,
+.case-grid,
+.cert-gallery {
+  margin-top: var(--base-gap);
+}

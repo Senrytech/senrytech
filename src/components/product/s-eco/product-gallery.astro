@@ -139,6 +139,12 @@ const { id, sectionTitle, imageList } = Astro.props;
       height: 56px;
     }
   }
+
+  .gallery-img-item img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
 </style>
 
 <script>

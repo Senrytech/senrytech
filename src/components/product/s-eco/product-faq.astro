@@ -130,6 +130,26 @@ const { id, sectionTitle, sectionSubtitle, faqList } = Astro.props;
       padding: 0 1.1rem 1rem;
     }
   }
+
+  .faq-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border: 1px solid rgba(var(--brand-main-rgb), 0.1);
+    border-radius: var(--radius-sm);
+    margin-bottom: 14px;
+    background: var(--color-white);
+  }
+  .faq-item summary {
+    padding: 16px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+  }
+  .faq-item p {
+    padding: 0 20px 16px;
+  }
 </style>
 
 <script>

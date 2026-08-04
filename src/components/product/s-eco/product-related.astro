@@ -135,4 +135,21 @@ const { id, sectionTitle, sectionSubtitle, productList } = Astro.props;
       height: 160px;
     }
   }
+
+  .related-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--base-gap);
+  }
+  .related-item img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    margin-bottom: 14px;
+  }
+  .link-more {
+    color: var(--brand-light);
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+  }
 </style>

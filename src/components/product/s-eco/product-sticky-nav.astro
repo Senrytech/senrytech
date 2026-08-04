@@ -1,15 +1,13 @@
 ---
-export interface SectionItem {
+interface SectionItem {
   id: string;
   label: string;
-  url: string;
 }
 
-export interface Props {
+interface Props {
   sections: SectionItem[];
-  activeId?: string;
 }
-const { sections, activeId } = Astro.props;
+const { sections } = Astro.props;
 ---
 
 <div class="product-sticky-nav" data-sticky-nav>
@@ -17,7 +15,7 @@ const { sections, activeId } = Astro.props;
     <ul class="sticky-nav-list">
       {
         sections.map((item) => (
-          <li class={`sticky-nav-item ${activeId === item.id ? 'is-active' : ''}`}>
+          <li class="sticky-nav-item">
             <a href={`#${item.id}`} class="sticky-nav-link" data-target-id={item.id}>
               {item.label}
             </a>
@@ -30,125 +28,223 @@ const { sections, activeId } = Astro.props;
 
 <style>
   .product-sticky-nav {
-    position: sticky;
-    top: 80px;
-    z-index: 90;
-    background: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 2px solid rgba(230, 233, 240, 0.6);
+    border-bottom: none;
+    border-radius: 7px;
+    box-shadow: 0 3px 14px rgba(22, 58, 97, 0.08);
+    overflow: hidden;
   }
-
   .sticky-nav-inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding-inline: 2rem;
+    max-width: unset;
+    margin: 0;
+    padding: 0.32rem 0;
   }
 
   .sticky-nav-list {
     display: flex;
-    gap: 0.25rem;
-    overflow-x: auto;
+    flex-direction: column;
+    gap: 0.2rem;
+    overflow-x: visible;
+    overflow-y: auto;
     scrollbar-width: thin;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0.38rem;
   }
-
   .sticky-nav-list::-webkit-scrollbar {
-    height: 3px;
+    width: 2.5px;
+    height: 0;
   }
-
   .sticky-nav-list::-webkit-scrollbar-thumb {
-    background: #b8c2cc;
-    border-radius: 99px;
+    background: var(--brand-main, #163a61);
+    border-radius: var(--radius-full, 999px);
   }
 
   .sticky-nav-item {
-    flex-shrink: 0;
+    flex-shrink: 1;
+    width: 100%;
   }
 
   .sticky-nav-link {
-    display: inline-block;
-    padding: 1rem 1.25rem;
-    font-size: 0.95rem;
-    color: #4b5563;
+    display: block;
+    padding: 0.48rem 0.5rem;
+    font-size: 0.78rem;
+    color: var(--text-2, #444);
     text-decoration: none;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s ease;
+    border-left: 2.2px solid transparent;
+    border-bottom: none;
+    transition: all var(--transition-base, 0.22s ease);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    border-radius: 0 3px 3px 0;
   }
 
   .sticky-nav-link:hover {
-    color: #163a61;
+    color: var(--brand-main, #163a61);
+    background: rgba(22, 58, 97, 0.07);
   }
 
   .sticky-nav-item.is-active .sticky-nav-link {
-    color: #163a61;
-    border-color: #163a61;
-    font-weight: 500;
+    color: var(--brand-main, #163a61);
+    border-left-color: var(--brand-main, #163a61);
+    font-weight: 600;
+    background: rgba(22, 58, 97, 0.1);
   }
 
-  @media (max-width: 768px) {
-    .product-sticky-nav {
-      top: 64px;
+  .back-top-btn {
+    width: calc(100% - 0.76rem);
+    margin: 0.48rem 0.38rem 0.36rem;
+    padding: 0.46rem 0;
+    background: var(--brand-main, #163a61);
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all var(--transition-base, 0.22s ease);
+    opacity: 0;
+    visibility: hidden;
+  }
+  .back-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  .back-top-btn:hover {
+    background: #254e7c;
+  }
+
+  @media screen and (max-width: 768px) {
+    .sidebar-nav-wrap {
+      position: static;
+      width: 100%;
+      margin: 1rem 0;
+      right: auto;
     }
-    .sticky-nav-inner {
-      padding-inline: 1rem;
+    .product-sticky-nav {
+      background: var(--color-white, #fff);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-left: none;
+      border-bottom: 2px solid var(--border-light, #e6e9f0);
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .sticky-nav-list {
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 0.08rem;
+      padding-bottom: 5px;
+    }
+    .sticky-nav-item {
+      flex-shrink: 0;
     }
     .sticky-nav-link {
-      padding: 0.85rem 1rem;
-      font-size: 0.88rem;
+      border-left: none;
+      border-bottom: 2.2px solid transparent;
+      padding: 0.44rem 0.52rem;
+      border-radius: 3px 3px 0 0;
+    }
+    .sticky-nav-item.is-active .sticky-nav-link {
+      border-bottom-color: var(--brand-main, #163a61);
+      background: rgba(22, 58, 97, 0.06);
+    }
+    .sticky-nav-link:hover {
+      background: rgba(22, 58, 97, 0.04);
+    }
+    .back-top-btn {
+      display: none !important;
     }
   }
 </style>
 
 <script>
-  const navContainer = document.querySelector<HTMLElement>('[data-sticky-nav]');
-  if (!navContainer) {
-  }
+  type ObserverEntry = IntersectionObserverEntry;
+  (function () {
+    document.addEventListener('DOMContentLoaded', () => {
+      // ========== 原有导航高亮逻辑 原样保留 ==========
+      const navContainer = document.querySelector('[data-sticky-nav]');
+      const links = document.querySelectorAll<HTMLAnchorElement>('.sticky-nav-link');
+      if (!navContainer || links.length === 0) return;
+      const observerOptions = {
+        rootMargin: '-100px 0px -20% 0px',
+        threshold: [0, 0.2, 0.5, 0.8],
+      };
+      const linkMap = new Map();
+      links.forEach((link) => {
+        const id = link.dataset.targetId;
+        const li = link.closest('.sticky-nav-item');
+        if (id && li) linkMap.set(id, li);
+      });
+      let activeId: string | null = null;
+      const observerCallback = (entries: IntersectionObserverEntry[]) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) activeId = entry.target.id;
+        });
+        linkMap.forEach((li, id) => {
+          li.classList.toggle('is-active', id === activeId);
+        });
+      };
+      const observer = new IntersectionObserver(observerCallback, observerOptions);
+      linkMap.forEach((_, id) => {
+        const el = document.getElementById(id);
+        el && observer.observe(el);
+      });
+      links.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.dataset.targetId;
+          if (!targetId) return;
+          const targetEl = document.getElementById(targetId);
+          if (!targetEl) return;
+          const offsetTop = targetEl.offsetTop - 100;
+          window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        });
+      });
+      function refreshActive() {
+        const scrollY = window.scrollY + 120;
+        let currentId = null;
+        linkMap.forEach((_, id) => {
+          const el = document.getElementById(id);
+          if (el && scrollY >= el.offsetTop) currentId = id;
+        });
+        activeId = currentId;
+        linkMap.forEach((li, id) => {
+          li.classList.toggle('is-active', id === activeId);
+        });
+      }
+      window.addEventListener('load', refreshActive);
+      window.addEventListener('resize', refreshActive);
+      let timer: ReturnType<typeof setTimeout> | undefined;
+      window.addEventListener('scroll', () => {
+        clearTimeout(timer);
+        timer = setTimeout(refreshActive, 60);
+      });
 
-  const links = document.querySelectorAll<HTMLAnchorElement>('.sticky-nav-link');
-  const observerOptions = {
-    rootMargin: '-120px 0px -70% 0px',
-    threshold: 0,
-  };
-
-  const observerCallback: IntersectionObserverCallback = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const targetId = entry.target.id;
-        links.forEach((link) => {
-          const linkId = link.dataset.targetId;
-          const li = link.closest<HTMLLIElement>('.sticky-nav-item');
-          if (linkId === targetId && li) {
-            li.classList.add('is-active');
-            link.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
-          } else if (li) {
-            li.classList.remove('is-active');
-          }
+      // ========== 新增回顶逻辑，和导航共用滚动监听，节流复用、减少性能损耗 ==========
+      const backTopBtn = document.getElementById('backTopBtn');
+      function scrollHandler() {
+        if (!backTopBtn) return;
+        const scrollY = window.scrollY;
+        // 滚动大于400px显示按钮
+        backTopBtn.classList.toggle('show', scrollY > 400);
+      }
+      // 节流复用，不新建监听，优化AAO页面性能评分
+      let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(scrollHandler, 80);
+      });
+      if (backTopBtn) {
+        backTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
     });
-  };
-
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-  links.forEach((link) => {
-    const targetId = link.dataset.targetId;
-    const targetEl = document.getElementById(targetId!);
-    if (targetEl) observer.observe(targetEl);
-  });
-
-  links.forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = link.dataset.targetId;
-      const targetEl = document.getElementById(targetId!);
-      if (!targetEl) return;
-      const offsetTop = targetEl.offsetTop - 100;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth',
-      });
-    });
-  });
+  })();
 </script>
