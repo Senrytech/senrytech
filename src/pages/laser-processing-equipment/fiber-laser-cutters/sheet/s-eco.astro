@@ -240,21 +240,21 @@ const productSchemaRaw = {
 
 // 图片ImageObject结构化数组
 const imageSchemaList = imageAbsoluteUrls.map((src, index) => ({
-  "@context": "https://schema.org",
-  "@type": "ImageObject",
+  '@context': 'https://schema.org',
+  '@type': 'ImageObject',
   contentUrl: src,
   name: [
-    "Senrytech S-ECO fiber laser cutting machine official banner",
-    "S-ECO full enclosed safety enclosure laser cutter",
-    "S-ECO laser machine detail structure",
-    "S-ECO metal cutting sample display"
+    'Senrytech S-ECO fiber laser cutting machine official banner',
+    'S-ECO full enclosed safety enclosure laser cutter',
+    'S-ECO laser machine detail structure',
+    'S-ECO metal cutting sample display',
   ][index],
   description: [
-    "PC banner of economical S-ECO fiber laser sheet cutting machine",
-    "CE full enclosed protective housing for S-ECO laser cutter",
-    "Internal mechanical detail of S-ECO CNC laser cutting equipment",
-    "Carbon steel & stainless steel cutting sample processed by S-ECO laser machine"
-  ][index]
+    'PC banner of economical S-ECO fiber laser sheet cutting machine',
+    'CE full enclosed protective housing for S-ECO laser cutter',
+    'Internal mechanical detail of S-ECO CNC laser cutting equipment',
+    'Carbon steel & stainless steel cutting sample processed by S-ECO laser machine',
+  ][index],
 }));
 
 const navSections = [
@@ -289,21 +289,13 @@ import ProductFaq from '../../../../components/product/s-eco/product-faq.astro';
 import ProductInquireModal from '../../../../components/product/s-eco/product-inquire-modal.astro';
 ---
 
-<BaseLayout
-  title={pageTitle}
-  description={pageDesc}
-  lang={locale}
-  canonical={canonicalUrl}
-  geoRegions={['EU', 'AS', 'NA', 'SA', 'ME', 'AF']}
-  ogImage={ogImage}
-  preloadImage={preloadImage}>
-  <script type="application/ld+json">{JSON.stringify(productSchemaRaw,null,2)}</script>
-  <script type="application/ld+json">{JSON.stringify(faqSchemaRaw,null,2)}</script>
-  <script type="application/ld+json">{JSON.stringify(breadcrumbSchemaRaw,null,2)}</script>
-  <script type="application/ld+json">{JSON.stringify(orgSchemaRaw,null,2)}</script>
-  {imageSchemaList.map(item => (
-    <script type="application/ld+json">{JSON.stringify(item,null,2)}</script>
-  ))}
+<BaseLayout title={pageTitle} description={pageDesc} lang={locale} canonical={canonicalUrl} geoRegions={['EU', 'AS', 'NA', 'SA', 'ME', 'AF']} {ogImage} {preloadImage}>
+  
+	<script type="application/ld+json">{JSON.stringify(productSchemaRaw, null, 2)}</script>
+	<script type="application/ld+json">{JSON.stringify(faqSchemaRaw, null, 2)}</script>
+	<script type="application/ld+json">{JSON.stringify(breadcrumbSchemaRaw, null, 2)}</script>
+	<script type="application/ld+json">{JSON.stringify(orgSchemaRaw, null, 2)}</script>
+	{imageSchemaList.map(item => <script type="application/ld+json">{JSON.stringify(item, null, 2)}</script>)}
 
   <main class="product-detail-page">
     <ProductBanner
@@ -314,62 +306,172 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
       bannerMobile={BannerMobile}
       pcAlt="Senrytech S-ECO CE economical fiber laser cutting machine pc banner"
       mobileAlt="S-ECO entry-level laser cutter mobile homepage banner"
-      introText={
+      introText={(
         <>
-          As mainstream economical <strong>fiber laser cutting machine</strong> manufactured by Senrytech,
-          S-ECO laser cutter focuses on small workshop sheet metal cutting demands,
+          As mainstream economical <strong>fiber laser cutting machine</strong> manufactured by Senrytech, S-ECO laser cutter focuses on small workshop sheet metal cutting demands,
           widely used in Southeast Asia, Africa, Middle East and Europe metal fabrication industry.
         </>
-      }
+      )}
     />
 
     <div class="main-content">
-
       <ProductSellingPoint
         id="product-selling-point"
         title="Core Advantages of Senrytech S-ECO Series Fiber Laser Cutting Machine"
         list={[
           {
-            icon: '/assets/images/icons/economy.svg',
+            icon: '/assets/icons/economy.svg',
             title: 'Ultra Cost-Effective Economical Fiber Laser Cutter',
             desc: 'Customized economical configuration for small metal factories, lower purchase cost and daily power loss, faster capital ROI recovery for small workshop fiber laser cutting machine users.',
           },
           {
-            icon: '/assets/images/icons/servo.svg',
+            icon: '/assets/icons/servo.svg',
             title: '1.0G High Acceleration Bus Servo Laser Cutting System',
             desc: 'High-response bus servo drives stable high-speed cutting, improves processing efficiency for mass carbon steel, stainless steel sheet metal laser cutting machine production.',
           },
           {
-            icon: '/assets/images/icons/safety.svg',
+            icon: '/assets/icons/safety.svg',
             title: 'CE Full Enclosed Laser Safety Protection Structure',
             desc: 'Closed laser isolation structure + safety light curtain, fully compliant with EU safety standard, eliminate laser radiation hazards for operators using sheet metal laser cutting machine.',
           },
           {
-            icon: '/assets/images/icons/vibration.svg',
+            icon: '/assets/icons/vibration.svg',
             title: 'Anti-Vibration Welded Lathe Bed For Laser Cutter',
             desc: 'Integrated thick steel bed weakens running vibration, keeps long-term cutting precision and reduces workpiece burr defects of fiber laser cutting machine.',
           },
           {
-            icon: '/assets/images/icons/size.svg',
+            icon: '/assets/icons/size.svg',
             title: 'Multi-size Working Area Sheet Metal Laser Cutter',
             desc: '1313/1325/3015 three mainstream formats optional, adapt small accessories and large metal sheet cutting demands of fiber laser cutting machine.',
           },
         ]}
       />
 
-      <ProductCuttingPerformance
-        id="product-cutting-performance"
-        sectionTitle="S-ECO Fiber Laser Cutting Performance Parameter Table"
-        sectionSubtitle="Stable high-precision cutting data for mainstream industrial metal materials"
-        explainText="The following data is the stable cutting parameter of Senrytech S-ECO economical fiber laser cutting machine, which guides metal processing manufacturers to select matching laser power and cutting speed for carbon steel cutting with S-ECO laser cutter."
-        tableHead={['Processing Material', 'Max Cutting Thickness', 'Matching Laser Power', 'Standard Cutting Speed']}
-        tableRows={[
-          ['Carbon Steel', '20mm', '3000W', '6~12 m/min'],
-          ['Stainless Steel', '12mm', '3000W', '4~9 m/min'],
-          ['Aluminum Alloy', '8mm', '3000W', '3~7 m/min'],
-          ['Brass & Copper', '6mm', '3000W', '2~5 m/min'],
-        ]}
-      />
+    <ProductSpecTab
+      id="product-cutting-performance"
+      sectionTitle="S-ECO Fiber Laser Cutting Performance Parameter Table"
+      sectionSubtitle="Mass production stable cutting parameters for MFSC 1500W / 2000W / 3000W continuous laser source"
+      note="Note: All listed parameters are verified long-term stable batch cutting data; red marked extreme cutting parameters are excluded, only used for temporary test reference, not recommended for continuous mass production."
+      addAnimation={true}
+      tabList={[
+    {
+      tabLabel: '1500W',
+      tableHead: ['Material', 'Thickness(mm)', 'Speed(m/min)', 'Power(W)', 'Gas', 'Pressure', 'Nozzle', 'Focus(mm)', 'Cut Height(mm)'],
+      tableRows: [
+        ['Carbon Steel', '1', '22~25', '1500', 'N₂/Air', '10', '2.0 Single', '0', '0.6'],
+        ['Carbon Steel', '2', '4~5', '1500', 'O₂', '1.5', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '3', '3~4', '1500', 'O₂', '0.6', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '4', '2.3~2.8', '1500', 'O₂', '0.6', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '5', '1.8~2.3', '1500', 'O₂', '0.6', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '6', '1.6~2.0', '1500', 'O₂', '0.6', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '8', '1.2~1.5', '1500', 'O₂', '0.8', '4.0 Double', '+2', '1.5'],
+        ['Carbon Steel', '10', '0.9~1.2', '1500', 'O₂', '0.8', '4.0 Double', '+2', '1.5'],
+        ['Carbon Steel', '12', '0.8', '1500', 'O₂', '0.8', '4.0 Double', '+2', '1.5'],
+        ['Carbon Steel', '14', '0.65', '1500', 'O₂', '0.8', '4.0 Double', '+2.5', '1.5'],
+        ['Carbon Steel', '16', '0.5', '1500', 'O₂', '0.8', '4.0 Double', '+3', '1.5'],
+        ['Stainless Steel', '1', '20~35', '1500', 'N₂', '10', '2.0 Single', '0', '0.5'],
+        ['Stainless Steel', '2', '8~10', '1500', 'N₂', '10', '2.0 Single', '-1', '0.5'],
+        ['Stainless Steel', '3', '4.5~5.5', '1500', 'N₂', '12', '3.0 Single', '-1.5', '0.5'],
+        ['Stainless Steel', '5', '1.5~2.0', '1500', 'N₂', '15', '3.0 Single', '-5', '0.5'],
+        ['Stainless Steel', '6', '0.7~0.9', '1500', 'N₂', '15', '4.0 Single', '-5', '0.5'],
+        ['Aluminum Alloy', '1', '15~18', '1500', 'N₂', '10', '2.0 Single', '0', '0.5'],
+        ['Aluminum Alloy', '2', '4.0~5.0', '1500', 'N₂', '12', '2.0 Single', '-1', '0.5'],
+        ['Aluminum Alloy', '3', '1.5~2.5', '1500', 'N₂', '14', '2.5 Single', '-1.5', '0.5'],
+        ['Aluminum Alloy', '4', '1.0~1.3', '1500', 'N₂', '14', '3.0 Single', '-2.5', '0.5'],
+        ['Brass', '1', '12~15', '1500', 'N₂', '10', '3.0 Single', '0', '0.5'],
+        ['Brass', '2', '4.0~5.0', '1500', 'N₂', '10', '3.0 Single', '-1', '0.5'],
+        ['Brass', '3', '1.5~2.0', '1500', 'N₂', '10', '3.0 Single', '-1', '0.5'],
+      ],
+    },
+    {
+      tabLabel: '2000W',
+      tableHead: ['Material', 'Thickness(mm)', 'Speed(m/min)', 'Power(W)', 'Gas', 'Pressure', 'Nozzle', 'Focus(mm)', 'Cut Height(mm)'],
+      tableRows: [
+        ['Carbon Steel', '1', '25~30', '2000', 'N₂/Air', '10', '2.0 Single', '0', '0.6'],
+        ['Carbon Steel', '2', '6~8', '2000', 'N₂/Air', '10', '2.0 Single', '-1', '0.5'],
+        ['Carbon Steel', '2', '5~6', '2000', 'O₂', '1.5', '1.0 Double', '+3', '0.6'],
+        ['Carbon Steel', '3', '3~4', '2000', 'O₂', '0.8', '1.0 Double', '+4', '0.6'],
+        ['Carbon Steel', '4', '2.5~3.0', '2000', 'O₂', '0.8', '1.0 Double', '+4', '0.6'],
+        ['Carbon Steel', '5', '2.2~2.6', '2000', 'O₂', '0.6', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '6', '1.8~2.0', '2000', 'O₂', '0.6', '1.0 Double', '+6', '0.8'],
+        ['Carbon Steel', '8', '1.2~1.6', '2000', 'O₂', '0.6', '1.2 Double', '+5.5', '0.8'],
+        ['Carbon Steel', '10', '1.0~1.2', '2000', 'O₂', '0.6', '1.2 Double', '+5', '0.8'],
+        ['Carbon Steel', '12', '0.8~1.0', '2000', 'O₂', '0.6', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '14', '0.7~0.85', '2000', 'O₂', '0.6', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '16', '0.6~0.7', '2000', 'O₂', '0.6', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '18', '0.5~0.6', '2000', 'O₂', '0.6', '5.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '20', '0.4~0.5', '2000', 'O₂', '0.6', '5.0 Double', '+4', '1.0'],
+        ['Stainless Steel', '1', '28~35', '2000', 'N₂', '10', '2.0 Single', '0', '0.5'],
+        ['Stainless Steel', '2', '9.0~15', '2000', 'N₂', '10', '2.0 Single', '-1', '0.5'],
+        ['Stainless Steel', '3', '6.0~7.0', '2000', 'N₂', '12', '3.0 Single', '-1.5', '0.5'],
+        ['Stainless Steel', '4', '2.8~3.5', '2000', 'N₂', '14', '3.0 Single', '-2', '0.5'],
+        ['Stainless Steel', '5', '1.5~2.5', '2000', 'N₂', '15', '3.0 Single', '-3', '0.5'],
+        ['Stainless Steel', '6', '1.0~1.5', '2000', 'N₂', '16', '3.5 Single', '-4', '0.5'],
+        ['Stainless Steel', '8', '0.7~0.9', '2000', 'N₂', '18', '4.0 Single', '-5', '0.5'],
+        ['Aluminum Alloy', '1', '22~35', '2000', 'N₂', '12', '2.0 Single', '0', '0.5'],
+        ['Aluminum Alloy', '2', '8.0~13', '2000', 'N₂', '12', '2.0 Single', '-0.5', '0.5'],
+        ['Aluminum Alloy', '3', '4.0~4.5', '2000', 'N₂', '14', '3.0 Single', '-1', '0.5'],
+        ['Aluminum Alloy', '4', '2.5~3.0', '2000', 'N₂', '15', '3.0 Single', '-2', '0.5'],
+        ['Aluminum Alloy', '5', '1.5~2.0', '2000', 'N₂', '16', '3.0 Single', '-3', '0.5'],
+        ['Brass', '1', '15~18', '2000', 'N₂', '10', '2.0 Single', '0', '0.8'],
+        ['Brass', '2', '6.0~8.0', '2000', 'N₂', '10', '2.0 Single', '-1', '0.5'],
+        ['Brass', '3', '2.5~3.0', '2000', 'N₂', '12', '3.0 Single', '-1.5', '0.5'],
+        ['Brass', '4', '1.0~1.3', '2000', 'N₂', '13', '3.0 Single', '-2', '0.5'],
+        ['Brass', '5', '0.7~0.8', '2000', 'N₂', '14', '3.5 Single', '-2.5', '0.5'],
+        ['Brass', '6', '0.8~1.3', '2000', 'N₂', '16', '3.5 Single', '-4', '0.5'],
+        ['Copper', '1', '20~22', '2000', 'O₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Copper', '2', '5.5~6.5', '2000', 'O₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Copper', '3', '2.0~3.0', '2000', 'O₂', '14', '3.0 Single', '-2', '0.5'],
+      ],
+    },
+    {
+      tabLabel: '3000W',
+      tableHead: ['Material', 'Thickness(mm)', 'Speed(m/min)', 'Power(W)', 'Gas', 'Pressure', 'Nozzle', 'Focus(mm)', 'Cut Height(mm)'],
+      tableRows: [
+        ['Carbon Steel', '1', '35~40', '3000', 'N₂/Air', '10', '2.0 Single', '0', '0.6'],
+        ['Carbon Steel', '2', '20~25', '3000', 'N₂/Air', '10', '2.0 Single', '-1', '0.6'],
+        ['Carbon Steel', '2', '5.0~6.0', '3000', 'O₂', '1.5', '1.0 Double', '+3', '0.6'],
+        ['Carbon Steel', '3', '3.5~4.5', '3000', 'O₂', '0.8', '1.0 Double', '+4', '0.6'],
+        ['Carbon Steel', '4', '3.2~4.0', '3000', 'O₂', '0.8', '1.0 Double', '+5', '0.6'],
+        ['Carbon Steel', '5', '3.0~3.5', '3000', 'O₂', '0.8', '1.0 Double', '+6', '0.6'],
+        ['Carbon Steel', '6', '2.5~3.0', '3000', 'O₂', '0.8', '1.0 Double', '+7', '0.6'],
+        ['Carbon Steel', '8', '2.0~2.3', '3000', 'O₂', '0.8', '1.2 Double', '+7', '0.6'],
+        ['Carbon Steel', '10', '1.4~1.8', '3000', 'O₂', '0.8', '1.2 Double', '+5', '0.6'],
+        ['Carbon Steel', '12', '1.2~1.4', '3000', 'O₂', '0.8', '4.0 Double', '+4', '0.6'],
+        ['Carbon Steel', '14', '0.8~0.9', '2600', 'O₂', '0.8', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '16', '0.7~0.9', '2600', 'O₂', '0.6', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '18', '0.65~0.75', '2400', 'O₂', '0.6', '4.0 Double', '+4', '1.0'],
+        ['Carbon Steel', '20', '0.6~0.7', '2400', 'O₂', '0.6', '5.0 Double', '+4.5', '1.0'],
+        ['Carbon Steel', '22', '0.5~0.6', '2400', 'O₂', '0.6', '5.0 Double', '+4.5', '1.0'],
+        ['Stainless Steel', '1', '45~55', '3000', 'N₂', '10', '2.0 Single', '0', '0.5'],
+        ['Stainless Steel', '2', '24~28', '3000', 'N₂', '10', '2.0 Single', '-0.5', '0.5'],
+        ['Stainless Steel', '3', '8~13', '3000', 'N₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Stainless Steel', '4', '5~6', '3000', 'N₂', '14', '3.0 Single', '-1.5', '0.5'],
+        ['Stainless Steel', '5', '3~4', '3000', 'N₂', '15', '3.0 Single', '-3', '0.5'],
+        ['Stainless Steel', '6', '2.3~3.0', '3000', 'N₂', '16', '3.0 Single', '-4', '0.5'],
+        ['Stainless Steel', '8', '1.0~1.5', '3000', 'N₂', '16', '4.0 Single', '-5', '0.5'],
+        ['Stainless Steel', '10', '0.8~1.0', '3000', 'N₂', '18', '4.0 Single', '-7', '0.5'],
+        ['Aluminum Alloy', '1', '40~50', '3000', 'N₂', '10', '2.0 Single', '0', '0.6'],
+        ['Aluminum Alloy', '2', '15~20', '3000', 'N₂', '10', '2.0 Single', '-0.5', '0.5'],
+        ['Aluminum Alloy', '3', '8~10', '3000', 'N₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Aluminum Alloy', '4', '4~5', '3000', 'N₂', '14', '3.0 Single', '-2', '0.5'],
+        ['Aluminum Alloy', '5', '2.5~3.5', '3000', 'N₂', '16', '3.0 Single', '-3', '0.5'],
+        ['Aluminum Alloy', '6', '2.0~2.3', '3000', 'N₂', '16', '3.0 Single', '-4', '0.5'],
+        ['Aluminum Alloy', '8', '0.8~1.3', '3000', 'N₂', '16', '3.5 Single', '-5', '0.5'],
+        ['Brass', '1', '25~28', '3000', 'N₂', '10', '2.0 Single', '0', '0.5'],
+        ['Brass', '2', '13~15', '3000', 'N₂', '10', '2.0 Single', '-1', '0.5'],
+        ['Brass', '3', '5.0~6.0', '3000', 'N₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Brass', '4', '2.5~3.0', '3000', 'N₂', '12', '3.0 Single', '-2', '0.5'],
+        ['Brass', '5', '1.8~2.3', '3000', 'N₂', '13', '3.5 Single', '-2.5', '0.5'],
+        ['Brass', '6', '1.0~1.3', '3000', 'N₂', '14', '4.5 Single', '-3', '0.5'],
+        ['Copper', '1', '25~28', '3000', 'O₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Copper', '2', '8.0~10', '3000', 'O₂', '12', '3.0 Single', '-1', '0.5'],
+        ['Copper', '3', '3.0~4.5', '3000', 'O₂', '13', '3.0 Single', '-2', '0.5'],
+        ['Copper', '4', '2.0~2.5', '3000', 'O₂', '14', '3.5 Single', '-4', '0.5'],
+      ],
+    },
+  ]}
+/>
 
       <ProductSafetyEnclosure
         id="product-safety-enclosure"
@@ -459,14 +561,15 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
         sectionTitle="S-ECO Fiber Laser Cutter Global Application Cases"
         caseList={[
           {
-            image:"/images/case-1.jpg",
-            location:"Southeast Asia",
+            image: '/images/case-1.jpg',
+            location: 'Southeast Asia',
             title: 'S-ECO Laser Cutter Application for Southeast Asia Small Sheet Metal Workshop',
-            description: 'Stable daily sheet cutting production, flexible production schedule, obvious production efficiency improvement for local fiber laser cutting machine workshop.',
+            description:
+              'Stable daily sheet cutting production, flexible production schedule, obvious production efficiency improvement for local fiber laser cutting machine workshop.',
           },
           {
-            image:"/images/case-2.jpg",
-            location:"Europe",
+            image: '/images/case-2.jpg',
+            location: 'Europe',
             title: 'S-ECO Equipment Application for European General Metal Processing Factory',
             description: 'CE certified equipment meets local safety standards, long-term stable precision cutting for standard metal parts with S-ECO laser cutter.',
           },
@@ -477,10 +580,10 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
         id="product-gallery"
         imageList={productImages}
         altList={[
-          "Senrytech S-ECO fiber laser cutting machine overall appearance",
-          "S-ECO laser cutter full enclosed safety housing detail",
-          "S-ECO CNC laser machine internal mechanical structure",
-          "S-ECO laser cutting metal sample display"
+          'Senrytech S-ECO fiber laser cutting machine overall appearance',
+          'S-ECO laser cutter full enclosed safety housing detail',
+          'S-ECO CNC laser machine internal mechanical structure',
+          'S-ECO laser cutting metal sample display',
         ]}
       />
 
@@ -488,9 +591,9 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
         id="product-related"
         sectionTitle="High Power Fiber Laser Cutting Machine Related Products"
         productList={[
-          {name:'S-PLUS Series High Precision Laser Cutter',slug:'s-plus-series-fiber-laser-cutting-machine',anchorText:'high precision fiber laser cutting machine'},
-          {name:'S-ULTRA Series Heavy-Duty Laser Equipment',slug:'s-ultra-series-fiber-laser-cutting-machine',anchorText:'heavy industrial fiber laser cutting machine'},
-          {name:'M Series Tube Laser Cutting Machine',slug:'m-series-tube-laser-cutting-machine',anchorText:'professional tube fiber laser cutter'}
+          { name: 'S-PLUS Series High Precision Laser Cutter', slug: 's-plus-series-fiber-laser-cutting-machine', anchorText: 'high precision fiber laser cutting machine' },
+          { name: 'S-ULTRA Series Heavy-Duty Laser Equipment', slug: 's-ultra-series-fiber-laser-cutting-machine', anchorText: 'heavy industrial fiber laser cutting machine' },
+          { name: 'M Series Tube Laser Cutting Machine', slug: 'm-series-tube-laser-cutting-machine', anchorText: 'professional tube fiber laser cutter' },
         ]}
       />
 
@@ -501,7 +604,7 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
           'Global remote laser cutter technical support and maintenance guidance',
           'Long-term original spare parts global supply for fiber laser cutting machine',
           'Machine installation guidance and professional operator training',
-          'Online remote troubleshooting & regular laser cutter maintenance tips'
+          'Online remote troubleshooting & regular laser cutter maintenance tips',
         ]}
       />
 
@@ -513,17 +616,17 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
           {
             image: '/images/cert-ce.jpg',
             title: 'CE Laser Safety Certificate',
-            alt: 'S-ECO fiber laser cutting machine CE international safety certificate'
+            alt: 'S-ECO fiber laser cutting machine CE international safety certificate',
           },
           {
             image: '/images/cert-iso.jpg',
             title: 'ISO Quality System Certificate',
-            alt: 'Senrytech laser cutter ISO quality certification document'
+            alt: 'Senrytech laser cutter ISO quality certification document',
           },
         ]}
       />
 
-      <ProductFaq id="product-faq" faqList={faqList} sectionTitle="S-ECO Laser Cutting Machine Frequently Asked Questions" />
+      <ProductFaq id="product-faq" {faqList} sectionTitle="S-ECO Laser Cutting Machine Frequently Asked Questions" />
     </div>
 
     <aside class="sidebar-nav-wrap">
@@ -531,14 +634,17 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
       <button id="backTopBtn" class="back-top-btn" title="Back to top">↑ Back Top</button>
     </aside>
 
-    <Footer locale={locale} />
+    <Footer {locale} />
   </main>
 
   <ProductInquireModal productName={productModel} />
 
   <a href="https://wa.me/8613465575719" target="_blank" rel="noopener noreferrer nofollow" class="wa-float">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.145-.566.343-.095.197-.66 1.139-.813 1.373-.153.234-.306.263-.57.088-.264-.174-1.11-.41-2.123-1.311-.785-.697-1.317-1.561-1.471-1.825-.154-.265-.016-.409.164-.574.166-.153.367-.39.49-.585.124-.194.166-.347.031-.542-.134-.194-.57-.934-.782-1.287-.212-.353-.424-.306-.57-.312-.146-.006-.311-.006-.476.006-.164.012-.422.063-.644.311-.222.248-.847.827-.847 2.003 0 1.177.87 2.309.994 2.482.124.173 1.749 2.666 4.225 3.734.593.258 1.052.412 1.407.525.595.19 1.139.162 1.563.098.425-.064 1.324-.54 1.51-1.066.186-.526.186-.976.13-1.066-.055-.09-.254-.149-.551-.298M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"></path>
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471.145-.566.343-.095.197-.66 1.139-.813 1.373-.153.234-.306.263-.57.088-.264-.174-1.11-.41-2.123-1.311-.785-.697-1.317-1.561-1.471-1.825-.154-.265-.016-.409.164-.574.166-.153.367-.39.49-.585.124-.194.166-.347.031-.542-.134-.194-.57-.934-.782-1.287-.212-.353-.424-.306-.57-.312-.146-.006-.311-.006-.476.006-.164.012-.422.063-.644.311-.222.248-.847.827-.847 2.003 0 1.177.87 2.309.994 2.482.124.173 1.749 2.666 4.225 3.734.593.258 1.052.412 1.407.525.595.19 1.139.162 1.563.098.425-.064 1.324-.54 1.51-1.066.186-.526.186-.976.13-1.066-.055-.09-.254-.149-.551-.298M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"
+      >
+      </path>
     </svg>
   </a>
 
@@ -584,7 +690,7 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
         document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
         btn.classList.add('active');
         const tabDom = document.getElementById(target);
-        if(tabDom) tabDom.classList.add('active');
+        if (tabDom) tabDom.classList.add('active');
       });
     });
 
@@ -629,22 +735,25 @@ import ProductInquireModal from '../../../../components/product/s-eco/product-in
     });
     function setActiveAnchor() {
       let current = '';
-      sections.forEach(item => {
-        if(!item.section) return;
+      sections.forEach((item) => {
+        if (!item.section) return;
         const sectionTop = item.section.offsetTop ?? 0;
-        if(window.scrollY >= sectionTop - 120) current = item.link.dataset.target;
-      })
-      anchorLinks.forEach(link=>{
+        if (window.scrollY >= sectionTop - 120) current = item.link.dataset.target;
+      });
+      anchorLinks.forEach((link) => {
         link.classList.toggle('active', link.dataset.target === current);
-      })
+      });
     }
     window.addEventListener('scroll', throttle(setActiveAnchor));
     setActiveAnchor();
 
     const backTopBtn = document.getElementById('backTopBtn');
-    backTopBtn?.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-    window.addEventListener('scroll',throttle(()=>{
-      if(backTopBtn) backTopBtn.style.display = window.scrollY>400 ? 'block' : 'none';
-    }))
+    backTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    window.addEventListener(
+      'scroll',
+      throttle(() => {
+        if (backTopBtn) backTopBtn.style.display = window.scrollY > 400 ? 'block' : 'none';
+      })
+    );
   </script>
 </BaseLayout>
