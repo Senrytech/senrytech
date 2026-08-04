@@ -10,7 +10,7 @@ export interface Props {
 const { id, sectionTitle, sectionSubtitle, tableHead, tableRows, explainText } = Astro.props;
 ---
 
-<section class="product-cutting-performance" id={id}>
+<section class="product-cutting-performance" {id}>
   <div class="container">
     <div class="section-header">
       <h2>{sectionTitle}</h2>
@@ -43,51 +43,91 @@ const { id, sectionTitle, sectionSubtitle, tableHead, tableRows, explainText } =
 
 <style>
   .product-cutting-performance {
-    padding: 5rem 0;
-    background-color: #f8fafc;
+    padding: var(--base-gap) 0;
   }
   .container {
-    max-width: 1440px;
-    width: calc(100% - 4rem);
+    max-width: 1120px;
+    width: calc(100% - 2rem);
     margin: 0 auto;
   }
   .section-header {
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: var(--base-gap);
   }
   .section-header h2 {
     font-size: clamp(1.6rem, 3vw, 2.2rem);
-    color: #163a61;
+    color: var(--brand-main);
     margin: 0 0 0.6rem;
+    font-weight: 600;
   }
   .section-desc {
     max-width: 800px;
     margin: 0 auto;
-    color: #525966;
+    color: var(--text-3);
     line-height: 1.7;
   }
   .explain-tip {
     max-width: 860px;
     margin: 0.8rem auto 0;
     font-size: 0.9rem;
-    color: #2d4f79;
+    color: var(--brand-light);
     line-height: 1.65;
   }
-
+  .spec-tab-wrap {
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-medium);
+    border: 1px solid rgba(var(--brand-main-rgb), 0.06);
+    padding: 1.4rem;
+  }
+  /* 标签按钮区域底色清除 */
+  .spec-tab-buttons {
+    background: transparent;
+    border-bottom: 1px solid rgba(var(--brand-main-rgb), 0.1);
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .spec-tab-btn {
+    border: none;
+    background: transparent;
+    font-size: 0.98rem;
+    padding: 0.9rem 1.4rem;
+    cursor: pointer;
+    color: var(--text-2);
+    border-bottom: 3px solid transparent;
+    transition: var(--transition-base);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+  .spec-tab-btn:hover {
+    color: var(--brand-hover);
+    background: var(--hover-bg);
+  }
+  .spec-tab-btn.active {
+    color: var(--brand-main);
+    border-color: var(--brand-main);
+    font-weight: 500;
+  }
+  .spec-tab-panel {
+    display: none;
+  }
+  .spec-tab-panel.active {
+    display: block;
+  }
   .table-wrap {
     overflow-x: auto;
-    padding: 0 0.5rem;
   }
   .cut-table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
-    border-radius: 10px;
+    background: var(--page-bg);
+    border-radius: var(--radius-sm);
     overflow: hidden;
     min-width: 640px;
   }
   .cut-table thead tr {
-    background-color: #163a61;
+    background-color: var(--brand-main);
   }
   .cut-table th {
     color: #ffffff;
@@ -101,23 +141,30 @@ const { id, sectionTitle, sectionSubtitle, tableHead, tableRows, explainText } =
     padding: 0.9rem 0.8rem;
     font-size: clamp(0.86rem, 1vw, 0.92rem);
     text-align: center;
-    color: #333;
-    border-bottom: 1px solid #e4e9f0;
-    transition: background 0.2s ease;
+    color: var(--text-2);
+    border-bottom: 1px solid rgba(var(--brand-main-rgb), 0.06);
+    transition: background var(--transition-base);
   }
   .cut-table tbody tr:nth-child(even) {
-    background-color: #f6f8fc;
+    background-color: rgba(var(--brand-main-rgb), 0.02);
   }
   .cut-table tbody tr:hover {
-    background-color: #dce7f5;
+    background-color: var(--hover-bg);
   }
-
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .product-cutting-performance {
       padding: 3rem 0;
     }
+  }
+  @media (max-width: 768px) {
+    .product-cutting-performance {
+      padding: 2.4rem 0;
+    }
     .container {
-      width: calc(100% - 2rem);
+      width: calc(100% - 1rem);
+    }
+    .spec-tab-wrap {
+      padding: 1rem;
     }
     .cut-table th {
       padding: 0.8rem 0.6rem;

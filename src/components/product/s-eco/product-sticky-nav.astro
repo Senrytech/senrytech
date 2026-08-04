@@ -10,32 +10,56 @@ interface Props {
 const { sections } = Astro.props;
 ---
 
-<div class="product-sticky-nav" data-sticky-nav>
-  <nav class="sticky-nav-inner">
-    <ul class="sticky-nav-list">
-      {
-        sections.map((item) => (
-          <li class="sticky-nav-item">
-            <a href={`#${item.id}`} class="sticky-nav-link" data-target-id={item.id}>
-              {item.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
+<div class="product-detail-container">
+  <main class="main-content-area">
+    <!-- 所有产品正文、各章节#锚点内容全部放在此处 -->
+  </main>
+  <div class="product-sticky-nav" data-sticky-nav>
+    <nav class="sticky-nav-inner">
+      <ul class="sticky-nav-list">
+        {
+          sections.map((item) => (
+            <li class="sticky-nav-item">
+              <a href={`#${item.id}`} class="sticky-nav-link" data-target-id={item.id}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button id="backTopBtn" class="back-top-btn">Back Top</button>
+  </div>
 </div>
 
 <style>
+  .product-detail-container {
+    display: flex;
+    gap: 32px;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    align-items: flex-start;
+  }
+  .main-content-area {
+    flex: 1;
+    min-height: 700px;
+    width: calc(100% - 200px);
+  }
   .product-sticky-nav {
+    position: sticky;
+    top: 86px;
+    flex: 0 0 172px;
+    max-height: 80vh;
     background: rgba(255, 255, 255, 0.72);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-left: 2px solid rgba(230, 233, 240, 0.6);
-    border-bottom: none;
     border-radius: 7px;
     box-shadow: 0 3px 14px rgba(22, 58, 97, 0.08);
     overflow: hidden;
+    z-index: 99;
   }
   .sticky-nav-inner {
     max-width: unset;
@@ -64,7 +88,6 @@ const { sections } = Astro.props;
   }
 
   .sticky-nav-item {
-    flex-shrink: 1;
     width: 100%;
   }
 
@@ -75,7 +98,6 @@ const { sections } = Astro.props;
     color: var(--text-2, #444);
     text-decoration: none;
     border-left: 2.2px solid transparent;
-    border-bottom: none;
     transition: all var(--transition-base, 0.22s ease);
     white-space: nowrap;
     overflow: hidden;
@@ -120,18 +142,23 @@ const { sections } = Astro.props;
   }
 
   @media screen and (max-width: 768px) {
-    .sidebar-nav-wrap {
-      position: static;
+    .product-detail-container {
+      flex-direction: column;
+      padding: 0 16px;
+    }
+    .main-content-area {
       width: 100%;
-      margin: 1rem 0;
-      right: auto;
     }
     .product-sticky-nav {
-      background: var(--color-white, #fff);
+      position: static;
+      flex: none;
+      width: 100%;
+      max-height: unset;
+      background: #fff;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       border-left: none;
-      border-bottom: 2px solid var(--border-light, #e6e9f0);
+      border-bottom: 2px solid #e6e9f0;
       border-radius: 0;
       box-shadow: none;
     }
@@ -154,9 +181,6 @@ const { sections } = Astro.props;
       border-bottom-color: var(--brand-main, #163a61);
       background: rgba(22, 58, 97, 0.06);
     }
-    .sticky-nav-link:hover {
-      background: rgba(22, 58, 97, 0.04);
-    }
     .back-top-btn {
       display: none !important;
     }
@@ -167,7 +191,6 @@ const { sections } = Astro.props;
   type ObserverEntry = IntersectionObserverEntry;
   (function () {
     document.addEventListener('DOMContentLoaded', () => {
-      // ========== 原有导航高亮逻辑 原样保留 ==========
       const navContainer = document.querySelector('[data-sticky-nav]');
       const links = document.querySelectorAll<HTMLAnchorElement>('.sticky-nav-link');
       if (!navContainer || links.length === 0) return;
@@ -202,12 +225,12 @@ const { sections } = Astro.props;
           if (!targetId) return;
           const targetEl = document.getElementById(targetId);
           if (!targetEl) return;
-          const offsetTop = targetEl.offsetTop - 100;
+          const offsetTop = targetEl.offsetTop - 90;
           window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         });
       });
       function refreshActive() {
-        const scrollY = window.scrollY + 120;
+        const scrollY = window.scrollY + 110;
         let currentId = null;
         linkMap.forEach((_, id) => {
           const el = document.getElementById(id);
@@ -226,15 +249,11 @@ const { sections } = Astro.props;
         timer = setTimeout(refreshActive, 60);
       });
 
-      // ========== 新增回顶逻辑，和导航共用滚动监听，节流复用、减少性能损耗 ==========
       const backTopBtn = document.getElementById('backTopBtn');
       function scrollHandler() {
         if (!backTopBtn) return;
-        const scrollY = window.scrollY;
-        // 滚动大于400px显示按钮
-        backTopBtn.classList.toggle('show', scrollY > 400);
+        backTopBtn.classList.toggle('show', window.scrollY > 400);
       }
-      // 节流复用，不新建监听，优化AAO页面性能评分
       let scrollTimer: ReturnType<typeof setTimeout> | undefined;
       window.addEventListener('scroll', () => {
         clearTimeout(scrollTimer);
